@@ -32,10 +32,10 @@
             "group": "Developer Guides",
             "pages": [
               "guides/payment",
-              "guides/fee-model",
               "guides/quotes-and-routes",
               "guides/refunds",
               "guides/webhooks",
+              "guides/fee-model",
               "guides/integrations"
             ]
           },
