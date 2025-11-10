@@ -4,85 +4,49 @@ description: 'How Chainrails compares to other solutions like bridges and aggreg
 icon: 'balance-scale'
 ---
 
-## Titles
+While Chainrails interacts with multiple bridges and liquidity sources under the hood, it is not a bridge, and it is much more than just an aggregator.
 
-Best used for section headers.
+## Traditional Bridges
+Bridges are protocols that facilitate the transfer of assets from one blockchain to another. They typically require the user or developer to choose:
 
-```md
-## Titles
-```
+- which bridge to use,
+- which route to take (the source and destination chains),
+- which token representation to receive on the destination chain.
 
-### Subtitles
+They work well for manual cross-chain transfers, but they introduce complexity for developers building applications that need to accept payments or deposits from users on multiple chains. Developers must still:
 
-Best used for subsection headers.
+- Integrate with multiple bridges to cover different routes,
+- Manage route discovery and liquidity risks,
+- Monitor transactions for completion and refunds, accounting for bridge-specific nuances.
 
-```md
-### Subtitles
-```
+## Aggregators
+Aggregators like LI.FI or Socket do an incredible job of simplifying access to multiple bridges and liquidity pools. They provide a unified interface to route transactions through the best available paths. However, they are primarily focused on optimizing trade routing and liquidity access. Users or developers still need to handle decisions around bridges, tokens, and speed/cost trade-offs.
 
-<Tip>
+## Chainrails
+Chainrails abstracts away the entire bridging experience.
+It lets developers accept value from any chain, in any token, without managing bridges, liquidity, or settlements.
+Every transaction is modeled as an Intent — a high-level instruction that defines what the user wants to achieve, and Chainrails handles how it happens behind the scenes.
 
-Each **title** and **subtitle** creates an anchor and also shows up on the table of contents on the right.
+Developers no longer worry about:
 
-</Tip>
+- Which bridge or route to use — the most optimal bridge is automatically selected under the hood.
+- Liquidity or relayer risk — handled by Chainrails’ routing layer.
+- Speed trade-offs — transactions typically complete in 10–15 seconds.
+- Monitoring and refunds — managed automatically.
+- Integration overhead — a single API or SDK call covers all chains.
+- Plus fiat supports (coming soon!).
 
-## Text formatting
+Chainrails is designed for business use cases — deposits, withdrawals, payments, and value flows, not just bridging.
 
-We support most markdown formatting. Simply add `**`, `_`, or `~` around text to format it.
+## Comparison at a glance
 
-| Style         | How to write it   | Result          |
-| ------------- | ----------------- | --------------- |
-| Bold          | `**bold**`        | **bold**        |
-| Italic        | `_italic_`        | _italic_        |
-| Strikethrough | `~strikethrough~` | ~strikethrough~ |
 
-You can combine these. For example, write `**_bold and italic_**` to get **_bold and italic_** text.
-
-You need to use HTML to write superscript and subscript text. That is, add `<sup>` or `<sub>` around your text.
-
-| Text Size   | How to write it          | Result                 |
-| ----------- | ------------------------ | ---------------------- |
-| Superscript | `<sup>superscript</sup>` | <sup>superscript</sup> |
-| Subscript   | `<sub>subscript</sub>`   | <sub>subscript</sub>   |
-
-## Linking to pages
-
-You can add a link by wrapping text in `[]()`. You would write `[link to google](https://google.com)` to [link to google](https://google.com).
-
-Links to pages in your docs need to be root-relative. Basically, you should include the entire folder path. For example, `[link to text](/writing-content/text)` links to the page "Text" in our components section.
-
-Relative links like `[link to text](../text)` will open slower because we cannot optimize them as easily.
-
-## Blockquotes
-
-### Singleline
-
-To create a blockquote, add a `>` in front of a paragraph.
-
-> Dorothy followed her through many of the beautiful rooms in her castle.
-
-```md
-> Dorothy followed her through many of the beautiful rooms in her castle.
-```
-
-### Multiline
-
-> Dorothy followed her through many of the beautiful rooms in her castle.
->
-> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
-
-```md
-> Dorothy followed her through many of the beautiful rooms in her castle.
->
-> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
-```
-
-### LaTeX
-
-Mintlify supports [LaTeX](https://www.latex-project.org) through the Latex component.
-
-<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
-
-```md
-<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
-```
+| Feature / Model      | **Bridges**                         | **Aggregators**              | **Chainrails**                             |
+| -------------------- | ----------------------------------- | ---------------------------- | ------------------------------------------ |
+| Core focus           | Move tokens between specific chains | Optimize cross-chain routing | Abstract value transfer & intent execution |
+| Target user          | End users, DeFi traders             | Advanced users, DEXs         | Developers & businesses                    |
+| Integration effort   | High (per bridge)                   | Moderate (per aggregator)    | Single integration                         |
+| Who manages routing  | Developer / user                    | Aggregator                   | Chainrails                                 |
+| Liquidity management | Handled by user                     | Handled by aggregator        | Handled by Chainrails relayers             |
+| Transaction speed    | Varies (minutes)                    | Varies (depends on bridge)   | 10–15 seconds (constant)                   |
+| Refund & monitoring  | Developer-managed                   | Partial                      | Automatic                                  |

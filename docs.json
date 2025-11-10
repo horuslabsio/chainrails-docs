@@ -17,7 +17,7 @@
             "group": "Introduction",
             "pages": [
               "index",
-              "Quickstart",
+              "quickstart",
               "sdk-vs-api"
             ]
           },
@@ -78,13 +78,7 @@
             ]
           },
           {
-            "group": "Endpoint examples",
-            "pages": [
-              "sdk-reference/endpoint/get",
-              "sdk-reference/endpoint/create",
-              "sdk-reference/endpoint/delete",
-              "sdk-reference/endpoint/webhook"
-            ]
+            "group": "Endpoint examples"
           }
         ]
       }
