@@ -31,9 +31,8 @@
           {
             "group": "Developer Guides",
             "pages": [
-              "guides/payment",
+              "guides/intents",
               "guides/quotes-and-routes",
-              "guides/refunds",
               "guides/webhooks",
               "guides/fee-model",
               "guides/integrations"
