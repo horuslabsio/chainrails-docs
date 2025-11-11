@@ -1,0 +1,186 @@
+---
+title: 'Quote Engine'
+description: 'Retrieve quotes for cross-chain transfers'
+icon: 'zap'
+---
+
+Before initiating a cross-chain transfer or creating an intent, you can request a quote from Chainrails.
+The quote and routing engine work together to tell you how a transaction will be executed — including the route, estimated fees, and destination amount.
+
+This allows your app to show users exactly what to expect before they fund the transaction.
+
+## Requesting Quotes
+The quote engine primarily provides comprehensive cross-chain transfer quotes from a single bridge, multiple bridges or even multiple soure chains. You can retrieve:
+
+### A single quote for a secific route
+
+<Tabs>
+<Tab title="cURL">
+```curl
+curl --request GET \
+  --url "https://api.chainrails.io/api/v1/quotes/single?tokenIn=0x036CbD53842c5426634e7929541eC2318f3dCF7e&tokenOut=0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d&sourceChain=BASE_TESTNET&destinationChain=ARBITRUM_TESTNET&amount=1000000&bridge=CCTP" \
+  --header "Authorization: Bearer YOUR_API_KEY"
+```
+</Tab>
+
+<Tab title="JavaScript">
+```javascript
+const fetch = require("node-fetch");
+
+const url = new URL("https://api.chainrails.io/api/v1/quotes/single");
+
+url.search = new URLSearchParams({
+  tokenIn: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  tokenOut: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+  sourceChain: "BASE_TESTNET",
+  destinationChain: "ARBITRUM_TESTNET",
+  amount: "1000000",
+  bridge: "CCTP",
+}).toString();
+
+(async () => {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer YOUR_API_KEY`,
+    },
+  });
+
+  const data = await res.json();
+  console.log("Quote:", data);
+})();
+```
+</Tab>
+
+<Tab title="PHP">
+```php
+<?php
+
+$apiKey = "YOUR_API_KEY";
+$baseUrl = "https://api.chainrails.io/api/v1/quotes/single";
+
+$params = http_build_query([
+  "tokenIn" => "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "tokenOut" => "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+  "sourceChain" => "BASE_TESTNET",
+  "destinationChain" => "ARBITRUM_TESTNET",
+  "amount" => "1000000",
+  "bridge" => "CCTP",
+]);
+
+$url = "$baseUrl?$params";
+
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer $apiKey"
+  ],
+]);
+
+$response = curl_exec($ch);
+
+if (curl_errno($ch)) {
+  echo 'Error: ' . curl_error($ch);
+} else {
+  echo "Response: " . $response;
+}
+
+curl_close($ch);
+
+```
+</Tab>
+</Tabs>
+
+### Or a multi-source quote for a given destination chain
+
+Useful for when you want to show users all source options and their respective fees to send funds to a specific destination chain.
+
+<Tabs>
+<Tab title="cURL">
+```curl
+curl --request GET \
+  --url "https://api.chainrails.io/api/v1/quotes/multi-source?destinationChain=ARBITRUM_TESTNET&amount=1.5&tokenOut=0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d" \
+  --header "Authorization: Bearer YOUR_API_KEY"
+```
+</Tab>
+
+<Tab title="JavaScript">
+```javascript
+const fetch = require("node-fetch");
+
+const url = new URL("https://api.chainrails.xyz/api/v1/quotes/multi-source");
+
+url.search = new URLSearchParams({
+  destinationChain: "ARBITRUM_TESTNET",
+  amount: "1.5",
+  tokenOut: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+}).toString();
+
+(async () => {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer YOUR_API_KEY`,
+    },
+  });
+
+  const data = await res.json();
+  console.log("Quotes from multiple sources:", data);
+})();
+```
+</Tab>
+
+<Tab title="PHP">
+```php
+<?php
+
+$apiKey = "YOUR_API_KEY";
+$baseUrl = "https://api.chainrails.io/api/v1/quotes/multi-source";
+
+$params = http_build_query([
+  "destinationChain" => "ARBITRUM_TESTNET",
+  "amount" => "1.5",
+  "tokenOut" => "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+]);
+
+$url = "$baseUrl?$params";
+
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer $apiKey"
+  ],
+]);
+
+$response = curl_exec($ch);
+
+if (curl_errno($ch)) {
+  echo 'Error: ' . curl_error($ch);
+} else {
+  echo "Response: " . $response;
+}
+
+curl_close($ch);
+```
+</Tab>
+</Tabs>
+
+You can also get quotes from multiple bridges for a specific route, filter for best quotes and more. See the [API reference](../api-reference/introduction) for all available quote endpoints.
+
+## Quote Parameters Reference
+| Parameter              | Type     | Required                       | Description                                                                                              | Example                                      |
+| ---------------------- | -------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| **tokenIn**            | `string` | ✅ Yes *(for `/quotes/single`)* | Address of the input token on the source chain. This is the token the user will send.                    | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` |
+| **tokenOut**           | `string` | ✅ Yes                          | Address of the output token on the destination chain.                                                    | `0x06ef8BFf21a47c8E15944D1f4A68F9F95f66A34`  |
+| **sourceChain**        | `string` | ✅ Yes *(for `/quotes/single`)* | The blockchain where the user is sending funds **from**. Must be one of the supported chain identifiers. | `BASE_TESTNET`                               |
+| **destinationChain**   | `string` | ✅ Yes                          | The blockchain where the funds should arrive. Must be one of the supported chain identifiers.            | `ARBITRUM_TESTNET`                           |
+| **amount**             | `string` | ✅ Yes                          | Amount to transfer, in token units. Supports decimals.                                                   | `"1.5"`                                      |
+| **bridge**             | `string` | ✅ Yes *(for `/quotes/single`)* | The specific bridge protocol to use for the quote.                                                       | `ACROSS`                           |
+| **recipient**          | `string` | ❌ Optional                     | Address of the final recipient of the transfer.                 | `0xb79541Be080a59fdcE6C0b43219ba56c725eC65e` |
+
+<br />
+<Tip>
+  For most cases, you would want to interact with the routing engine directly as it finds the best optimal route for a transaction automatically.
+</Tip>

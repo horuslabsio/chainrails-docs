@@ -1,0 +1,100 @@
+---
+title: 'Routing Engine'
+description: 'Find optimal routes for cross-chain transfers'
+icon: 'road'
+---
+
+The routing engine intelligently selects the optimal path across available bridges and liquidity pools.
+It abstracts away low-level route discovery, letting developers work with simple high-level intents instead of managing the details of cross-chain routing.
+
+## Getting the optimal route
+Find the best route for a given intent:
+
+<Tabs>
+<Tab title="cURL">
+```curl
+curl --request GET \
+  --url "https://api.chainrails.io/api/v1/router/optimal-route?tokenIn=0x036CbD53842c5426634e7929541eC2318f3dCF7e&tokenOut=0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d&sourceChain=BASE_TESTNET&destinationChain=ARBITRUM_TESTNET&amount=1000000&recipient=0x742d35Cc6634C0532925a3b87D7898dC5b7cF15b" \
+  --header "Authorization: Bearer YOUR_API_KEY"
+```
+</Tab>
+
+<Tab title="JavaScript">
+```javascript
+const fetch = require("node-fetch");
+
+const url = new URL("https://api.chainrails.io/api/v1/router/optimal-route");
+
+url.search = new URLSearchParams({
+  tokenIn: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  tokenOut: "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+  sourceChain: "BASE_TESTNET",
+  destinationChain: "ARBITRUM_TESTNET",
+  amount: "1000000000000000000",
+  recipient: "0x742d35Cc6634C0532925a3b87D7898dC5b7cF15b",
+}).toString();
+
+(async () => {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer YOUR_API_KEY`,
+    },
+  });
+
+  const data = await res.json();
+  console.log("Optimal Route:", data);
+})();
+```
+</Tab>
+
+<Tab title="PHP">
+```php
+<?php
+
+$apiKey = "YOUR_API_KEY";
+$baseUrl = "https://api.chainrails.io/api/v1/router/optimal-route";
+
+$params = http_build_query([
+  "tokenIn" => "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "tokenOut" => "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+  "sourceChain" => "BASE_TESTNET",
+  "destinationChain" => "ARBITRUM_TESTNET",
+  "amount" => "1000000000000000000",
+  "recipient" => "0x742d35Cc6634C0532925a3b87D7898dC5b7cF15b",
+]);
+
+$url = "$baseUrl?$params";
+
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer $apiKey"
+  ],
+]);
+
+$response = curl_exec($ch);
+
+if (curl_errno($ch)) {
+  echo 'Error: ' . curl_error($ch);
+} else {
+  echo "Response: " . $response;
+}
+
+curl_close($ch);
+```
+</Tab>
+</Tabs>
+
+The routing engine also exposes endpoints to list supported bridges, get supported routes for a bridge, and more. See the [API reference](../api-reference/introduction) for all available routing endpoints.
+
+## Routing Parameters Reference
+| Parameter            | Type           | Required   | Description                                                                                                        | Example                                      |
+| -------------------- | -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| **tokenIn**          | `string`       | ✅ Yes      | The input token contract address on the source chain. Represents the token the user is sending.                    | `0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48` |
+| **tokenOut**         | `string`       | ✅ Yes      | The output token contract address on the destination chain. Represents the token the user will receive.            | `0x06ef8BFf21a47c8E15944D1f4A68F9F95f66A34`  |
+| **sourceChain**      | `enum<string>` | ✅ Yes      | The blockchain network where the transfer originates. Must be one of the supported chain identifiers.              | `BASE_MAINNET`                               |
+| **destinationChain** | `enum<string>` | ✅ Yes      | The blockchain network where the transfer will complete. Must be one of the supported chain identifiers.           | `ARBITRUM_MAINNET`                           |
+| **amount**           | `string`       | ✅ Yes      | The amount to transfer, expressed in token units (use wei for ETH).                                                | `"1000000000000000000"`                      |
+| **recipient**        | `string`       | ❌ Optional | Address of the transfer’s recipient. Required by some bridges (e.g., RhinoFi).                                     | `0x742d35Cc6634C0532925a3b87D7898dC5b7cF15b` |
