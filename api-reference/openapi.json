@@ -1,217 +1,1413 @@
 {
-  "openapi": "3.1.0",
-  "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
+  "openapi": "3.0.0",
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+    "/intents": {
+      "post": {
+        "description": "Creates a new payment intent with cross-chain transfer parameters",
+        "operationId": "IntentController_createIntent",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Intent creation parameters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateIntentDto"
+              },
+              "examples": {
+                "Ethereum to Starknet": {
+                  "value": {
+                    "sender": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+                    "amount": 1000000,
+                    "tokenIn": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                    "source_chain": "ETHEREUM_MAINNET",
+                    "destination_chain": "STARKNET_MAINNET",
+                    "recipient": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+                    "refund_address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+                    "metadata": {
+                      "orderId": "12345"
+                    }
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
-          "200": {
-            "description": "Plant response",
+          "201": {
+            "description": "Intent successfully created",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "client_id": {
+                      "type": "string",
+                      "example": "e1ee3675-cb26-4a76-8206-a84f86e85862"
+                    },
+                    "sender": {
+                      "type": "string",
+                      "example": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54"
+                    },
+                    "initialAmount": {
+                      "type": "number",
+                      "example": 1000000
+                    },
+                    "fees": {
+                      "type": "number",
+                      "example": 10500
+                    },
+                    "totalAmount": {
+                      "type": "number",
+                      "example": 1010500
+                    },
+                    "tokenIn": {
+                      "type": "string",
+                      "example": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+                    },
+                    "tokenOut": {
+                      "type": "string",
+                      "example": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
+                    },
+                    "intent_address": {
+                      "type": "string",
+                      "example": "0x4E60e01263E750eD9D087157e19D2480Fd86A900"
+                    },
+                    "source_chain": {
+                      "type": "string",
+                      "example": "BASE_TESTNET"
+                    },
+                    "destination_chain": {
+                      "type": "string",
+                      "example": "ARBITRUM_TESTNET"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                    },
+                    "refund_address": {
+                      "type": "string",
+                      "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                    },
+                    "relayer": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "coordinator": {
+                      "type": "string",
+                      "example": "0x989f47053F188778575113DcF39dB8960Fc450e2"
+                    },
+                    "bridger": {
+                      "type": "string",
+                      "example": "0xa1c943058a631D5506eb7d96036eAbF6968e2338"
+                    },
+                    "bridgeExtraData": {
+                      "type": "string",
+                      "example": "0x00000000000000000000000000000000000000000000000000000000000001f400000000000000000000000000000000000000000000000000000000000003e8000000000000000000000000000000000000000000000000000000000000000300000000000000000000000075faf114eafb1bdbe2f0316df893fd58ce46aa4d"
+                    },
+                    "intent_nonce": {
+                      "type": "number",
+                      "example": 4267684716645197
+                    },
+                    "intent_status": {
+                      "type": "string",
+                      "example": "PENDING",
+                      "enum": [
+                        "PENDING",
+                        "PROCESSING",
+                        "COMPLETED",
+                        "FAILED"
+                      ]
+                    },
+                    "tx_hash": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "needs_relay": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-11-11T02:31:23.000Z"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "example": {
+                        "priority": "normal",
+                        "description": "Cross-chain USDC transfer"
+                      }
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-11-11T01:31:23.390Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-11-11T01:31:23.390Z"
+                    }
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Bad Request - Invalid parameters"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
           }
-        }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Create new intent",
+        "tags": [
+          "Intents"
+        ]
       },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
+      "get": {
+        "description": "Retrieves all intents for the authenticated client with pagination and optional status filtering",
+        "operationId": "IntentController_getAllIntents",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of intents to return (default: 50, max: 100)",
+            "schema": {
+              "type": "number"
             }
           },
-          "required": true
-        },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Number of intents to skip (default: 0)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Filter by intent status",
+            "schema": {
+              "enum": [
+                "pending",
+                "processing",
+                "completed",
+                "failed"
+              ],
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get all client intents",
+        "tags": [
+          "Intents"
+        ]
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/intents/{id}": {
+      "get": {
+        "description": "Retrieves information about a specific intent using its unique id",
+        "operationId": "IntentController_getIntent",
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
             "required": true,
+            "in": "path",
+            "description": "Intent ID",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
+          "200": {
+            "description": "Intent details retrieved successfully"
           },
-          "400": {
-            "description": "unexpected error",
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Intent not found"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get intent by ID",
+        "tags": [
+          "Intents"
+        ]
+      }
+    },
+    "/intents/user/{sender}": {
+      "get": {
+        "description": "Retrieves all intents created by a specific user",
+        "operationId": "IntentController_getUserIntents",
+        "parameters": [
+          {
+            "name": "sender",
+            "required": true,
+            "in": "path",
+            "description": "User wallet address",
+            "schema": {
+              "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of intents for the specified sender",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
           }
-        }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get user intents",
+        "tags": [
+          "Intents"
+        ]
       }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
+    },
+    "/intents/address/{address}": {
+      "get": {
+        "description": "Retrieves an intent using its contract address",
+        "operationId": "IntentController_getIntentByAddress",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "description": "Intent contract address",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get intent by address",
+        "tags": [
+          "Intents"
+        ]
+      }
+    },
+    "/intents/{id}/status": {
+      "patch": {
+        "description": "Updates the status of an existing intent",
+        "operationId": "IntentController_updateIntentStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Intent unique identifier",
+            "schema": {
+              "example": 6,
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
-          "description": "Plant added to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "PENDING",
+                      "FUNDED",
+                      "INITIATED",
+                      "COMPLETED",
+                      "EXPIRED"
+                    ],
+                    "description": "New status to set for the intent",
+                    "example": "COMPLETED"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "Intent status updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Intent not found"
           }
-        }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Update intent status",
+        "tags": [
+          "Intents"
+        ]
+      }
+    },
+    "/intents/destination-address/{address}": {
+      "get": {
+        "description": "Calculates what the intent address would be on the destination chain for a given source intent",
+        "operationId": "IntentController_getDestinationIntentAddress",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "description": "Source intent contract address",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Calculate destination intent address",
+        "tags": [
+          "Intents"
+        ]
+      }
+    },
+    "/router/optimal-route": {
+      "get": {
+        "description": "Analyzes available bridges and returns the optimal route with best pricing",
+        "operationId": "RouterController_findOptimalRoute",
+        "parameters": [
+          {
+            "name": "tokenIn",
+            "required": true,
+            "in": "query",
+            "description": "Input token contract address",
+            "schema": {
+              "example": "0xA0b86a33E6411192B1F4ec3eB801B21EB56",
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenOut",
+            "required": true,
+            "in": "query",
+            "description": "Output token contract address",
+            "schema": {
+              "example": "0xA0b86a33E6411192B1F4ec3eB801B21EB56",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceChain",
+            "required": true,
+            "in": "query",
+            "description": "Source blockchain",
+            "schema": {
+              "example": "BASE_MAINNET",
+              "type": "string",
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ]
+            }
+          },
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain",
+            "schema": {
+              "example": "ARBITRUM_MAINNET",
+              "type": "string",
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ]
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Transfer amount in token units (wei for ETH)",
+            "schema": {
+              "example": "1000000000000000000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "required": false,
+            "in": "query",
+            "description": "Recipient address for the cross-chain transfer (required for some bridges like RhinoFi)",
+            "schema": {
+              "example": "0x742d35cc6634c0532925a3b8d7389d8c5b7cf15b",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Find optimal cross-chain transfer route",
+        "tags": [
+          "Router"
+        ]
+      }
+    },
+    "/router/supported-bridges/all": {
+      "get": {
+        "description": "Returns all bridges and their supported routes",
+        "operationId": "RouterController_getAllSupportedBridges",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get all supported bridges",
+        "tags": [
+          "Router"
+        ]
+      }
+    },
+    "/router/supported-bridges/route": {
+      "get": {
+        "description": "Returns all bridges that support transfers between specific source and destination chains",
+        "operationId": "RouterController_getSupportedBridgesForRoute",
+        "parameters": [
+          {
+            "name": "sourceChain",
+            "required": true,
+            "in": "query",
+            "description": "Source blockchain",
+            "schema": {
+              "example": "BASE_MAINNET",
+              "type": "string",
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ]
+            }
+          },
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain",
+            "schema": {
+              "example": "ARBITRUM_MAINNET",
+              "type": "string",
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get supported bridges for specific route",
+        "tags": [
+          "Router"
+        ]
+      }
+    },
+    "/router/supported-routes/bridge/{bridge}": {
+      "get": {
+        "description": "Returns all source/destination chain pairs supported by a specific bridge",
+        "operationId": "RouterController_getSupportedRoutesForBridge",
+        "parameters": [
+          {
+            "name": "bridge",
+            "required": true,
+            "in": "path",
+            "description": "Bridge protocol",
+            "schema": {
+              "enum": [
+                "ACROSS",
+                "CCTP",
+                "GATEWAY",
+                "RHINOFI"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get supported routes for specific bridge",
+        "tags": [
+          "Router"
+        ]
+      }
+    },
+    "/quotes/single": {
+      "get": {
+        "description": "Retrieves a cross-chain transfer quote from a specific bridge protocol",
+        "operationId": "QuoteController_getQuote",
+        "parameters": [
+          {
+            "name": "tokenIn",
+            "required": true,
+            "in": "query",
+            "description": "Input token address",
+            "schema": {
+              "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenOut",
+            "required": true,
+            "in": "query",
+            "description": "Output token address",
+            "schema": {
+              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceChain",
+            "required": true,
+            "in": "query",
+            "description": "Source blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount in token units",
+            "schema": {
+              "example": "10000000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "bridge",
+            "required": true,
+            "in": "query",
+            "description": "Bridge to use for the quote",
+            "schema": {
+              "enum": [
+                "ACROSS",
+                "CCTP",
+                "GATEWAY",
+                "RHINOFI"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "required": false,
+            "in": "query",
+            "description": "Optional recipient address",
+            "schema": {
+              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get quote from specific bridge",
+        "tags": [
+          "Quotes"
+        ]
+      }
+    },
+    "/quotes/multiple": {
+      "get": {
+        "description": "Retrieves quotes from all supported bridge protocols for comparison",
+        "operationId": "QuoteController_getMultipleQuotes",
+        "parameters": [
+          {
+            "name": "tokenIn",
+            "required": true,
+            "in": "query",
+            "description": "Input token address",
+            "schema": {
+              "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenOut",
+            "required": true,
+            "in": "query",
+            "description": "Output token address",
+            "schema": {
+              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceChain",
+            "required": true,
+            "in": "query",
+            "description": "Source blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount in token units",
+            "schema": {
+              "example": "10000000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "excludeBridges",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated bridges to exclude",
+            "schema": {
+              "example": "GATEWAY,CCTP",
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "required": false,
+            "in": "query",
+            "description": "Optional recipient address",
+            "schema": {
+              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get quotes from all bridges",
+        "tags": [
+          "Quotes"
+        ]
+      }
+    },
+    "/quotes/best": {
+      "get": {
+        "description": "Retrieves the best quote (lowest total fee) from all supported bridge protocols",
+        "operationId": "QuoteController_getBestQuote",
+        "parameters": [
+          {
+            "name": "tokenIn",
+            "required": true,
+            "in": "query",
+            "description": "Input token address",
+            "schema": {
+              "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenOut",
+            "required": true,
+            "in": "query",
+            "description": "Output token address",
+            "schema": {
+              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceChain",
+            "required": true,
+            "in": "query",
+            "description": "Source blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount in token units",
+            "schema": {
+              "example": "10000000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "excludeBridges",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated bridges to exclude",
+            "schema": {
+              "example": "GATEWAY,CCTP",
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "required": false,
+            "in": "query",
+            "description": "Optional recipient address",
+            "schema": {
+              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get best quote across all bridges",
+        "tags": [
+          "Quotes"
+        ]
+      }
+    },
+    "/quotes/multi-source": {
+      "get": {
+        "description": "Shows Alice all her options to send money to a specific destination chain, including same-chain transfers",
+        "operationId": "QuoteController_getMultiSourceQuotes",
+        "parameters": [
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain where Alice wants to send money",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount in human readable format (supports decimals, e.g., \"1.5\", \"100\", \"0.001\")",
+            "schema": {
+              "example": "1.5",
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenOut",
+            "required": true,
+            "in": "query",
+            "description": "Output token address",
+            "schema": {
+              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "required": false,
+            "in": "query",
+            "description": "Optional recipient address",
+            "schema": {
+              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get quotes from all source chains to destination",
+        "tags": [
+          "Quotes"
+        ]
+      }
+    },
+    "/chains": {
+      "get": {
+        "description": "Retrieves all supported blockchain networks, optionally filtered by network type (mainnet/testnet)",
+        "operationId": "ChainsController_getSupportedChains",
+        "parameters": [
+          {
+            "name": "network",
+            "required": false,
+            "in": "query",
+            "description": "Network type filter (mainnet or testnet)",
+            "schema": {
+              "enum": [
+                "mainnet",
+                "testnet"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get supported chains",
+        "tags": [
+          "Chains"
+        ]
+      }
+    },
+    "/chains/{chain}/tokens": {
+      "get": {
+        "description": "Retrieves all supported tokens available on the specified blockchain network",
+        "operationId": "ChainsController_getSupportedTokensForChain",
+        "parameters": [
+          {
+            "name": "chain",
+            "required": true,
+            "in": "path",
+            "description": "Blockchain network to get tokens for",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get supported tokens for chain",
+        "tags": [
+          "Chains"
+        ]
       }
     }
   },
+  "info": {
+    "title": "Chainrails API",
+    "description": "Public API documentation for Chainrails",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "https://dev.chainrails.io/api/v1"
+    }
+  ],
   "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
+    "securitySchemes": {
+      "api-key": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "Enter your Chainrails API key as a Bearer token"
       }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+    "schemas": {
+      "CreateClientDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "LoginClientDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateClientApiKeyDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "LoginAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ChangePasswordDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateClientDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateApiKeyDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "Chains": {
+        "type": "string",
+        "enum": [
+          "ARBITRUM_MAINNET",
+          "ARBITRUM_TESTNET",
+          "AVALANCHE_MAINNET",
+          "AVALANCHE_TESTNET",
+          "BASE_MAINNET",
+          "BASE_TESTNET",
+          "STARKNET_MAINNET",
+          "STARKNET_TESTNET",
+          "BSC_MAINNET",
+          "ETHEREUM_MAINNET",
+          "ETHEREUM_TESTNET"
+        ],
+        "description": "Source blockchain network"
+      },
+      "CreateIntentDto": {
+        "type": "object",
+        "properties": {
+          "sender": {
+            "type": "string",
+            "description": "Sender wallet address on the source chain",
+            "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+            "default": "Default address from config"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount to transfer in smallest unit (e.g., wei for ETH)",
+            "example": 1000000000000000000,
+            "minimum": 1
+          },
+          "tokenIn": {
+            "type": "string",
+            "description": "Token address on the source chain",
+            "example": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+          },
+          "source_chain": {
+            "description": "Source blockchain network",
+            "example": "ETHEREUM_MAINNET",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "destination_chain": {
+            "description": "Destination blockchain network",
+            "example": "STARKNET_MAINNET",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "recipient": {
+            "type": "string",
+            "description": "Recipient wallet address on the destination chain",
+            "example": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+          },
+          "refund_address": {
+            "type": "string",
+            "description": "Refund address on the source chain if intent fails",
+            "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+            "default": "Defaults to sender address"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the intent",
+            "example": {
+              "orderId": "12345",
+              "userId": "user-abc"
+            }
+          }
+        },
+        "required": [
+          "amount",
+          "tokenIn",
+          "source_chain",
+          "destination_chain",
+          "recipient"
+        ]
+      },
+      "InitiateGatewayDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "GetAttestationDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "AddRelayersDto": {
+        "type": "object",
+        "properties": {
+          "relayerAddresses": {
+            "description": "Array of relayer addresses to add",
+            "example": [
+              "0x1234567890123456789012345678901234567890",
+              "0x0987654321098765432109876543210987654321"
+            ],
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "chain": {
+            "type": "string",
+            "description": "The blockchain network to add relayers on",
+            "enum": [
+              "ARBITRUM_MAINNET",
+              "ARBITRUM_TESTNET",
+              "AVALANCHE_MAINNET",
+              "AVALANCHE_TESTNET",
+              "BASE_MAINNET",
+              "BASE_TESTNET",
+              "STARKNET_MAINNET",
+              "STARKNET_TESTNET",
+              "BSC_MAINNET",
+              "ETHEREUM_MAINNET",
+              "ETHEREUM_TESTNET"
+            ],
+            "example": "ARBITRUM_TESTNET"
+          }
+        },
+        "required": [
+          "relayerAddresses",
+          "chain"
+        ]
+      },
+      "RemoveRelayersDto": {
+        "type": "object",
+        "properties": {
+          "relayerAddresses": {
+            "description": "Array of relayer addresses to remove",
+            "example": [
+              "0x1234567890123456789012345678901234567890",
+              "0x0987654321098765432109876543210987654321"
+            ],
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "chain": {
+            "type": "string",
+            "description": "The blockchain network to remove relayers from",
+            "enum": [
+              "ARBITRUM_MAINNET",
+              "ARBITRUM_TESTNET",
+              "AVALANCHE_MAINNET",
+              "AVALANCHE_TESTNET",
+              "BASE_MAINNET",
+              "BASE_TESTNET",
+              "STARKNET_MAINNET",
+              "STARKNET_TESTNET",
+              "BSC_MAINNET",
+              "ETHEREUM_MAINNET",
+              "ETHEREUM_TESTNET"
+            ],
+            "example": "ARBITRUM_TESTNET"
+          }
+        },
+        "required": [
+          "relayerAddresses",
+          "chain"
+        ]
       }
     }
-  }
+  },
+  "security": [
+    {
+      "api-key": []
+    }
+  ]
 }
