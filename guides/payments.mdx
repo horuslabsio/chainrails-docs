@@ -264,7 +264,7 @@ After the deposit is confirmed, Chainrails:
 
 At this stage, you do not need to take any further action — the entire bridging and execution process is handled by the protocol.
 
-**NB:** You can however trigger the intent processing flow manually, if the indexer goes down for any reason or you rather prefer to do that using the `GET /api/v1/intents/{intent_address}/trigger-processing` endpoint.
+**NB:** You can however trigger the intent processing flow manually, if the indexer goes down for any reason or missed a transaction, using the `GET /api/v1/intents/{intent_address}/trigger-processing` endpoint.
 
 ### Step 6 - Track Status via Webhooks
 You can subscribe to webhooks to receive real-time updates on the intent’s lifecycle, including:
