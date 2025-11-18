@@ -1,0 +1,37 @@
+---
+title: 'Get Supported Bridges for Route'
+description: 'Return all bridges that support transfers between specific source and destination chains'
+---
+
+Returns all bridges that support transfers between specific source and destination chains.
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const supportedBridges = await crapi.router.getSupportedBridges({
+  sourceChain: "BASE_MAINNET",
+  destinationChain: "ARBITRUM_MAINNET"
+})
+
+console.log("Supported bridges for route:", supportedBridges)
+```
+</Tab>
+<Tab title="Response">
+
+```json
+[
+  "ACROSS",
+  "CCTP",
+  "GATEWAY"
+]
+```
+</Tab>
+</Tabs>

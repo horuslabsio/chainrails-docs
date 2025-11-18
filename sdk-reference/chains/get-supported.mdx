@@ -1,0 +1,59 @@
+---
+title: 'Get Supported Chains'
+description: 'Retrieve all supported blockchain networks, optionally filtered by network type'
+---
+
+Retrieves all supported blockchain networks, optionally filtered by network type.
+
+**Supported chains include:**
+- **Ethereum**: `ETHEREUM_MAINNET`, `ETHEREUM_TESTNET`
+- **Arbitrum**: `ARBITRUM_MAINNET`, `ARBITRUM_TESTNET`
+- **Base**: `BASE_MAINNET`, `BASE_TESTNET`
+- **Avalanche**: `AVALANCHE_MAINNET`, `AVALANCHE_TESTNET`
+- **BSC**: `BSC_MAINNET`
+- **Starknet**: `STARKNET_MAINNET`, `STARKNET_TESTNET`
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+// Get all chains
+const allChains = await crapi.chains.getSupported()
+console.log("All chains:", allChains)
+
+// Get only mainnet chains
+const mainnetChains = await crapi.chains.getSupported({ network: "mainnet" })
+console.log("Mainnet chains:", mainnetChains)
+
+// Get only testnet chains
+const testnetChains = await crapi.chains.getSupported({ network: "testnet" })
+console.log("Testnet chains:", testnetChains)
+```
+
+</Tab>
+<Tab title="Response">
+
+```json
+[
+  "ARBITRUM_MAINNET",
+  "ARBITRUM_TESTNET",
+  "AVALANCHE_MAINNET",
+  "AVALANCHE_TESTNET",
+  "BASE_MAINNET",
+  "BASE_TESTNET",
+  "STARKNET_MAINNET",
+  "STARKNET_TESTNET",
+  "BSC_MAINNET",
+  "ETHEREUM_MAINNET",
+  "ETHEREUM_TESTNET"
+]
+```
+</Tab>
+</Tabs>

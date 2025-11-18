@@ -1,0 +1,64 @@
+---
+title: 'Get Quotes from All Source Chains'
+description: 'Show all options to send money to a specific destination chain, including same-chain transfers'
+---
+
+Shows all options to send money to a specific destination chain, including same-chain transfers.
+
+**Parameters:**
+- `destinationChain` (required): Destination blockchain
+- `amount` (required): Amount in human readable format (supports decimals like "1.5", "100", "0.001")
+- `tokenOut` (required): Output token address
+- `recipient` (optional): Recipient address
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const multiSourceQuotes = await crapi.quotes.getAll({
+  destinationChain: "ARBITRUM_MAINNET",
+  amount: "1.5",
+  tokenOut: "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+  recipient: "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1"
+})
+
+console.log("Multi-source quotes:", multiSourceQuotes)
+```
+</Tab>
+<Tab title="Response">
+
+```json
+[
+  {
+    "sourceChain": "BASE_MAINNET",
+    "bridge": "ACROSS",
+    "tokenIn": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "tokenOut": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+    "destinationChain": "ARBITRUM_MAINNET",
+    "amountIn": "1500000",
+    "amountOut": "1497750",
+    "fee": "2250",
+    "estimatedTime": 300
+  },
+  {
+    "sourceChain": "ETHEREUM_MAINNET",
+    "bridge": "CCTP",
+    "tokenIn": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "tokenOut": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+    "destinationChain": "ARBITRUM_MAINNET",
+    "amountIn": "1500000",
+    "amountOut": "1495000",
+    "fee": "5000",
+    "estimatedTime": 600
+  }
+]
+```
+</Tab>
+</Tabs>
