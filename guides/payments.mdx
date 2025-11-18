@@ -248,7 +248,7 @@ curl_close($ch);
 }
 ```
 
-### Step 4 — Fund the Payment Intent
+### Step 4 — User Funds the Payment Intent
 Display the intent deposit address to the user on your payment screen.
 The user should send the exact `totalAmount` from their wallet on the selected source chain.
 
@@ -264,6 +264,8 @@ After the deposit is confirmed, Chainrails:
 
 At this stage, you do not need to take any further action — the entire bridging and execution process is handled by the protocol.
 
+**NB:** You can however trigger the intent processing flow manually, if the indexer goes down for any reason or you rather prefer to do that using the `GET /api/v1/intents/{intent_address}/trigger-processing` endpoint.
+
 ### Step 6 - Track Status via Webhooks
 You can subscribe to webhooks to receive real-time updates on the intent’s lifecycle, including:
 
@@ -276,7 +278,7 @@ You can find setup instructions in the [Webhook Section](./webhooks)
 
 ### Additional Tips
 
-1. Intent addresses are like **one-off account numbers**, you cannot reuse them, so always generate a new intent for every transaction.
+1. Intent addresses are like **one-off account numbers**, they can't be reused, so a new one is generated for every intent.
 2. If the user under-funds the intent, the transaction will fail to start, and the user can either top up the balance of the intent address, or a refund will be processed after intent expiration.
 3. If the user over-pays an intent, the excess is refunded on intent initiation.
 4. API keys have a rate limit of 250 rps, contact the team if you need modifications to this.
