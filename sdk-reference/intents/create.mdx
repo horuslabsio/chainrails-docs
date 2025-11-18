@@ -1,0 +1,81 @@
+---
+title: 'Create Intent'
+description: 'Create a new payment intent with cross-chain transfer parameters'
+---
+
+Creates a new payment intent with cross-chain transfer parameters.
+
+**Parameters:**
+- `sender` (required): Sender wallet address on the source chain
+- `amount` (required): Amount to transfer in smallest unit (e.g., wei for ETH)
+- `tokenIn` (required): Token address on the source chain
+- `source_chain` (required): Source blockchain network
+- `destination_chain` (required): Destination blockchain network
+- `recipient` (required): Recipient wallet address on the destination chain
+- `refund_address` (optional): Refund address if intent fails (defaults to sender)
+- `metadata` (optional): Additional metadata for the intent
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const intent = await crapi.intents.create({
+  sender: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+  amount: 1000000,
+  tokenIn: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  source_chain: "ETHEREUM_MAINNET",
+  destination_chain: "STARKNET_MAINNET",
+  recipient: "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+  refund_address: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+  metadata: {
+    orderId: "12345",
+    userId: "user-abc"
+  }
+})
+
+console.log("Intent created:", intent)
+```
+
+</Tab>
+<Tab title="Response">
+
+```json
+{
+  "id": 2,
+  "client_id": "e1ee3675-cb26-4a76-8206-a84f86e85862",
+  "sender": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54",
+  "initialAmount": 1000000,
+  "fees": 10500,
+  "totalAmount": 1010500,
+  "tokenIn": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "tokenOut": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+  "intent_address": "0x4E60e01263E750eD9D087157e19D2480Fd86A900",
+  "source_chain": "BASE_TESTNET",
+  "destination_chain": "ARBITRUM_TESTNET",
+  "recipient": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e",
+  "refund_address": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e",
+  "relayer": "",
+  "coordinator": "0x989f47053F188778575113DcF39dB8960Fc450e2",
+  "bridger": "0xa1c943058a631D5506eb7d96036eAbF6968e2338",
+  "bridgeExtraData": "0x00000000000000000000000000000000000000000000000000000000000001f400000000000000000000000000000000000000000000000000000000000003e8000000000000000000000000000000000000000000000000000000000000000300000000000000000000000075faf114eafb1bdbe2f0316df893fd58ce46aa4d",
+  "intent_nonce": 4267684716645197,
+  "intent_status": "PENDING",
+  "tx_hash": null,
+  "needs_relay": false,
+  "expires_at": "2025-11-11T02:31:23.000Z",
+  "metadata": {
+    "priority": "normal",
+    "description": "Cross-chain USDC transfer"
+  },
+  "created_at": "2025-11-11T01:31:23.390Z",
+  "updated_at": "2025-11-11T01:31:23.390Z"
+}
+```
+</Tab>
+</Tabs>

@@ -1,0 +1,56 @@
+---
+title: 'Get Optimal Routes'
+description: 'Analyze available bridges and return the optimal route with best pricing'
+---
+
+Analyzes available bridges and returns the optimal route with best pricing.
+
+**Parameters:**
+- `tokenIn` (required): Input token contract address
+- `tokenOut` (required): Output token contract address
+- `sourceChain` (required): Source blockchain
+- `destinationChain` (required): Destination blockchain
+- `amount` (required): Transfer amount in token units (wei for ETH)
+- `recipient` (optional): Recipient address (required for some bridges like RhinoFi)
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const route = await crapi.router.getOptimalRoutes({
+  tokenIn: "0xA0b86a33E6411192B1F4ec3eB801B21EB56",
+  tokenOut: "0xA0b86a33E6411192B1F4ec3eB801B21EB56",
+  sourceChain: "BASE_MAINNET",
+  destinationChain: "ARBITRUM_MAINNET",
+  amount: "1000000000000000000",
+  recipient: "0x742d35cc6634c0532925a3b8d7389d8c5b7cf15b"
+})
+
+console.log("Optimal route:", route)
+```
+</Tab>
+<Tab title="Response">
+
+```json
+{
+  "bridge": "ACROSS",
+  "tokenIn": "0xA0b86a33E6411192B1F4ec3eB801B21EB56",
+  "tokenOut": "0xA0b86a33E6411192B1F4ec3eB801B21EB56",
+  "sourceChain": "BASE_MAINNET",
+  "destinationChain": "ARBITRUM_MAINNET",
+  "amountIn": "1000000000000000000",
+  "amountOut": "998500000000000000",
+  "fee": "1500000000000000",
+  "estimatedTime": 300,
+  "recipient": "0x742d35cc6634c0532925a3b8d7389d8c5b7cf15b"
+}
+```
+</Tab>
+</Tabs>

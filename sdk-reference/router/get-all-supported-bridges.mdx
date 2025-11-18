@@ -1,0 +1,60 @@
+---
+title: 'Get All Supported Bridges'
+description: 'Return all bridges and their supported routes'
+---
+
+Returns all bridges and their supported routes.
+
+**Supported bridges:** `ACROSS`, `CCTP`, `GATEWAY`, `RHINOFI`
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const bridges = await crapi.router.getAllSupportedBridges()
+console.log("Supported bridges:", bridges)
+```
+</Tab>
+<Tab title="Response">
+
+```json
+{
+  "ACROSS": [
+    {
+      "sourceChain": "BASE_MAINNET",
+      "destinationChain": "ARBITRUM_MAINNET"
+    },
+    {
+      "sourceChain": "BASE_MAINNET",
+      "destinationChain": "ETHEREUM_MAINNET"
+    }
+  ],
+  "CCTP": [
+    {
+      "sourceChain": "BASE_MAINNET",
+      "destinationChain": "ARBITRUM_MAINNET"
+    }
+  ],
+  "GATEWAY": [
+    {
+      "sourceChain": "BASE_MAINNET",
+      "destinationChain": "STARKNET_MAINNET"
+    }
+  ],
+  "RHINOFI": [
+    {
+      "sourceChain": "BASE_MAINNET",
+      "destinationChain": "ARBITRUM_MAINNET"
+    }
+  ]
+}
+```
+</Tab>
+</Tabs>

@@ -1,0 +1,52 @@
+---
+title: 'Get Supported Tokens for Chain'
+description: 'Retrieve all supported tokens available on a specified blockchain network'
+---
+
+Retrieves all supported tokens available on a specified blockchain network.
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const tokens = await crapi.chains.getSupported({
+  chain: "BASE_MAINNET"
+})
+
+console.log("Supported tokens:", tokens)
+```
+
+</Tab>
+<Tab title="Response">
+
+```json
+[
+  {
+    "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "symbol": "USDC",
+    "name": "USD Coin",
+    "decimals": 6
+  },
+  {
+    "address": "0x4200000000000000000000000000000000000006",
+    "symbol": "WETH",
+    "name": "Wrapped Ether",
+    "decimals": 18
+  },
+  {
+    "address": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+    "symbol": "DAI",
+    "name": "Dai Stablecoin",
+    "decimals": 18
+  }
+]
+```
+</Tab>
+</Tabs>

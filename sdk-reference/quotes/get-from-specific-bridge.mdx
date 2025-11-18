@@ -1,0 +1,58 @@
+---
+title: 'Get Quote from Specific Bridge'
+description: 'Retrieve a cross-chain transfer quote from a specific bridge protocol'
+---
+
+Retrieves a cross-chain transfer quote from a specific bridge protocol.
+
+**Parameters:**
+- `tokenIn` (required): Input token address
+- `tokenOut` (required): Output token address
+- `sourceChain` (required): Source blockchain
+- `destinationChain` (required): Destination blockchain
+- `amount` (required): Amount in token units
+- `bridge` (required): Bridge to use for the quote (`ACROSS`, `CCTP`, `GATEWAY`, `RHINOFI`)
+- `recipient` (optional): Recipient address
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const quote = await crapi.quotes.getFromSpecificBridge({
+  tokenIn: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  tokenOut: "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+  sourceChain: "BASE_MAINNET",
+  destinationChain: "ARBITRUM_MAINNET",
+  amount: "10000000",
+  bridge: "ACROSS",
+  recipient: "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1"
+})
+
+console.log("Quote:", quote)
+```
+</Tab>
+<Tab title="Response">
+
+```json
+{
+  "bridge": "ACROSS",
+  "tokenIn": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "tokenOut": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+  "sourceChain": "BASE_MAINNET",
+  "destinationChain": "ARBITRUM_MAINNET",
+  "amountIn": "10000000",
+  "amountOut": "9985000",
+  "fee": "15000",
+  "estimatedTime": 300,
+  "recipient": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1"
+}
+```
+</Tab>
+</Tabs>

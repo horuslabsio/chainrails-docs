@@ -1,0 +1,46 @@
+---
+title: 'Get Supported Routes for Bridge'
+description: 'Return all source/destination chain pairs supported by a specific bridge'
+---
+
+Returns all source/destination chain pairs supported by a specific bridge.
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const routes = await crapi.router.getSupportedRoutes("ACROSS", {
+  sourceChain: "BASE_MAINNET",
+  destinationChain: "ARBITRUM_MAINNET"
+})
+
+console.log("Supported routes:", routes)
+```
+</Tab>
+<Tab title="Response">
+
+```json
+[
+  {
+    "sourceChain": "BASE_MAINNET",
+    "destinationChain": "ARBITRUM_MAINNET"
+  },
+  {
+    "sourceChain": "BASE_MAINNET",
+    "destinationChain": "ETHEREUM_MAINNET"
+  },
+  {
+    "sourceChain": "ARBITRUM_MAINNET",
+    "destinationChain": "BASE_MAINNET"
+  }
+]
+```
+</Tab>
+</Tabs>

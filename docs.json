@@ -66,6 +66,7 @@
       },
       {
         "tab": "SDK reference",
+        
         "groups": [
           {
             "group": "SDK documentation",
@@ -74,7 +75,51 @@
             ]
           },
           {
-            "group": "Endpoint examples"
+            "group": "Modules",
+            "pages": [
+              {
+                "group": "Intents",
+                "pages": [
+                  "sdk-reference/intents/create",
+                  "sdk-reference/intents/get-by-id",
+                  "sdk-reference/intents/get-all",
+                  "sdk-reference/intents/get-for-sender",
+                  "sdk-reference/intents/get-for-address",
+                  "sdk-reference/intents/update"
+                ]
+              },
+              {
+                "group": "Router",
+                "pages": [
+                  "sdk-reference/router/get-optimal-routes",
+                  "sdk-reference/router/get-all-supported-bridges",
+                  "sdk-reference/router/get-supported-bridges",
+                  "sdk-reference/router/get-supported-routes"
+                ]
+              },
+              {
+                "group": "Quotes",
+                "pages": [
+                  "sdk-reference/quotes/get-from-specific-bridge",
+                  "sdk-reference/quotes/get-from-all-bridges",
+                  "sdk-reference/quotes/get-best-across-bridges",
+                  "sdk-reference/quotes/get-all"
+                ]
+              },
+              {
+                "group": "Chains",
+                "pages": [
+                  "sdk-reference/chains/get-supported",
+                  "sdk-reference/chains/get-supported-tokens"
+                ]
+              },
+              {
+                "group": "Client",
+                "pages": [
+                  "sdk-reference/client/get-client-info"
+                ]
+              }
+            ]
           }
         ]
       }

@@ -1,0 +1,70 @@
+---
+title: 'Get Quotes from All Bridges'
+description: 'Retrieve quotes from all supported bridge protocols for comparison'
+---
+
+Retrieves quotes from all supported bridge protocols for comparison.
+
+**Parameters:**
+- `tokenIn` (required): Input token address
+- `tokenOut` (required): Output token address
+- `sourceChain` (required): Source blockchain
+- `destinationChain` (required): Destination blockchain
+- `amount` (required): Amount in token units
+- `excludeBridges` (optional): Comma-separated bridges to exclude
+- `recipient` (optional): Recipient address
+
+<Tabs>
+<Tab title="Try it">
+
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+const quotes = await crapi.quotes.getFromAllBridges({
+  tokenIn: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  tokenOut: "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+  sourceChain: "BASE_MAINNET",
+  destinationChain: "ARBITRUM_MAINNET",
+  amount: "10000000",
+  excludeBridges: "GATEWAY,CCTP",
+  recipient: "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1"
+})
+
+console.log("Quotes from all bridges:", quotes)
+```
+</Tab>
+<Tab title="Response">
+
+```json
+[
+  {
+    "bridge": "ACROSS",
+    "tokenIn": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "tokenOut": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+    "sourceChain": "BASE_MAINNET",
+    "destinationChain": "ARBITRUM_MAINNET",
+    "amountIn": "10000000",
+    "amountOut": "9985000",
+    "fee": "15000",
+    "estimatedTime": 300
+  },
+  {
+    "bridge": "RHINOFI",
+    "tokenIn": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "tokenOut": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+    "sourceChain": "BASE_MAINNET",
+    "destinationChain": "ARBITRUM_MAINNET",
+    "amountIn": "10000000",
+    "amountOut": "9970000",
+    "fee": "30000",
+    "estimatedTime": 450
+  }
+]
+```
+</Tab>
+</Tabs>
