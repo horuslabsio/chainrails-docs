@@ -4,17 +4,21 @@ description: "We would compensate you, if this takes you more than 10 minutes."
 ---
 
 ## Overview
+
 Every Chainrails transaction follows three simple steps from setup to completion:
 
 #### Request a Quote
+
 Define the parameters for the transaction (the intent) — amount, source chain, source token, destination chain, recipient, and refund address.
 This tells Chainrails what the user wants to send and where it’s going.
 
 #### Generate an Intent Address
+
 Once the quote is confirmed, Chainrails creates a unique intent address for that transaction.
 Think of this as a one-time deposit address that tracks and processes the transfer logic automatically.
 
 #### Fund the Intent
+
 The user then funds this intent address directly from their wallet.
 Once funded, Chainrails takes care of the rest — executing the cross-chain transfer, routing liquidity, and confirming settlement.
 
@@ -30,17 +34,21 @@ Begin by installing the Chainrails SDK.
 ```bash
 npm install @chainrails/sdk
 ```
+
 </Step>
 
 <Step title="Obtain your API Key">
-Send us a message at contact@horuslabs.co to get an API Key or create one from the dashboard. This key will be used to authenticate your requests.
+  Send us a message at contact@horuslabs.co to get an API Key or create one from the dashboard. This key will be used to
+  authenticate your requests.
 </Step>
 
 <Step title="Initialize the Payment Modal">
 Import and initialize the Chainrails payment modal in your application.
 
 ```javascript
-import { chains, tokens, PaymentModal, usePaymentModal } from "@chainrails-sdk/react"
+import { chains, tokens, PaymentModal, usePaymentModal, Chainrails } from "@chainrails/react"
+
+Chainrails.config({ api_key: <ENTER_API_KEY> })
 
 function App() {
   const cr = usePaymentModal({
@@ -53,21 +61,20 @@ function App() {
     },
     onSuccess: () => {
       console.log("Payment Successful")
-    }
+    },
   })
 
   return (
     <div>
-      <button onClick={cr.open} className="border my-4 py-2 px-4 cursor-pointer">
-        Open Modal
-      </button>
-      <PaymentModal config={config} {...cr} />
+      <button onClick={cr.open}> Open Modal </button>
+      <PaymentModal {...cr} />
     </div>
   )
 }
 ```
 
 Where:
+
 - `to`: Your wallet address to receive payments/deposits.
 - `amount`: The amount to be paid/deposited.
 - `chain`: The blockchain network to receive payments to.
@@ -78,10 +85,6 @@ Where:
 
 And voila! You are now ready to accept your first payment.
 
-<Card
-  title="Demo"
-  icon="stars"
-  href="https://chainrails.io/demo"
->
+<Card title="Demo" icon="stars" href="https://chainrails.io/demo">
   Check out our demo application to see Chainrails in action.
 </Card>

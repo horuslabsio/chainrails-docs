@@ -7,7 +7,10 @@
     "light": "#fa938c",
     "dark": "#fa938c"
   },
-  "favicon": "/favicon.svg",
+  "favicon": {
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
+  },
   "navigation": {
     "tabs": [
       {
@@ -15,18 +18,11 @@
         "groups": [
           {
             "group": "Introduction",
-            "pages": [
-              "index",
-              "quickstart",
-              "sdk-vs-api"
-            ]
+            "pages": ["index", "quickstart", "sdk-vs-api"]
           },
           {
             "group": "How it works",
-            "pages": [
-              "concepts/core",
-              "concepts/chainrails-vs-others"
-            ]
+            "pages": ["concepts/core", "concepts/chainrails-vs-others"]
           },
           {
             "group": "Developer Guides",
@@ -42,10 +38,7 @@
           },
           {
             "group": "Changelog & Roadmap",
-            "pages": [
-              "changelog/changelog",
-              "changelog/upcoming"
-            ]
+            "pages": ["changelog/changelog", "changelog/upcoming"]
           }
         ]
       },
@@ -54,9 +47,7 @@
         "groups": [
           {
             "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "pages": ["api-reference/introduction"]
           },
           {
             "group": "Endpoints",
@@ -66,13 +57,14 @@
       },
       {
         "tab": "SDK reference",
-        
         "groups": [
           {
             "group": "SDK documentation",
-            "pages": [
-              "sdk-reference/introduction"
-            ]
+            "pages": ["sdk-reference/introduction"]
+          },
+          {
+            "group": "Components",
+            "pages": ["sdk-reference/components/payment-modal"]
           },
           {
             "group": "Modules",
@@ -108,16 +100,11 @@
               },
               {
                 "group": "Chains",
-                "pages": [
-                  "sdk-reference/chains/get-supported",
-                  "sdk-reference/chains/get-supported-tokens"
-                ]
+                "pages": ["sdk-reference/chains/get-supported", "sdk-reference/chains/get-supported-tokens"]
               },
               {
                 "group": "Client",
-                "pages": [
-                  "sdk-reference/client/get-client-info"
-                ]
+                "pages": ["sdk-reference/client/get-client-info"]
               }
             ]
           }
@@ -140,7 +127,7 @@
     }
   },
   "logo": {
-    "light": "/logo/dark.png",
+    "light": "/logo/light.png",
     "dark": "/logo/dark.png"
   },
   "navbar": {
@@ -157,16 +144,7 @@
     }
   },
   "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode"]
   },
   "footer": {
     "socials": {
