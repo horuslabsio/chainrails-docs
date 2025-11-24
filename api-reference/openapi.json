@@ -1189,7 +1189,7 @@
   "tags": [],
   "servers": [
     {
-      "url": "https://dev.chainrails.io/api/v1"
+      "url": "https://api.chainrails.io/api/v1"
     }
   ],
   "components": {
@@ -1401,6 +1401,48 @@
         "required": [
           "relayerAddresses",
           "chain"
+        ]
+      },
+      "CreateDepositDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Amount in wei",
+            "example": 1000000
+          },
+          "sourceChain": {
+            "description": "Source blockchain network for the deposit",
+            "example": "ETHEREUM_MAINNET",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "destinationChain": {
+            "description": "Destination blockchain network for the deposit",
+            "example": "ETHEREUM_MAINNET",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "Token to deposit",
+            "enum": [
+              "USDC"
+            ],
+            "example": "USDC",
+            "default": "USDC"
+          }
+        },
+        "required": [
+          "amount",
+          "sourceChain",
+          "destinationChain"
         ]
       }
     }
