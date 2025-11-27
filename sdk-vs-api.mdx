@@ -19,12 +19,14 @@ The Chainrails SDK is a lightweight JavaScript/TypeScript library that wraps our
 
 **Installation**
 ```bash
-npm install @chainrails/sdk
+npm install @chainrails/react
 ```
 
 **Usage**
 ```javascript
-import { chains, tokens, PaymentModal, usePaymentModal } from "@chainrails-sdk/react"
+import { chains, tokens, PaymentModal, usePaymentModal, Chainrails } from "@chainrails/react";
+
+Chainrails.config({ api_key: <ENTER_API_KEY> })
 
 function App() {
   const cr = usePaymentModal({
@@ -45,7 +47,7 @@ function App() {
       <button onClick={cr.open} className="border my-4 py-2 px-4 cursor-pointer">
         Open Modal
       </button>
-      <PaymentModal config={config} {...cr} />
+      <PaymentModal {...cr} />
     </div>
   )
 }
