@@ -32,7 +32,6 @@
               "guides/payments",
               "guides/refunds",
               "guides/webhooks",
-              "guides/fee-model",
               "guides/integrations"
             ]
           },
