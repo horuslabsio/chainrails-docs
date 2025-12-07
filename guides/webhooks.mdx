@@ -4,8 +4,228 @@ description: "Instant notifications about events in your application"
 icon: "webhook"
 ---
 
+## Overview
+
+Chainrails webhooks allow you to receive real-time notifications about events happening with your transfer intents. Instead of polling the API for status updates, webhooks push event data to your server when significant changes occur.
+
+## Quick Start
+
+### 1. Create a Webhook
+
+You'd rarely need to do this manually, as you can create webhooks directly from the [Dashboard](https://dashboard.chainrails.io/webhooks). But if you want to create one programmatically, here's how:
+
+```bash
+curl -X POST https://api.chainrails.io/api/v1/client/webhooks \
+  -H "Authorization: Bearer CLIENT_JWT_AUTH" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://api.example.com/webhooks/chainrails",
+    "events": ["intent.funded", "intent.completed"],
+    "environment": "live",
+    "is_active": true
+  }'
+```
+
+**Response:**
+```json
+{
+  "webhook_id": "wh_abc123...",
+  "client_id": "client_xyz...",
+  "url": "https://api.example.com/webhooks/chainrails",
+  "events": ["intent.funded", "intent.completed"],
+  "is_active": true,
+  "environment": "live",
+  "secret": "whsec_1234567890abcdef...",
+  "created_at": "2025-12-07T10:00:00Z",
+  "updated_at": "2025-12-07T10:00:00Z"
+}
+```
+
+**⚠️ Important:** Save the `secret` value - it's only returned once when creating or regenerating the webhook. You'll need it to verify webhook signatures.
+
+### 2. Implement Your Webhook Endpoint
+
+Your webhook endpoint must:
+- Accept `POST` requests
+- Respond with `200 OK` within 5 seconds
+- Verify the signature (instructions below)
+- Be publicly accessible (HTTPS required for live webhooks)
+
 <Tip>
-
-    This section is a WIP.
-
+    For local testing, you can use tools like [ngrok](https://ngrok.com) to expose your local server to the internet.
 </Tip>
+
+---
+
+## Event Types
+
+Subscribe to the events relevant to your use case:
+
+| Event Type | Description | When It's Triggered |
+|------------|-------------|---------------------|
+| `intent.funded` | User funded the intent address | When tokens are detected on the intent address |
+| `intent.initiated` | Bridge transaction started | When Chainrails initiates the bridge transaction |
+| `intent.completed` | Transfer successfully completed | When tokens arrive on destination chain |
+| `intent.expired` | Intent expired without funding | When intent funding deadline passes |
+| `intent.refunded` | Funds returned to sender | When transfer fails and funds are refunded |
+
+---
+
+## Webhook Payload Structure
+
+All webhook events follow this structure:
+
+```typescript
+{
+  "id": "evt_1234567890abcdef",        // Unique event ID
+  "type": "intent.completed",           // Event type
+  "created_at": "2025-12-07T10:30:00Z", // ISO 8601 timestamp
+  "data": {
+    "intent_id": 12345,
+    "intent_address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+    "source_chain": "ARBITRUM_MAINNET",
+    "destination_chain": "BASE_MAINNET",
+    "status": "COMPLETED",
+    "tx_hash": "0xabc123...",
+    "sender": "0x1234...",
+    "recipient": "0x5678...",
+    "amount": "1000000",                  // Amount in smallest token unit
+    "token_in": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",  // USDC on Arbitrum
+    "token_out": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
+    "metadata": {
+      "custom_field": "value"
+    }
+  },
+  "previous_attributes": { 
+    "status": "INITIATED"
+  }
+}
+```
+
+### Field Descriptions
+
+- **`id`**: Unique identifier for this webhook event (idempotency key)
+- **`type`**: One of the [event types](#event-types)
+- **`created_at`**: When the event occurred (UTC, ISO 8601)
+- **`data`**: The full intent object with current state
+- **`previous_attributes`**: What changed (only for update events)
+
+---
+## Security & Signature Verification
+
+**All webhook payloads are signed using HMAC-SHA256.** Always verify signatures to ensure the webhook came from Chainrails.
+
+### How Signing Works
+
+1. Chainrails generates a signature using your webhook secret
+2. Signature is sent in the `X-Chainrails-Signature` header
+3. Timestamp is sent in the `X-Chainrails-Timestamp` header
+4. You verify the signature matches what you compute
+
+### Signature Format
+
+The signature is computed as:
+```
+HMAC-SHA256(secret, timestamp + "." + request_body)
+```
+
+### Verification Example (Node.js)
+
+```typescript
+import { createHmac } from 'crypto';
+
+function verifyWebhookSignature(
+  payload: string,        // Raw request body as string
+  signature: string,      // X-Chainrails-Signature header
+  timestamp: string,      // X-Chainrails-Timestamp header
+  secret: string          // Your webhook secret
+): boolean {
+  // Check timestamp to prevent replay attacks (max 5 minutes old)
+  const eventTime = parseInt(timestamp, 10) * 1000; // Convert to milliseconds
+  const currentTime = Date.now();
+  const timeDiff = Math.abs(currentTime - eventTime);
+  
+  if (timeDiff > 5 * 60 * 1000) {
+    console.error('Webhook timestamp too old');
+    return false;
+  }
+
+  // Compute expected signature
+  const signedPayload = `${timestamp}.${payload}`;
+  const expectedSignature = createHmac('sha256', secret)
+    .update(signedPayload)
+    .digest('hex');
+
+  // Compare signatures (constant-time comparison recommended)
+  return signature === expectedSignature;
+}
+```
+
+**⚠️ Security Best Practices:**
+
+1. **Always verify signatures** - Never trust webhook data without verification
+2. **Check timestamp** - Prevent replay attacks by rejecting old events
+4. **Keep secrets secure** - Store webhook secrets in environment variables, never in code
+5. **Use HTTPS** - Required for live webhooks
+
+---
+
+## Delivery & Retries
+
+### Delivery Behavior
+
+- **Timeout**: Webhooks must respond within **5 seconds**
+- **Success**: Any `2xx` status code (200, 201, 204, etc.)
+- **Failure**: Timeouts, network errors, or non-2xx responses
+- **Retries**: Automatic retry with exponential backoff
+
+### Retry Schedule
+
+Failed deliveries are automatically retried:
+
+| Attempt | Delay After Failure |
+|---------|---------------------|
+| 1 | Immediate |
+| 2 | 1 minute |
+| 3 | 5 minutes |
+| 4 | 15 minutes |
+| 5 | 1 hour |
+| 6 | 6 hours |
+| 7 | 24 hours |
+
+**After 7 attempts**, the delivery is marked as permanently failed.
+
+---
+
+## Sample Implementation
+
+```typescript
+app.post('/webhooks/chainrails', express.raw({ type: 'application/json' }), (req, res) => {
+  const signature = req.headers['x-chainrails-signature'];
+  const timestamp = req.headers['x-chainrails-timestamp'];
+  const rawBody = req.body.toString();
+
+  // Verify signature
+  const isValid = verifyWebhookSignature(
+    rawBody,
+    signature,
+    timestamp,
+    process.env.CHAINRAILS_WEBHOOK_SECRET
+  );
+
+  if (!isValid) {
+    console.error('Invalid webhook signature');
+    return res.status(401).json({ error: 'Invalid signature' });
+  }
+
+  // Parse and process the event
+  const event = JSON.parse(rawBody);
+  console.log('Received event:', event.type);
+
+  // Handle the event
+  handleWebhookEvent(event);
+
+  // Always respond with 200 OK
+  res.status(200).json({ received: true });
+});
+```

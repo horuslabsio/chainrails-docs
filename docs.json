@@ -32,6 +32,7 @@
               "guides/payments",
               "guides/refunds",
               "guides/webhooks",
+              "guides/paymaster",
               "guides/integrations"
             ]
           },
