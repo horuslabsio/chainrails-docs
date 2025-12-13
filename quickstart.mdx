@@ -53,7 +53,7 @@ Chainrails.config({ api_key: <ENTER_API_KEY> })
 function App() {
   const cr = usePaymentModal({
     to: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    amount: 1,
+    amount: "1",
     chain: chains.BASE,
     token: tokens.USDC,
     onCancel: () => {

@@ -15,47 +15,10 @@ All API requests are made to the following base URL:
 ```
 https://api.chainrails.io
 ```
-
-## API endpoints
-
-The API is organized into the following categories:
-
-### Quotes
-
-Handles fetching quotes from specific or multiple bridges:
-
-1.  `GET /api/v1/quotes/single` - Get a quote from a specific bridge for a given route
-2. `GET /api/v1/quotes/multiple` - Get quotes from all bridges for a specific route
-3.  `GET /api/v1/quotes/best` - Get the best quote for a specific route
-4.  `GET /api/v1/quotes/multi-source` - Get multiple source quotes for an intended destination chain
-
-### Router
-
-Manages the routing layer:
-
-1.  `GET /api/v1/router/optimal-route` - Get the optimal route for a given intent
-2. `GET /api/v1/router/supported-bridges/all` - List all supported bridges
-3. `GET /api/v1/router/supported-bridges/route` - List supported bridges for a specific route
-4. `GET /api/v1/router/supported-routes/bridge/{bridge}` - List supported routes for a specific bridge
-
-### Intents
-
-Handles creating and managing payment intents:
-
-1.  `POST /api/v1/intents` - Create a new payment intent
-2. ` GET /api/v1/intents` - Get all payment intents for a specific client (partners)
-3. `GET /api/v1/intents/{intent_id}` - Get details of a specific payment intent
-4. `GET /api/v1/intents/user/{sender}` - Get all payment intents for a specific user
-5. `GET /api/v1/intents/address/{address}` - Get intent details by intent address
-6. `GET /api/v1/intents/destination-address/{address}` - Precalculate the destination intent address for a specific intent
-7. `PATCH /api/v1/intents/{id}/status` - Manually update the status of a specific payment intent
-
-### Chains
-
-Provides information about supported chains and tokens:
-
-1.  `GET /api/v1/chains` - List all supported chains
-2.  `GET /api/v1/chains/{chain}/tokens` - List all supported tokens for a specific chain
+## Authentication
+All API requests require authentication using an API Key. You can include your API Key in the `Authorization` header as a Bearer token.
+Example:
+```Authorization: Bearer YOUR_API_KEY```
 
 ## Rate Limits
 To ensure fair usage and maintain optimal performance, the Chainrails API enforces rate limits on incoming requests. The default rate limit is set to 250 requests per minute. If you exceed this limit, you will receive a `429 Too Many Requests` response. If you require higher rate limits, please contact the team.

@@ -31,7 +31,7 @@ Chainrails.config({ api_key: <ENTER_API_KEY> })
 function App() {
   const cr = usePaymentModal({
     to: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    amount: 1,
+    amount: "1",
     chain: chains.BASE,
     token: tokens.USDC,
     onCancel: () => {
@@ -76,7 +76,7 @@ curl -X POST "https://api.chainrails.io/api/v1/intents" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
     "sender": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54",
-    "amount": 1000000,
+    "amount": "1000000",
     "tokenIn": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
     "source_chain": "BASE_TESTNET",
     "destination_chain": "ARBITRUM_TESTNET",
@@ -98,7 +98,7 @@ const apiKey = "YOUR_API_KEY";
 
 const payload = {
   sender: "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54",
-  amount: 1000000,
+  amount: "1000000",
   tokenIn: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
   source_chain: "BASE_TESTNET",
   destination_chain: "ARBITRUM_TESTNET",
