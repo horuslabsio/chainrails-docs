@@ -32,8 +32,14 @@
               "guides/payments",
               "guides/refunds",
               "guides/webhooks",
-              "guides/paymaster",
-              "guides/integrations"
+              "guides/paymaster"
+            ]
+          },
+          {
+            "group": "Essentials",
+            "pages": [
+              "essentials/settlements",
+              "essentials/integrations"
             ]
           },
           {
