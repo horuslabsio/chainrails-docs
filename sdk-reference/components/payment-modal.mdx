@@ -10,7 +10,6 @@ React component and hook for integrating Chainrails payments into your app.
 - `to`: Your wallet address to receive payments/deposits.
 - `chain`: The blockchain network to receive payments to.
 - `token`: The token/currency you want to receive.
-
 - `amount`: Optional. The amount to be paid. If omitted or set to 0, the user will be prompted to enter their own amount (useful for flexible deposits or donations).
 
 <Tabs>
@@ -37,6 +36,9 @@ function App() {
   return (
     <div>
       <button onClick={cr.open}> Open Modal </button>
+      {/* Pass 'amount' here to set a fixed amount.
+        If you remove the amount prop, the user can input their own.
+      */}
       <PaymentModal {...cr} amount={1}/>
     </div>
   )
