@@ -66,6 +66,9 @@ function App() {
   return (
     <div>
       <button onClick={cr.open}> Open Modal </button>
+      {/* Pass 'amount' here to lock the price.
+        If you remove the amount prop, the user can input their own.
+      */}
       <PaymentModal {...cr} amount={1}/>
     </div>
   )
