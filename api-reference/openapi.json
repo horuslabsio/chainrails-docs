@@ -18,7 +18,7 @@
                 "Ethereum to Starknet": {
                   "value": {
                     "sender": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
-                    "amount": 1000000,
+                    "amount": "1000000",
                     "tokenIn": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
                     "source_chain": "ETHEREUM_MAINNET",
                     "destination_chain": "STARKNET_MAINNET",
@@ -54,16 +54,16 @@
                       "example": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54"
                     },
                     "initialAmount": {
-                      "type": "number",
-                      "example": 1000000
+                      "type": "string",
+                      "example": "1000000"
                     },
                     "fees": {
-                      "type": "number",
-                      "example": 10500
+                      "type": "string",
+                      "example": "500"
                     },
                     "totalAmount": {
-                      "type": "number",
-                      "example": 1010500
+                      "type": "string",
+                      "example": "1010500"
                     },
                     "tokenIn": {
                       "type": "string",
@@ -216,7 +216,189 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "List of intents retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "intents": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "example": 1
+                          },
+                          "client_id": {
+                            "type": "string",
+                            "example": "e1ee3675-cb26-4a76-8206-a84f86e85862"
+                          },
+                          "sender": {
+                            "type": "string",
+                            "example": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54"
+                          },
+                          "initialAmount": {
+                            "type": "string",
+                            "example": "1000000"
+                          },
+                          "fees": {
+                            "type": "string",
+                            "example": "10500"
+                          },
+                          "totalAmount": {
+                            "type": "string",
+                            "example": "1010500"
+                          },
+                          "tokenIn": {
+                            "type": "string",
+                            "example": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+                          },
+                          "tokenOut": {
+                            "type": "string",
+                            "example": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
+                          },
+                          "intent_address": {
+                            "type": "string",
+                            "example": "0x4E60e01263E750eD9D087157e19D2480Fd86A900"
+                          },
+                          "destination_intent_address": {
+                            "type": "string",
+                            "example": "0x5F70e12374E750fE0E087158f29E3591Ge97B011"
+                          },
+                          "source_chain": {
+                            "type": "string",
+                            "example": "BASE_TESTNET"
+                          },
+                          "destination_chain": {
+                            "type": "string",
+                            "example": "ARBITRUM_TESTNET"
+                          },
+                          "recipient": {
+                            "type": "string",
+                            "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                          },
+                          "refund_address": {
+                            "type": "string",
+                            "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                          },
+                          "relayer": {
+                            "type": "string",
+                            "example": ""
+                          },
+                          "coordinator": {
+                            "type": "string",
+                            "example": "0x989f47053F188778575113DcF39dB8960Fc450e2"
+                          },
+                          "bridger": {
+                            "type": "string",
+                            "example": "0xa1c943058a631D5506eb7d96036eAbF6968e2338"
+                          },
+                          "bridgeExtraData": {
+                            "type": "string",
+                            "example": "0x00000000000000000000000000000000000000000000000000000000000001f4"
+                          },
+                          "intent_nonce": {
+                            "type": "number",
+                            "example": 4267684716645197
+                          },
+                          "intent_status": {
+                            "type": "string",
+                            "enum": [
+                              "PENDING",
+                              "FUNDED",
+                              "INITIATED",
+                              "COMPLETED",
+                              "EXPIRED"
+                            ],
+                            "example": "PENDING"
+                          },
+                          "tx_hash": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": null
+                          },
+                          "needs_relay": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "relayer_claimed": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "paymaster_used": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "mode": {
+                            "type": "string",
+                            "enum": [
+                              "test",
+                              "live"
+                            ],
+                            "example": "test"
+                          },
+                          "expires_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-12-13T03:31:23.000Z"
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "example": {
+                              "orderId": "12345"
+                            }
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-12-13T02:31:23.390Z"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-12-13T02:31:23.390Z"
+                          }
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 100
+                    },
+                    "limit": {
+                      "type": "number",
+                      "example": 50
+                    },
+                    "offset": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -239,21 +421,198 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Intent ID",
+            "description": "Unique id of the intent",
             "schema": {
+              "example": 6,
               "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Intent details retrieved successfully"
+            "description": "Intent details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 6
+                    },
+                    "client_id": {
+                      "type": "string",
+                      "example": "e1ee3675-cb26-4a76-8206-a84f86e85862"
+                    },
+                    "sender": {
+                      "type": "string",
+                      "example": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54"
+                    },
+                    "initialAmount": {
+                      "type": "string",
+                      "example": "1000000"
+                    },
+                    "fees": {
+                      "type": "string",
+                      "example": "10500"
+                    },
+                    "totalAmount": {
+                      "type": "string",
+                      "example": "1010500"
+                    },
+                    "tokenIn": {
+                      "type": "string",
+                      "example": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+                    },
+                    "tokenOut": {
+                      "type": "string",
+                      "example": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
+                    },
+                    "intent_address": {
+                      "type": "string",
+                      "example": "0x4E60e01263E750eD9D087157e19D2480Fd86A900"
+                    },
+                    "destination_intent_address": {
+                      "type": "string",
+                      "example": "0x5F70e12374E750fE0E087158f29E3591Ge97B011"
+                    },
+                    "source_chain": {
+                      "type": "string",
+                      "example": "BASE_TESTNET"
+                    },
+                    "destination_chain": {
+                      "type": "string",
+                      "example": "ARBITRUM_TESTNET"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                    },
+                    "refund_address": {
+                      "type": "string",
+                      "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                    },
+                    "relayer": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "coordinator": {
+                      "type": "string",
+                      "example": "0x989f47053F188778575113DcF39dB8960Fc450e2"
+                    },
+                    "bridger": {
+                      "type": "string",
+                      "example": "0xa1c943058a631D5506eb7d96036eAbF6968e2338"
+                    },
+                    "bridgeExtraData": {
+                      "type": "string",
+                      "example": "0x00000000000000000000000000000000000000000000000000000000000001f4"
+                    },
+                    "intent_nonce": {
+                      "type": "number",
+                      "example": 4267684716645197
+                    },
+                    "intent_status": {
+                      "type": "string",
+                      "enum": [
+                        "PENDING",
+                        "FUNDED",
+                        "INITIATED",
+                        "COMPLETED",
+                        "EXPIRED"
+                      ],
+                      "example": "PENDING"
+                    },
+                    "tx_hash": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+                    },
+                    "needs_relay": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "relayer_claimed": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "paymaster_used": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "test",
+                        "live"
+                      ],
+                      "example": "test"
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T03:31:23.000Z"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "example": {
+                        "orderId": "12345"
+                      }
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T02:31:23.390Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T02:31:23.390Z"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized - Invalid or missing API key"
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Intent not found"
+            "description": "Intent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Intent not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -262,82 +621,6 @@
           }
         ],
         "summary": "Get intent by ID",
-        "tags": [
-          "Intents"
-        ]
-      }
-    },
-    "/intents/user/{sender}": {
-      "get": {
-        "description": "Retrieves all intents created by a specific user",
-        "operationId": "IntentController_getUserIntents",
-        "parameters": [
-          {
-            "name": "sender",
-            "required": true,
-            "in": "path",
-            "description": "User wallet address",
-            "schema": {
-              "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of intents for the specified sender",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - Invalid or missing API key"
-          }
-        },
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
-        "summary": "Get user intents",
-        "tags": [
-          "Intents"
-        ]
-      }
-    },
-    "/intents/address/{address}": {
-      "get": {
-        "description": "Retrieves an intent using its contract address",
-        "operationId": "IntentController_getIntentByAddress",
-        "parameters": [
-          {
-            "name": "address",
-            "required": true,
-            "in": "path",
-            "description": "Intent contract address",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
-        "summary": "Get intent by address",
         "tags": [
           "Intents"
         ]
@@ -388,13 +671,208 @@
         },
         "responses": {
           "200": {
-            "description": "Intent status updated successfully"
+            "description": "Intent status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 6
+                    },
+                    "client_id": {
+                      "type": "string",
+                      "example": "e1ee3675-cb26-4a76-8206-a84f86e85862"
+                    },
+                    "sender": {
+                      "type": "string",
+                      "example": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54"
+                    },
+                    "initialAmount": {
+                      "type": "string",
+                      "example": "1000000"
+                    },
+                    "fees": {
+                      "type": "string",
+                      "example": "10500"
+                    },
+                    "totalAmount": {
+                      "type": "string",
+                      "example": "1010500"
+                    },
+                    "tokenIn": {
+                      "type": "string",
+                      "example": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+                    },
+                    "tokenOut": {
+                      "type": "string",
+                      "example": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
+                    },
+                    "intent_address": {
+                      "type": "string",
+                      "example": "0x4E60e01263E750eD9D087157e19D2480Fd86A900"
+                    },
+                    "destination_intent_address": {
+                      "type": "string",
+                      "example": "0x5F70e12374E750fE0E087158f29E3591Ge97B011"
+                    },
+                    "source_chain": {
+                      "type": "string",
+                      "example": "BASE_TESTNET"
+                    },
+                    "destination_chain": {
+                      "type": "string",
+                      "example": "ARBITRUM_TESTNET"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                    },
+                    "refund_address": {
+                      "type": "string",
+                      "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                    },
+                    "relayer": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "coordinator": {
+                      "type": "string",
+                      "example": "0x989f47053F188778575113DcF39dB8960Fc450e2"
+                    },
+                    "bridger": {
+                      "type": "string",
+                      "example": "0xa1c943058a631D5506eb7d96036eAbF6968e2338"
+                    },
+                    "bridgeExtraData": {
+                      "type": "string",
+                      "example": "0x00000000000000000000000000000000000000000000000000000000000001f4"
+                    },
+                    "intent_nonce": {
+                      "type": "number",
+                      "example": 4267684716645197
+                    },
+                    "intent_status": {
+                      "type": "string",
+                      "enum": [
+                        "PENDING",
+                        "FUNDED",
+                        "INITIATED",
+                        "COMPLETED",
+                        "EXPIRED"
+                      ],
+                      "example": "COMPLETED"
+                    },
+                    "tx_hash": {
+                      "type": "string",
+                      "example": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+                    },
+                    "needs_relay": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "relayer_claimed": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "paymaster_used": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "test",
+                        "live"
+                      ],
+                      "example": "test"
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T03:31:23.000Z"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "example": {
+                        "orderId": "12345"
+                      }
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T02:31:23.390Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T02:40:05.550Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid status value",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid status value"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized - Invalid or missing API key"
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Intent not found"
+            "description": "Intent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Intent not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -403,6 +881,329 @@
           }
         ],
         "summary": "Update intent status",
+        "tags": [
+          "Intents"
+        ]
+      }
+    },
+    "/intents/{intentAddress}/trigger-processing": {
+      "post": {
+        "description": "Triggers manual processing of an intent. Checks funding status, starts the intent if needed, and initiates completion flow. Use this as a fallback when the indexer misses the funding event.",
+        "operationId": "IntentController_triggerIntentProcessing",
+        "parameters": [
+          {
+            "name": "intentAddress",
+            "required": true,
+            "in": "path",
+            "description": "The blockchain address of the intent",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Intent processing triggered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Intent started successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid intent status or not funded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Intent has invalid status: COMPLETED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Intent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Intent not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Manually trigger intent processing",
+        "tags": [
+          "Intents"
+        ]
+      }
+    },
+    "/intents/address/{address}": {
+      "get": {
+        "description": "Retrieves an intent using its contract address",
+        "operationId": "IntentController_getIntentByAddress",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "description": "Intent contract address",
+            "schema": {
+              "example": "0x4E60e01263E750eD9D087157e19D2480Fd86A900",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Intent retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 3
+                    },
+                    "client_id": {
+                      "type": "string",
+                      "example": "e1ee3675-cb26-4a76-8206-a84f86e85862"
+                    },
+                    "sender": {
+                      "type": "string",
+                      "example": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54"
+                    },
+                    "initialAmount": {
+                      "type": "string",
+                      "example": "1000000"
+                    },
+                    "fees": {
+                      "type": "string",
+                      "example": "10500"
+                    },
+                    "totalAmount": {
+                      "type": "string",
+                      "example": "1010500"
+                    },
+                    "tokenIn": {
+                      "type": "string",
+                      "example": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+                    },
+                    "tokenOut": {
+                      "type": "string",
+                      "example": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
+                    },
+                    "intent_address": {
+                      "type": "string",
+                      "example": "0x4E60e01263E750eD9D087157e19D2480Fd86A900"
+                    },
+                    "destination_intent_address": {
+                      "type": "string",
+                      "example": "0x5F70e12374E750fE0E087158f29E3591Ge97B011"
+                    },
+                    "source_chain": {
+                      "type": "string",
+                      "example": "BASE_TESTNET"
+                    },
+                    "destination_chain": {
+                      "type": "string",
+                      "example": "ARBITRUM_TESTNET"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                    },
+                    "refund_address": {
+                      "type": "string",
+                      "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                    },
+                    "relayer": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "coordinator": {
+                      "type": "string",
+                      "example": "0x989f47053F188778575113DcF39dB8960Fc450e2"
+                    },
+                    "bridger": {
+                      "type": "string",
+                      "example": "0xa1c943058a631D5506eb7d96036eAbF6968e2338"
+                    },
+                    "bridgeExtraData": {
+                      "type": "string",
+                      "example": "0x00000000000000000000000000000000000000000000000000000000000001f4"
+                    },
+                    "intent_nonce": {
+                      "type": "number",
+                      "example": 4267684716645197
+                    },
+                    "intent_status": {
+                      "type": "string",
+                      "enum": [
+                        "PENDING",
+                        "FUNDED",
+                        "INITIATED",
+                        "COMPLETED",
+                        "EXPIRED"
+                      ],
+                      "example": "FUNDED"
+                    },
+                    "tx_hash": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+                    },
+                    "needs_relay": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "relayer_claimed": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "paymaster_used": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "test",
+                        "live"
+                      ],
+                      "example": "test"
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T03:31:23.000Z"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "example": {
+                        "orderId": "12345"
+                      }
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T02:31:23.390Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-12-13T02:33:15.120Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Intent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Intent not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get intent by address",
         "tags": [
           "Intents"
         ]
@@ -419,13 +1220,79 @@
             "in": "path",
             "description": "Source intent contract address",
             "schema": {
+              "example": "0x4E60e01263E750eD9D087157e19D2480Fd86A900",
               "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Destination address calculated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "destinationAddress": {
+                      "type": "string",
+                      "example": "0x5F70e12374E750fE0E087158f29E3591Ge97B011"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Intent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Intent not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to calculate destination address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Failed to calculate destination address: <error details>"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -439,219 +1306,216 @@
         ]
       }
     },
-    "/router/optimal-route": {
+    "/intents/user/{sender}": {
       "get": {
-        "description": "Analyzes available bridges and returns the optimal route with best pricing",
-        "operationId": "RouterController_findOptimalRoute",
+        "description": "Retrieves all intents created by a specific user",
+        "operationId": "IntentController_getUserIntents",
         "parameters": [
           {
-            "name": "tokenIn",
-            "required": true,
-            "in": "query",
-            "description": "Input token contract address",
-            "schema": {
-              "example": "0xA0b86a33E6411192B1F4ec3eB801B21EB56",
-              "type": "string"
-            }
-          },
-          {
-            "name": "tokenOut",
-            "required": true,
-            "in": "query",
-            "description": "Output token contract address",
-            "schema": {
-              "example": "0xA0b86a33E6411192B1F4ec3eB801B21EB56",
-              "type": "string"
-            }
-          },
-          {
-            "name": "sourceChain",
-            "required": true,
-            "in": "query",
-            "description": "Source blockchain",
-            "schema": {
-              "example": "BASE_MAINNET",
-              "type": "string",
-              "enum": [
-                "ARBITRUM_MAINNET",
-                "ARBITRUM_TESTNET",
-                "AVALANCHE_MAINNET",
-                "AVALANCHE_TESTNET",
-                "BASE_MAINNET",
-                "BASE_TESTNET",
-                "STARKNET_MAINNET",
-                "STARKNET_TESTNET",
-                "BSC_MAINNET",
-                "ETHEREUM_MAINNET",
-                "ETHEREUM_TESTNET"
-              ]
-            }
-          },
-          {
-            "name": "destinationChain",
-            "required": true,
-            "in": "query",
-            "description": "Destination blockchain",
-            "schema": {
-              "example": "ARBITRUM_MAINNET",
-              "type": "string",
-              "enum": [
-                "ARBITRUM_MAINNET",
-                "ARBITRUM_TESTNET",
-                "AVALANCHE_MAINNET",
-                "AVALANCHE_TESTNET",
-                "BASE_MAINNET",
-                "BASE_TESTNET",
-                "STARKNET_MAINNET",
-                "STARKNET_TESTNET",
-                "BSC_MAINNET",
-                "ETHEREUM_MAINNET",
-                "ETHEREUM_TESTNET"
-              ]
-            }
-          },
-          {
-            "name": "amount",
-            "required": true,
-            "in": "query",
-            "description": "Transfer amount in token units (wei for ETH)",
-            "schema": {
-              "example": "1000000000000000000",
-              "type": "string"
-            }
-          },
-          {
-            "name": "recipient",
-            "required": false,
-            "in": "query",
-            "description": "Recipient address for the cross-chain transfer (required for some bridges like RhinoFi)",
-            "schema": {
-              "example": "0x742d35cc6634c0532925a3b8d7389d8c5b7cf15b",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
-        "summary": "Find optimal cross-chain transfer route",
-        "tags": [
-          "Router"
-        ]
-      }
-    },
-    "/router/supported-bridges/all": {
-      "get": {
-        "description": "Returns all bridges and their supported routes",
-        "operationId": "RouterController_getAllSupportedBridges",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
-        "summary": "Get all supported bridges",
-        "tags": [
-          "Router"
-        ]
-      }
-    },
-    "/router/supported-bridges/route": {
-      "get": {
-        "description": "Returns all bridges that support transfers between specific source and destination chains",
-        "operationId": "RouterController_getSupportedBridgesForRoute",
-        "parameters": [
-          {
-            "name": "sourceChain",
-            "required": true,
-            "in": "query",
-            "description": "Source blockchain",
-            "schema": {
-              "example": "BASE_MAINNET",
-              "type": "string",
-              "enum": [
-                "ARBITRUM_MAINNET",
-                "ARBITRUM_TESTNET",
-                "AVALANCHE_MAINNET",
-                "AVALANCHE_TESTNET",
-                "BASE_MAINNET",
-                "BASE_TESTNET",
-                "STARKNET_MAINNET",
-                "STARKNET_TESTNET",
-                "BSC_MAINNET",
-                "ETHEREUM_MAINNET",
-                "ETHEREUM_TESTNET"
-              ]
-            }
-          },
-          {
-            "name": "destinationChain",
-            "required": true,
-            "in": "query",
-            "description": "Destination blockchain",
-            "schema": {
-              "example": "ARBITRUM_MAINNET",
-              "type": "string",
-              "enum": [
-                "ARBITRUM_MAINNET",
-                "ARBITRUM_TESTNET",
-                "AVALANCHE_MAINNET",
-                "AVALANCHE_TESTNET",
-                "BASE_MAINNET",
-                "BASE_TESTNET",
-                "STARKNET_MAINNET",
-                "STARKNET_TESTNET",
-                "BSC_MAINNET",
-                "ETHEREUM_MAINNET",
-                "ETHEREUM_TESTNET"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
-        "summary": "Get supported bridges for specific route",
-        "tags": [
-          "Router"
-        ]
-      }
-    },
-    "/router/supported-routes/bridge/{bridge}": {
-      "get": {
-        "description": "Returns all source/destination chain pairs supported by a specific bridge",
-        "operationId": "RouterController_getSupportedRoutesForBridge",
-        "parameters": [
-          {
-            "name": "bridge",
+            "name": "sender",
             "required": true,
             "in": "path",
-            "description": "Bridge protocol",
+            "description": "User wallet address",
+            "schema": {
+              "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of intents for the specified sender",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "client_id": {
+                        "type": "string",
+                        "example": "e1ee3675-cb26-4a76-8206-a84f86e85862"
+                      },
+                      "sender": {
+                        "type": "string",
+                        "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+                      },
+                      "initialAmount": {
+                        "type": "string",
+                        "example": "1000000"
+                      },
+                      "fees": {
+                        "type": "string",
+                        "example": "10500"
+                      },
+                      "totalAmount": {
+                        "type": "string",
+                        "example": "1010500"
+                      },
+                      "tokenIn": {
+                        "type": "string",
+                        "example": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+                      },
+                      "tokenOut": {
+                        "type": "string",
+                        "example": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
+                      },
+                      "intent_address": {
+                        "type": "string",
+                        "example": "0x4E60e01263E750eD9D087157e19D2480Fd86A900"
+                      },
+                      "destination_intent_address": {
+                        "type": "string",
+                        "example": "0x5F70e12374E750fE0E087158f29E3591Ge97B011"
+                      },
+                      "source_chain": {
+                        "type": "string",
+                        "example": "BASE_TESTNET"
+                      },
+                      "destination_chain": {
+                        "type": "string",
+                        "example": "ARBITRUM_TESTNET"
+                      },
+                      "recipient": {
+                        "type": "string",
+                        "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                      },
+                      "refund_address": {
+                        "type": "string",
+                        "example": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
+                      },
+                      "relayer": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "coordinator": {
+                        "type": "string",
+                        "example": "0x989f47053F188778575113DcF39dB8960Fc450e2"
+                      },
+                      "bridger": {
+                        "type": "string",
+                        "example": "0xa1c943058a631D5506eb7d96036eAbF6968e2338"
+                      },
+                      "bridgeExtraData": {
+                        "type": "string",
+                        "example": "0x00000000000000000000000000000000000000000000000000000000000001f4"
+                      },
+                      "intent_nonce": {
+                        "type": "number",
+                        "example": 4267684716645197
+                      },
+                      "intent_status": {
+                        "type": "string",
+                        "enum": [
+                          "PENDING",
+                          "FUNDED",
+                          "INITIATED",
+                          "COMPLETED",
+                          "EXPIRED"
+                        ],
+                        "example": "COMPLETED"
+                      },
+                      "tx_hash": {
+                        "type": "string",
+                        "example": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+                      },
+                      "needs_relay": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "relayer_claimed": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "paymaster_used": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "mode": {
+                        "type": "string",
+                        "enum": [
+                          "test",
+                          "live"
+                        ],
+                        "example": "test"
+                      },
+                      "expires_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-13T03:31:23.000Z"
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "example": {
+                          "orderId": "12345"
+                        }
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-13T02:31:23.390Z"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-12-13T02:35:10.220Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get user intents",
+        "tags": [
+          "Intents"
+        ]
+      }
+    },
+    "/chains": {
+      "get": {
+        "description": "Retrieves all supported blockchain networks, optionally filtered by network type (mainnet/testnet)",
+        "operationId": "ChainsController_getSupportedChains",
+        "parameters": [
+          {
+            "name": "network",
+            "required": false,
+            "in": "query",
+            "description": "Network type filter (mainnet or testnet)",
             "schema": {
               "enum": [
-                "ACROSS",
-                "CCTP",
-                "GATEWAY",
-                "RHINOFI"
+                "mainnet",
+                "testnet"
               ],
               "type": "string"
             }
@@ -659,7 +1523,62 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Supported chains retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "ARBITRUM_MAINNET",
+                      "ARBITRUM_TESTNET",
+                      "AVALANCHE_MAINNET",
+                      "AVALANCHE_TESTNET",
+                      "BASE_MAINNET",
+                      "BASE_TESTNET",
+                      "ETHEREUM_MAINNET",
+                      "ETHEREUM_TESTNET",
+                      "OPTIMISM_MAINNET",
+                      "OPTIMISM_TESTNET",
+                      "POLYGON_MAINNET",
+                      "POLYGON_TESTNET",
+                      "STARKNET_MAINNET",
+                      "STARKNET_TESTNET"
+                    ]
+                  },
+                  "example": [
+                    "ETHEREUM_MAINNET",
+                    "ARBITRUM_MAINNET",
+                    "BASE_MAINNET",
+                    "OPTIMISM_MAINNET",
+                    "POLYGON_MAINNET",
+                    "AVALANCHE_MAINNET",
+                    "STARKNET_MAINNET"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -667,9 +1586,916 @@
             "api-key": []
           }
         ],
-        "summary": "Get supported routes for specific bridge",
+        "summary": "Get supported chains",
         "tags": [
-          "Router"
+          "Chains"
+        ]
+      }
+    },
+    "/chains/{chain}/tokens": {
+      "get": {
+        "description": "Retrieves all supported tokens available on the specified blockchain network",
+        "operationId": "ChainsController_getSupportedTokensForChain",
+        "parameters": [
+          {
+            "name": "chain",
+            "required": true,
+            "in": "path",
+            "description": "Blockchain network to get tokens for",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Supported tokens retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string",
+                        "description": "Token contract address on the chain",
+                        "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                      },
+                      "symbol": {
+                        "type": "string",
+                        "description": "Token symbol",
+                        "example": "USDC"
+                      },
+                      "decimals": {
+                        "type": "number",
+                        "description": "Number of decimal places for the token",
+                        "example": 6
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Full token name",
+                        "example": "USD Coin"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                      "symbol": "USDC",
+                      "decimals": 6,
+                      "name": "USD Coin"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid chain parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid chain parameter"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get supported tokens for chain",
+        "tags": [
+          "Chains"
+        ]
+      }
+    },
+    "/quotes/best": {
+      "get": {
+        "description": "Retrieves the best quote (lowest total fee) from all supported bridge protocols",
+        "operationId": "QuoteController_getBestQuote",
+        "parameters": [
+          {
+            "name": "tokenIn",
+            "required": true,
+            "in": "query",
+            "description": "Input token address",
+            "schema": {
+              "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenOut",
+            "required": true,
+            "in": "query",
+            "description": "Output token address",
+            "schema": {
+              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceChain",
+            "required": true,
+            "in": "query",
+            "description": "Source blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount in token units",
+            "schema": {
+              "example": "10000000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "excludeBridges",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated bridges to exclude",
+            "schema": {
+              "example": "GATEWAY,CCTP",
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "required": false,
+            "in": "query",
+            "description": "Optional recipient address",
+            "schema": {
+              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Best quote retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bridgeFeeDetails": {
+                      "type": "object",
+                      "description": "Bridge-specific fee details from the cheapest option",
+                      "example": {
+                        "maxFee": "8000"
+                      }
+                    },
+                    "totalFee": {
+                      "type": "string",
+                      "description": "Lowest total fee among all bridges",
+                      "example": "18000"
+                    },
+                    "totalFeeFormatted": {
+                      "type": "string",
+                      "description": "Human-readable formatted total fee",
+                      "example": "0.018"
+                    },
+                    "route": {
+                      "type": "object",
+                      "properties": {
+                        "tokenIn": {
+                          "type": "string",
+                          "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                        },
+                        "tokenOut": {
+                          "type": "string",
+                          "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4"
+                        },
+                        "sourceChain": {
+                          "type": "string",
+                          "example": "BASE_TESTNET"
+                        },
+                        "destinationChain": {
+                          "type": "string",
+                          "example": "ARBITRUM_TESTNET"
+                        },
+                        "amount": {
+                          "type": "string",
+                          "example": "10000000"
+                        },
+                        "bridge": {
+                          "type": "string",
+                          "enum": [
+                            "ACROSS",
+                            "CCTP",
+                            "GATEWAY",
+                            "RHINOFI"
+                          ],
+                          "example": "CCTP"
+                        },
+                        "recipient": {
+                          "type": "string",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Amount must be greater than 0"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No quotes available for the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No quotes available for this route. Please check if the route is supported."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to retrieve best quote. Please try again later."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get best quote across all bridges",
+        "tags": [
+          "Quotes"
+        ]
+      }
+    },
+    "/quotes/multi-source": {
+      "get": {
+        "description": "Shows Alice all her options to send money to a specific destination chain, including same-chain transfers",
+        "operationId": "QuoteController_getMultiSourceQuotes",
+        "parameters": [
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain where Alice wants to send money",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount in human readable format (supports decimals, e.g., \"1.5\", \"100\", \"0.001\")",
+            "schema": {
+              "example": "1.5",
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenOut",
+            "required": true,
+            "in": "query",
+            "description": "Output token address",
+            "schema": {
+              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "required": false,
+            "in": "query",
+            "description": "Optional recipient address",
+            "schema": {
+              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Multi-source quotes retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "destinationChain": {
+                      "type": "string",
+                      "example": "ARBITRUM_TESTNET",
+                      "description": "Target destination chain"
+                    },
+                    "quotes": {
+                      "type": "array",
+                      "description": "Quotes from all possible source chains (same-chain listed first, then sorted by cost)",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sourceChain": {
+                            "type": "string",
+                            "example": "BASE_TESTNET"
+                          },
+                          "destinationChain": {
+                            "type": "string",
+                            "example": "ARBITRUM_TESTNET"
+                          },
+                          "bestQuote": {
+                            "type": "object",
+                            "nullable": true,
+                            "properties": {
+                              "bridgeFeeDetails": {
+                                "type": "object",
+                                "description": "Bridge-specific fee details (structure varies)",
+                                "example": {
+                                  "maxFee": "8000"
+                                }
+                              },
+                              "totalFee": {
+                                "type": "string",
+                                "example": "18000"
+                              },
+                              "totalFeeFormatted": {
+                                "type": "string",
+                                "example": "0.018"
+                              },
+                              "route": {
+                                "type": "object",
+                                "properties": {
+                                  "tokenIn": {
+                                    "type": "string",
+                                    "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                                  },
+                                  "tokenOut": {
+                                    "type": "string",
+                                    "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4"
+                                  },
+                                  "sourceChain": {
+                                    "type": "string",
+                                    "example": "BASE_TESTNET"
+                                  },
+                                  "destinationChain": {
+                                    "type": "string",
+                                    "example": "ARBITRUM_TESTNET"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "example": "1500000"
+                                  },
+                                  "bridge": {
+                                    "type": "string",
+                                    "enum": [
+                                      "ACROSS",
+                                      "CCTP",
+                                      "GATEWAY",
+                                      "RHINOFI"
+                                    ],
+                                    "example": "CCTP"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "cheapestOption": {
+                      "type": "object",
+                      "nullable": true,
+                      "description": "The cheapest option among all source chains",
+                      "properties": {
+                        "sourceChain": {
+                          "type": "string",
+                          "example": "ARBITRUM_TESTNET"
+                        },
+                        "destinationChain": {
+                          "type": "string",
+                          "example": "ARBITRUM_TESTNET"
+                        },
+                        "bestQuote": {
+                          "type": "object",
+                          "properties": {
+                            "bridgeFeeDetails": {
+                              "type": "object",
+                              "example": {
+                                "maxFee": "0"
+                              }
+                            },
+                            "totalFee": {
+                              "type": "string",
+                              "example": "10000"
+                            },
+                            "totalFeeFormatted": {
+                              "type": "string",
+                              "example": "0.01"
+                            },
+                            "route": {
+                              "type": "object",
+                              "properties": {
+                                "tokenIn": {
+                                  "type": "string"
+                                },
+                                "tokenOut": {
+                                  "type": "string"
+                                },
+                                "sourceChain": {
+                                  "type": "string",
+                                  "example": "ARBITRUM_TESTNET"
+                                },
+                                "destinationChain": {
+                                  "type": "string",
+                                  "example": "ARBITRUM_TESTNET"
+                                },
+                                "amount": {
+                                  "type": "string",
+                                  "example": "1500000"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Amount must be a valid positive number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to retrieve multi-source quotes. Please try again later."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get quotes from all source chains to destination",
+        "tags": [
+          "Quotes"
+        ]
+      }
+    },
+    "/quotes/multiple": {
+      "get": {
+        "description": "Retrieves quotes from all supported bridge protocols for comparison",
+        "operationId": "QuoteController_getMultipleQuotes",
+        "parameters": [
+          {
+            "name": "tokenIn",
+            "required": true,
+            "in": "query",
+            "description": "Input token address",
+            "schema": {
+              "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenOut",
+            "required": true,
+            "in": "query",
+            "description": "Output token address",
+            "schema": {
+              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceChain",
+            "required": true,
+            "in": "query",
+            "description": "Source blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain",
+            "schema": {
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount in token units",
+            "schema": {
+              "example": "10000000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "excludeBridges",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated bridges to exclude",
+            "schema": {
+              "example": "GATEWAY,CCTP",
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipient",
+            "required": false,
+            "in": "query",
+            "description": "Optional recipient address",
+            "schema": {
+              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Multiple quotes retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "bridgeFeeDetails": {
+                        "type": "object",
+                        "description": "Bridge-specific fee details",
+                        "example": {
+                          "maxFee": "8000"
+                        }
+                      },
+                      "totalFee": {
+                        "type": "string",
+                        "description": "Total fee in token units",
+                        "example": "18000"
+                      },
+                      "totalFeeFormatted": {
+                        "type": "string",
+                        "description": "Human-readable formatted total fee",
+                        "example": "0.018"
+                      },
+                      "route": {
+                        "type": "object",
+                        "properties": {
+                          "tokenIn": {
+                            "type": "string",
+                            "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                          },
+                          "tokenOut": {
+                            "type": "string",
+                            "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4"
+                          },
+                          "sourceChain": {
+                            "type": "string",
+                            "example": "BASE_TESTNET"
+                          },
+                          "destinationChain": {
+                            "type": "string",
+                            "example": "ARBITRUM_TESTNET"
+                          },
+                          "amount": {
+                            "type": "string",
+                            "example": "10000000"
+                          },
+                          "bridge": {
+                            "type": "string",
+                            "enum": [
+                              "ACROSS",
+                              "CCTP",
+                              "GATEWAY",
+                              "RHINOFI"
+                            ],
+                            "example": "CCTP"
+                          },
+                          "recipient": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Source and destination chains must be different"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to retrieve quotes. Please try again later."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get quotes from all bridges",
+        "tags": [
+          "Quotes"
         ]
       }
     },
@@ -780,7 +2606,136 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Quote retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bridgeFeeDetails": {
+                      "type": "object",
+                      "description": "Bridge-specific fee details (structure varies by bridge)",
+                      "example": {
+                        "timestamp": 1702425683,
+                        "fillDeadline": 1702429283,
+                        "pctFee": 100000000000000,
+                        "flatFee": "5000"
+                      }
+                    },
+                    "totalFee": {
+                      "type": "string",
+                      "description": "Total fee in token units (bridge fee + ChainRails fee)",
+                      "example": "15500"
+                    },
+                    "totalFeeFormatted": {
+                      "type": "string",
+                      "description": "Human-readable formatted total fee",
+                      "example": "0.0155"
+                    },
+                    "route": {
+                      "type": "object",
+                      "properties": {
+                        "tokenIn": {
+                          "type": "string",
+                          "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                        },
+                        "tokenOut": {
+                          "type": "string",
+                          "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4"
+                        },
+                        "sourceChain": {
+                          "type": "string",
+                          "example": "BASE_TESTNET"
+                        },
+                        "destinationChain": {
+                          "type": "string",
+                          "example": "ARBITRUM_TESTNET"
+                        },
+                        "amount": {
+                          "type": "string",
+                          "example": "10000000"
+                        },
+                        "bridge": {
+                          "type": "string",
+                          "enum": [
+                            "ACROSS",
+                            "CCTP",
+                            "GATEWAY",
+                            "RHINOFI"
+                          ],
+                          "example": "ACROSS"
+                        },
+                        "recipient": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid parameters or unsupported route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token addresses are required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to retrieve quote. Please try again later."
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -794,10 +2749,10 @@
         ]
       }
     },
-    "/quotes/multiple": {
+    "/router/optimal-route": {
       "get": {
-        "description": "Retrieves quotes from all supported bridge protocols for comparison",
-        "operationId": "QuoteController_getMultipleQuotes",
+        "description": "Analyzes available bridges and returns the optimal route with best pricing",
+        "operationId": "RouterController_findOptimalRoute",
         "parameters": [
           {
             "name": "tokenIn",
@@ -825,6 +2780,8 @@
             "in": "query",
             "description": "Source blockchain",
             "schema": {
+              "example": "BASE_TESTNET",
+              "type": "string",
               "enum": [
                 "ARBITRUM_MAINNET",
                 "ARBITRUM_TESTNET",
@@ -837,8 +2794,7 @@
                 "BSC_MAINNET",
                 "ETHEREUM_MAINNET",
                 "ETHEREUM_TESTNET"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -847,6 +2803,8 @@
             "in": "query",
             "description": "Destination blockchain",
             "schema": {
+              "example": "ARBITRUM_TESTNET",
+              "type": "string",
               "enum": [
                 "ARBITRUM_MAINNET",
                 "ARBITRUM_TESTNET",
@@ -859,8 +2817,7 @@
                 "BSC_MAINNET",
                 "ETHEREUM_MAINNET",
                 "ETHEREUM_TESTNET"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -870,16 +2827,6 @@
             "description": "Amount in token units",
             "schema": {
               "example": "10000000",
-              "type": "string"
-            }
-          },
-          {
-            "name": "excludeBridges",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated bridges to exclude",
-            "schema": {
-              "example": "GATEWAY,CCTP",
               "type": "string"
             }
           },
@@ -896,7 +2843,144 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Optimal route found successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sourceChain": {
+                      "type": "string",
+                      "example": "BASE_TESTNET"
+                    },
+                    "destinationChain": {
+                      "type": "string",
+                      "example": "ARBITRUM_TESTNET"
+                    },
+                    "tokenIn": {
+                      "type": "string",
+                      "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                    },
+                    "tokenOut": {
+                      "type": "string",
+                      "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4"
+                    },
+                    "originalAmount": {
+                      "type": "string",
+                      "example": "10000000",
+                      "description": "Original transfer amount"
+                    },
+                    "totalFees": {
+                      "type": "string",
+                      "example": "18000",
+                      "description": "Total fees (bridge fee + ChainRails fee)"
+                    },
+                    "bridgeToUse": {
+                      "type": "string",
+                      "enum": [
+                        "ACROSS",
+                        "CCTP",
+                        "GATEWAY",
+                        "RHINOFI"
+                      ],
+                      "example": "CCTP",
+                      "nullable": true
+                    },
+                    "bridgeAddress": {
+                      "type": "string",
+                      "example": "0xa1c943058a631D5506eb7d96036eAbF6968e2338"
+                    },
+                    "bridgeExtraData": {
+                      "type": "string",
+                      "example": "0x00000000000000000000000000000000000000000000000000000000000001f4"
+                    },
+                    "supportedBridges": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "ACROSS",
+                          "CCTP",
+                          "GATEWAY",
+                          "RHINOFI"
+                        ]
+                      },
+                      "example": [
+                        "ACROSS",
+                        "CCTP"
+                      ]
+                    },
+                    "bridgeFeeDetails": {
+                      "type": "object",
+                      "description": "Bridge-specific fee details (structure varies by bridge)",
+                      "example": {
+                        "maxFee": "8000"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - No bridges support the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No bridges support route BASE_TESTNET -> STARKNET_MAINNET"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to calculate optimal route"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -904,43 +2988,143 @@
             "api-key": []
           }
         ],
-        "summary": "Get quotes from all bridges",
+        "summary": "Find optimal cross-chain transfer route",
         "tags": [
-          "Quotes"
+          "Router"
         ]
       }
     },
-    "/quotes/best": {
+    "/router/supported-bridges/all": {
       "get": {
-        "description": "Retrieves the best quote (lowest total fee) from all supported bridge protocols",
-        "operationId": "QuoteController_getBestQuote",
+        "description": "Returns all bridges and their supported routes",
+        "operationId": "RouterController_getAllSupportedBridges",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "All supported bridges retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bridges": {
+                      "type": "object",
+                      "description": "Map of bridge names to their supported routes",
+                      "example": {
+                        "ACROSS": [
+                          {
+                            "sourceChain": "BASE_TESTNET",
+                            "destinationChain": "ARBITRUM_TESTNET",
+                            "supported": true,
+                            "bidirectional": true
+                          },
+                          {
+                            "sourceChain": "ETHEREUM_MAINNET",
+                            "destinationChain": "ARBITRUM_MAINNET",
+                            "supported": true,
+                            "bidirectional": true
+                          }
+                        ],
+                        "CCTP": [
+                          {
+                            "sourceChain": "BASE_TESTNET",
+                            "destinationChain": "ARBITRUM_TESTNET",
+                            "supported": true,
+                            "bidirectional": true
+                          }
+                        ]
+                      }
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "properties": {
+                        "totalBridges": {
+                          "type": "number",
+                          "example": 4,
+                          "description": "Total number of supported bridges"
+                        },
+                        "totalRoutes": {
+                          "type": "number",
+                          "example": 25,
+                          "description": "Total number of supported routes"
+                        },
+                        "lastUpdated": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2025-12-13T02:45:30.123Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to retrieve bridge information"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get all supported bridges",
+        "tags": [
+          "Router"
+        ]
+      }
+    },
+    "/router/supported-bridges/route": {
+      "get": {
+        "description": "Returns all bridges that support transfers between specific source and destination chains",
+        "operationId": "RouterController_getSupportedBridgesForRoute",
         "parameters": [
-          {
-            "name": "tokenIn",
-            "required": true,
-            "in": "query",
-            "description": "Input token address",
-            "schema": {
-              "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-              "type": "string"
-            }
-          },
-          {
-            "name": "tokenOut",
-            "required": true,
-            "in": "query",
-            "description": "Output token address",
-            "schema": {
-              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
-              "type": "string"
-            }
-          },
           {
             "name": "sourceChain",
             "required": true,
             "in": "query",
             "description": "Source blockchain",
             "schema": {
+              "example": "BASE_TESTNET",
+              "type": "string",
               "enum": [
                 "ARBITRUM_MAINNET",
                 "ARBITRUM_TESTNET",
@@ -953,8 +3137,7 @@
                 "BSC_MAINNET",
                 "ETHEREUM_MAINNET",
                 "ETHEREUM_TESTNET"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -963,6 +3146,8 @@
             "in": "query",
             "description": "Destination blockchain",
             "schema": {
+              "example": "ARBITRUM_TESTNET",
+              "type": "string",
               "enum": [
                 "ARBITRUM_MAINNET",
                 "ARBITRUM_TESTNET",
@@ -975,44 +3160,102 @@
                 "BSC_MAINNET",
                 "ETHEREUM_MAINNET",
                 "ETHEREUM_TESTNET"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "amount",
-            "required": true,
-            "in": "query",
-            "description": "Amount in token units",
-            "schema": {
-              "example": "10000000",
-              "type": "string"
-            }
-          },
-          {
-            "name": "excludeBridges",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated bridges to exclude",
-            "schema": {
-              "example": "GATEWAY,CCTP",
-              "type": "string"
-            }
-          },
-          {
-            "name": "recipient",
-            "required": false,
-            "in": "query",
-            "description": "Optional recipient address",
-            "schema": {
-              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
-              "type": "string"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Supported bridges for route retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "supportedBridges": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "ACROSS",
+                          "CCTP",
+                          "GATEWAY",
+                          "RHINOFI"
+                        ]
+                      },
+                      "example": [
+                        "ACROSS",
+                        "CCTP",
+                        "RHINOFI"
+                      ]
+                    },
+                    "routeInfo": {
+                      "type": "object",
+                      "properties": {
+                        "sourceChain": {
+                          "type": "string",
+                          "example": "BASE_TESTNET"
+                        },
+                        "destinationChain": {
+                          "type": "string",
+                          "example": "ARBITRUM_TESTNET"
+                        },
+                        "bridgeCount": {
+                          "type": "number",
+                          "example": 3,
+                          "description": "Number of bridges supporting this route"
+                        },
+                        "isSupported": {
+                          "type": "boolean",
+                          "example": true,
+                          "description": "Whether any bridge supports this route"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid route parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid route parameters"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1020,144 +3263,28 @@
             "api-key": []
           }
         ],
-        "summary": "Get best quote across all bridges",
+        "summary": "Get supported bridges for specific route",
         "tags": [
-          "Quotes"
+          "Router"
         ]
       }
     },
-    "/quotes/multi-source": {
+    "/router/supported-routes/bridge/{bridge}": {
       "get": {
-        "description": "Shows Alice all her options to send money to a specific destination chain, including same-chain transfers",
-        "operationId": "QuoteController_getMultiSourceQuotes",
+        "description": "Returns all source/destination chain pairs supported by a specific bridge",
+        "operationId": "RouterController_getSupportedRoutesForBridge",
         "parameters": [
           {
-            "name": "destinationChain",
-            "required": true,
-            "in": "query",
-            "description": "Destination blockchain where Alice wants to send money",
-            "schema": {
-              "enum": [
-                "ARBITRUM_MAINNET",
-                "ARBITRUM_TESTNET",
-                "AVALANCHE_MAINNET",
-                "AVALANCHE_TESTNET",
-                "BASE_MAINNET",
-                "BASE_TESTNET",
-                "STARKNET_MAINNET",
-                "STARKNET_TESTNET",
-                "BSC_MAINNET",
-                "ETHEREUM_MAINNET",
-                "ETHEREUM_TESTNET"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "amount",
-            "required": true,
-            "in": "query",
-            "description": "Amount in human readable format (supports decimals, e.g., \"1.5\", \"100\", \"0.001\")",
-            "schema": {
-              "example": "1.5",
-              "type": "string"
-            }
-          },
-          {
-            "name": "tokenOut",
-            "required": true,
-            "in": "query",
-            "description": "Output token address",
-            "schema": {
-              "example": "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4",
-              "type": "string"
-            }
-          },
-          {
-            "name": "recipient",
-            "required": false,
-            "in": "query",
-            "description": "Optional recipient address",
-            "schema": {
-              "example": "0x742d35Cc6635C0532925a3b8D62A7fe7B58123D1",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
-        "summary": "Get quotes from all source chains to destination",
-        "tags": [
-          "Quotes"
-        ]
-      }
-    },
-    "/chains": {
-      "get": {
-        "description": "Retrieves all supported blockchain networks, optionally filtered by network type (mainnet/testnet)",
-        "operationId": "ChainsController_getSupportedChains",
-        "parameters": [
-          {
-            "name": "network",
-            "required": false,
-            "in": "query",
-            "description": "Network type filter (mainnet or testnet)",
-            "schema": {
-              "enum": [
-                "mainnet",
-                "testnet"
-              ],
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
-        "summary": "Get supported chains",
-        "tags": [
-          "Chains"
-        ]
-      }
-    },
-    "/chains/{chain}/tokens": {
-      "get": {
-        "description": "Retrieves all supported tokens available on the specified blockchain network",
-        "operationId": "ChainsController_getSupportedTokensForChain",
-        "parameters": [
-          {
-            "name": "chain",
+            "name": "bridge",
             "required": true,
             "in": "path",
-            "description": "Blockchain network to get tokens for",
+            "description": "Bridge protocol",
             "schema": {
               "enum": [
-                "ARBITRUM_MAINNET",
-                "ARBITRUM_TESTNET",
-                "AVALANCHE_MAINNET",
-                "AVALANCHE_TESTNET",
-                "BASE_MAINNET",
-                "BASE_TESTNET",
-                "STARKNET_MAINNET",
-                "STARKNET_TESTNET",
-                "BSC_MAINNET",
-                "ETHEREUM_MAINNET",
-                "ETHEREUM_TESTNET"
+                "ACROSS",
+                "CCTP",
+                "GATEWAY",
+                "RHINOFI"
               ],
               "type": "string"
             }
@@ -1165,7 +3292,100 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Supported routes for bridge retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "supportedRoutes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sourceChain": {
+                            "type": "string",
+                            "example": "BASE_TESTNET"
+                          },
+                          "destinationChain": {
+                            "type": "string",
+                            "example": "ARBITRUM_TESTNET"
+                          },
+                          "supported": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "bidirectional": {
+                            "type": "boolean",
+                            "example": true
+                          }
+                        }
+                      }
+                    },
+                    "bridgeInfo": {
+                      "type": "object",
+                      "properties": {
+                        "bridge": {
+                          "type": "string",
+                          "enum": [
+                            "ACROSS",
+                            "CCTP",
+                            "GATEWAY",
+                            "RHINOFI"
+                          ],
+                          "example": "ACROSS"
+                        },
+                        "routeCount": {
+                          "type": "number",
+                          "example": 12,
+                          "description": "Number of routes supported by this bridge"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid bridge parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid bridge parameter"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1173,9 +3393,9 @@
             "api-key": []
           }
         ],
-        "summary": "Get supported tokens for chain",
+        "summary": "Get supported routes for specific bridge",
         "tags": [
-          "Chains"
+          "Router"
         ]
       }
     }
@@ -1189,7 +3409,7 @@
   "tags": [],
   "servers": [
     {
-      "url": "https://dev.chainrails.io/api/v1"
+      "url": "https://api.chainrails.io/api/v1"
     }
   ],
   "components": {
@@ -1214,26 +3434,6 @@
         "type": "object",
         "properties": {}
       },
-      "LoginAdminDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreateAdminDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "ChangePasswordDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "UpdateClientDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreateApiKeyDto": {
-        "type": "object",
-        "properties": {}
-      },
       "Chains": {
         "type": "string",
         "enum": [
@@ -1249,7 +3449,53 @@
           "ETHEREUM_MAINNET",
           "ETHEREUM_TESTNET"
         ],
-        "description": "Source blockchain network"
+        "description": "Source blockchain network for the deposit"
+      },
+      "CreateDepositDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "description": "Amount in smallest unit (e.g., wei).",
+            "example": "1000000"
+          },
+          "sourceChain": {
+            "description": "Source blockchain network for the deposit",
+            "example": "ETHEREUM_MAINNET",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "destinationChain": {
+            "description": "Destination blockchain network for the deposit",
+            "example": "ETHEREUM_MAINNET",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "Token to deposit",
+            "enum": [
+              "USDC"
+            ],
+            "example": "USDC",
+            "default": "USDC"
+          }
+        },
+        "required": [
+          "amount",
+          "sourceChain",
+          "destinationChain"
+        ]
+      },
+      "InitiateGatewayDto": {
+        "type": "object",
+        "properties": {}
       },
       "CreateIntentDto": {
         "type": "object",
@@ -1261,10 +3507,9 @@
             "default": "Default address from config"
           },
           "amount": {
-            "type": "number",
-            "description": "Amount to transfer in smallest unit (e.g., wei for ETH)",
-            "example": 1000000000000000000,
-            "minimum": 1
+            "type": "string",
+            "description": "Amount to transfer in smallest unit (e.g., wei for ETH).",
+            "example": "1000000000000000000"
           },
           "tokenIn": {
             "type": "string",
@@ -1316,10 +3561,6 @@
           "destination_chain",
           "recipient"
         ]
-      },
-      "InitiateGatewayDto": {
-        "type": "object",
-        "properties": {}
       },
       "GetAttestationDto": {
         "type": "object",
@@ -1402,6 +3643,210 @@
           "relayerAddresses",
           "chain"
         ]
+      },
+      "LoginAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ChangePasswordDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateClientDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateApiKeyDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "WebhookDeliveryResponseDto": {
+        "type": "object",
+        "properties": {
+          "delivery_id": {
+            "type": "string"
+          },
+          "webhook_id": {
+            "type": "string"
+          },
+          "event_id": {
+            "type": "string"
+          },
+          "event_type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "response_status_code": {
+            "type": "number"
+          },
+          "attempts": {
+            "type": "number"
+          },
+          "next_retry_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "delivered_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "failed_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "error_message": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "webhook_id",
+          "event_id",
+          "event_type",
+          "status",
+          "created_at"
+        ]
+      },
+      "CreateWebhookDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Webhook endpoint URL (HTTPS only, or localhost for test)",
+            "example": "https://api.example.com/webhooks/chainrails"
+          },
+          "events": {
+            "type": "array",
+            "description": "Array of event types to subscribe to",
+            "example": [
+              "intent.completed",
+              "intent.funded"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "intent.created",
+                "intent.funded",
+                "intent.initiated",
+                "intent.completed",
+                "intent.expired",
+                "intent.refunded"
+              ]
+            }
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Whether the webhook is active",
+            "default": true
+          },
+          "environment": {
+            "type": "string",
+            "description": "Webhook environment (live or test)",
+            "enum": [
+              "live",
+              "test"
+            ],
+            "example": "live"
+          }
+        },
+        "required": [
+          "url",
+          "events",
+          "environment"
+        ]
+      },
+      "WebhookResponseDto": {
+        "type": "object",
+        "properties": {
+          "webhook_id": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "environment": {
+            "type": "string"
+          },
+          "secret": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "webhook_id",
+          "client_id",
+          "url",
+          "events",
+          "is_active",
+          "environment",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "UpdateWebhookDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Webhook endpoint URL (HTTPS only)"
+          },
+          "events": {
+            "type": "array",
+            "description": "Array of event types to subscribe to",
+            "items": {
+              "type": "string",
+              "enum": [
+                "intent.created",
+                "intent.funded",
+                "intent.initiated",
+                "intent.completed",
+                "intent.expired",
+                "intent.refunded"
+              ]
+            }
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Whether the webhook is active"
+          },
+          "environment": {
+            "type": "string",
+            "description": "Webhook environment (live or test)",
+            "enum": [
+              "live",
+              "test"
+            ]
+          }
+        }
       }
     }
   },

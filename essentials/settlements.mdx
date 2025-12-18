@@ -1,0 +1,95 @@
+---
+title: 'Settlement Modes'
+description: 'Understanding Instant and Standard settlement options'
+icon: 'bolt'
+---
+
+Chainrails supports two settlement modes optimized for different transaction sizes and use cases. The mode is automatically selected based on the transaction amount and available routes.
+
+## Settlement Types
+
+<Tabs>
+<Tab title="Instant Settlement">
+### Instant Settlement (Fast-Fill)
+
+For smaller transfers, Chainrails uses prefunded liquidity to deliver funds on the destination chain immediately—typically within seconds.
+
+**Key Features:**
+- **Available for:** Transfers up to **$5,000**
+- **Speed:** Instant delivery in seconds
+- **How it works:** Funds are prefunded by Chainrails relayers and finalized asynchronously
+
+<Info>
+This mode prioritizes speed while maintaining strong reliability guarantees. Funds arrive instantly while the underlying cross-chain settlement happens in the background.
+</Info>
+
+</Tab>
+<Tab title="Standard Settlement">
+### Standard Settlement
+
+For larger transfers, Chainrails defaults to standard settlement using canonical cross-chain bridges and protocols.
+
+**Key Features:**
+- **Used for:** Transfers **above $5,000**
+- **Speed:** Settlement time varies by bridge (typically 2-30 minutes)
+- **How it works:** Funds settle once the underlying bridge or protocol finalizes
+
+<Warning>
+While slightly slower, standard settlement minimizes risk for large amounts by using battle-tested canonical bridges.
+</Warning>
+</Tab>
+</Tabs>
+
+## Comparison
+
+| Feature | Instant Settlement | Standard Settlement |
+|---------|-------------------|---------------------|
+| **Amount Limit** | Up to $5,000 | Above $5,000 |
+| **Speed** | Seconds | 2-30 minutes |
+| **Mechanism** | Prefunded liquidity | Canonical bridges |
+| **Risk Profile** | Low (relayer-backed) | Minimal (protocol-backed) |
+
+## Why This Design?
+
+Instant settlement relies on prefunded liquidity from Chainrails relayers. To ensure reliability and protect users from partial fills or failed transfers, we apply a conservative fast-fill limit.
+
+### This Approach Enables Us To:
+
+<CardGroup cols={2}>
+<Card title="Guarantee Instant Delivery" icon="bolt">
+Provide instant settlement where it matters most—for everyday transactions and consumer payments
+</Card>
+<Card title="Avoid Over-Extension" icon="shield-halved">
+Maintain healthy liquidity pools without over-extending capital across chains
+</Card>
+<Card title="Predictable Behavior" icon="check-circle">
+Ensure reliable and predictable payment experiences for all transaction sizes
+</Card>
+<Card title="Scale Safely" icon="chart-line">
+Grow settlement capacity sustainably as the network matures
+</Card>
+</CardGroup>
+
+<Tip>
+As Chainrails scales and our relayer network becomes more efficiently decentralized, instant settlement limits will increase to serve larger transactions.
+</Tip>
+
+## FAQ
+
+<AccordionGroup>
+<Accordion title="Can I force standard settlement for amounts under $5,000?">
+Currently, Chainrails automatically optimizes for the fastest settlement mode available. For amounts under $5,000, instant settlement is always preferred when available.
+</Accordion>
+
+<Accordion title="What happens if instant settlement liquidity is unavailable?">
+If instant settlement isn't available for any reason, your transaction will automatically fall back to standard settlement. You'll be notified of the expected settlement time.
+</Accordion>
+
+<Accordion title="Do settlement modes affect fees?">
+No, fees are calculated based on the underlying bridge costs not the settlement mode.
+</Accordion>
+
+<Accordion title="Will instant settlement limits increase?">
+Yes! As our relayer network grows and becomes more decentralized, we plan to increase instant settlement limits to support larger transactions.
+</Accordion>
+</AccordionGroup>

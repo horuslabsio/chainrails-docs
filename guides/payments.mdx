@@ -10,8 +10,9 @@ This guide walks you through the complete payment lifecycle using Chainrails, fr
 
 Before creating a payment intent, you need to request for quotes to help the user understand the costs for the multiple cross-chain routes available.
 
-- If yu need a single quote for a specific route, we recommend using the routing engine's `findOptimalRoute` to retrieve the best quote. See [Finding the Optimal Route](/guides/routes) for more details.
-- Otherwise, we recommend using the multi-source quote endpoint to get quotes from multiple source chains for a given destination chain. This fetches the best quotes for multiple source chains, providing more options for the user. See [Multi-Source Quotes](/api-reference/quotes/get-quotes-from-all-source-chains-to-destination) for more details.
+- We often recommend using the multi-source quote endpoint to get quotes from multiple source chains for a given destination chain. This fetches the best quotes for multiple source chains, providing more options for the user. See [Multi-Source Quotes](/api-reference/quotes/get-quotes-from-all-source-chains-to-destination) for more details.
+
+But you can also request a single quote for a specific source chain, bridge option etc. if you decide to. See the Api Reference for all available quote endpoints.
 
 <Tabs>
 <Tab title="cURL">
@@ -96,7 +97,7 @@ This object will be used to initialize the intent on Chainrails.
 ```json Payment Intent
 {
   "sender": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54",
-  "amount": 1000000,
+  "amount": "1000000",
   "tokenIn": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
   "source_chain": "BASE_TESTNET",
   "destination_chain": "ARBITRUM_TESTNET",
@@ -121,7 +122,7 @@ curl --request POST \
   --header "Content-Type: application/json" \
   --data '{
     "sender": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
-    "amount": 1000000,
+    "amount": "1000000",
     "tokenIn": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
     "source_chain": "BASE_TESTNET",
     "destination_chain": "ARBITRUM_TESTNET",
@@ -143,7 +144,7 @@ const apiKey = "YOUR_API_KEY";
 
 const payload = {
   sender: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
-  amount: 1000000,
+  amount: "1000000",
   tokenIn: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
   source_chain: "BASE_TESTNET",
   destination_chain: "ARBITRUM_TESTNET",
@@ -220,9 +221,9 @@ curl_close($ch);
   "id": 2,
   "client_id": "e1ee3675-cb26-4a76-8206-a84f86e85862",
   "sender": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54",
-  "initialAmount": 1000000,
-  "fees": 10500,
-  "totalAmount": 1010500,
+  "initialAmount": "1000000",
+  "fees": "10500",
+  "totalAmount": "1010500",
   "tokenIn": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
   "tokenOut": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
   "intent_address": "0x4E60e01263E750eD9D087157e19D2480Fd86A900",
@@ -257,7 +258,7 @@ Once the funds are detected on-chain, the Chainrails protocol takes over.
 ### Step 5 - Automated execution
 After the deposit is confirmed, Chainrails:
 
-1. Starts the intent automatically (startIntent)
+1. Starts the intent automatically
 2. Prefills the transaction on the destination chain for the end user
 3. Refunds the relayer, who provided the liquidity to prefill the cross-chain execution, or
 4. Refunds the user if the intent expired without initiating.
@@ -282,3 +283,7 @@ You can find setup instructions in the [Webhook Section](./webhooks)
 2. If the user under-funds the intent, the transaction will fail to start, and the user can either top up the balance of the intent address, or a refund will be processed after intent expiration.
 3. If the user over-pays an intent, the excess is refunded on intent initiation.
 4. API keys have a rate limit of 250 rps, contact the team if you need modifications to this.
+
+<Card title="Github Example" icon="stars" href="https://github.com/horuslabsio/chainrails-demo">
+  Check out our Github demo repository for copy-paste code examples.
+</Card>
