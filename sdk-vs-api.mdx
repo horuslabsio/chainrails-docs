@@ -26,36 +26,59 @@ npm install @chainrails/react
 
 **Usage**
 
-```javascript
-import { chains, tokens, PaymentModal, usePaymentModal, Chainrails } from "@chainrails/react";
+First, create a server endpoint for session creation:
 
-Chainrails.config({ api_key: <ENTER_API_KEY> })
+```javascript
+// Example with Express.js
+import { Chainrails, crapi } from "@chainrails/sdk";
+
+app.post("/create-session", async (req, res) => {
+  const { destinationChain, token, amount, recipient } = req.body;
+
+  Chainrails.config({
+    api_key: process.env.CHAINRAILS_API_KEY,
+    env: "production",
+  });
+
+  const session = await crapi.auth.getSessionToken({
+    amount: amount,
+    recipient: recipient,
+    destinationChain: destinationChain,
+    token: token,
+  });
+
+  res.send(session);
+});
+```
+
+Then use the SDK on the client:
+
+```javascript
+import { chains, tokens, PaymentModal, usePaymentSession } from "@chainrails/react";
 
 function App() {
-  const cr = usePaymentModal({
-    to: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    chain: chains.BASE,
+  const cr = usePaymentSession({
+    session_url: "https://your-server.com/create-session",
+    destinationChain: chains.BASE,
     token: tokens.USDC,
+    recipient: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
+    amount: 1,
     onCancel: () => {
-      console.log("Payment Cancelled")
+      console.log("Payment Cancelled");
     },
     onSuccess: () => {
-      console.log("Payment Successful")
-    }
-  })
+      console.log("Payment Successful");
+    },
+  });
 
   return (
     <div>
       <button onClick={cr.open} className="border my-4 py-2 px-4 cursor-pointer">
         Open Modal
       </button>
-
-      {/* Pass 'amount' here to lock the price.
-        If you remove the amount prop, the user can input their own.
-      */}
-      <PaymentModal {...cr} amount={1}/>
+      <PaymentModal {...cr} />
     </div>
-  )
+  );
 }
 ```
 

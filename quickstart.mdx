@@ -29,32 +29,56 @@ In this Quickstart, we’ll walk you through how to get up and running in minute
 
 <Steps>
 <Step title="Installation">
-Begin by installing the Chainrails SDK.
+Begin by installing the Chainrails React SDK.
 
 ```bash
-npm install @chainrails/sdk
+npm install @chainrails/react
 ```
 
 </Step>
 
-<Step title="Obtain your API Key">
-  Send us a message at contact@horuslabs.co to get an API Key or create one from the dashboard. This key will be used to
-  authenticate your requests.
+<Step title="Set up a Session Endpoint">
+  Create a server endpoint that generates session tokens using the Chainrails SDK.
+  
+```javascript
+// Example with Express.js
+import { Chainrails, crapi } from "@chainrails/sdk";
+
+app.post("/create-session", async (req, res) => {
+const { destinationChain, token, amount, recipient } = req.body;
+
+Chainrails.config({
+api_key: process.env.CHAINRAILS_API_KEY,
+env: "production",
+});
+
+const session = await crapi.auth.getSessionToken({
+amount: amount,
+recipient: recipient,
+destinationChain: destinationChain,
+token: token,
+});
+
+res.send(session);
+});
+
+````
+
 </Step>
 
 <Step title="Initialize the Payment Modal">
 Import and initialize the Chainrails payment modal in your application.
 
 ```javascript
-import { chains, tokens, PaymentModal, usePaymentModal, Chainrails } from "@chainrails/react"
-
-Chainrails.config({ api_key: <ENTER_API_KEY> })
+import { chains, tokens, PaymentModal, usePaymentSession } from "@chainrails/react"
 
 function App() {
-  const cr = usePaymentModal({
-    to: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    chain: chains.BASE,
+  const cr = usePaymentSession({
+    session_url: "https://your-server.com/create-session",
+    destinationChain: chains.BASE,
     token: tokens.USDC,
+    recipient: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
+    amount: 1,
     onCancel: () => {
       console.log("Payment Cancelled")
     },
@@ -66,20 +90,18 @@ function App() {
   return (
     <div>
       <button onClick={cr.open}> Open Modal </button>
-      {/* Pass 'amount' here to lock the price.
-        If you remove the amount prop, the user can input their own.
-      */}
-      <PaymentModal {...cr} amount={1}/>
+      <PaymentModal {...cr} />
     </div>
   )
 }
-```
+````
 
 Where:
 
-- `to`: Your wallet address to receive payments/deposits.
-- `amount`: The amount to be paid/deposited.
-- `chain`: The blockchain network to receive payments to.
+- `session_url`: Your server endpoint for creating payment sessions.
+- `recipient`: Your wallet address to receive payments/deposits.
+- `amount`: The amount to be paid/deposited (optional).
+- `destinationChain`: The blockchain network to receive payments to.
 - `token`: The token/currency you want to receive.
 
 </Step>

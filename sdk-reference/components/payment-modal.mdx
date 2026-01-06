@@ -7,39 +7,39 @@ React component and hook for integrating Chainrails payments into your app.
 
 **Parameters:**
 
-- `to`: Your wallet address to receive payments/deposits.
-- `chain`: The blockchain network to receive payments to.
+- `session_url`: Your server endpoint for creating payment sessions.
+- `recipient`: Your wallet address to receive payments/deposits.
+- `destinationChain`: The blockchain network to receive payments to.
 - `token`: The token/currency you want to receive.
-
 - `amount`: Optional. The amount to be paid. If omitted or set to 0, the user will be prompted to enter their own amount (useful for flexible deposits or donations).
 
 <Tabs>
 <Tab title="React">
 
 ```typescript
-import { chains, tokens, PaymentModal, usePaymentModal, Chainrails } from "@chainrails/react"
-
-Chainrails.config({ api_key: <ENTER_API_KEY> })
+import { chains, tokens, PaymentModal, usePaymentSession } from "@chainrails/react";
 
 function App() {
-  const cr = usePaymentModal({
-    to: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    chain: chains.BASE,
+  const cr = usePaymentSession({
+    session_url: "https://your-server.com/create-session",
+    recipient: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
+    destinationChain: chains.BASE,
     token: tokens.USDC,
+    amount: 1,
     onCancel: () => {
-      console.log("Payment Cancelled")
+      console.log("Payment Cancelled");
     },
     onSuccess: () => {
-      console.log("Payment Successful")
+      console.log("Payment Successful");
     },
-  })
+  });
 
   return (
     <div>
       <button onClick={cr.open}> Open Modal </button>
-      <PaymentModal {...cr} amount={1}/>
+      <PaymentModal {...cr} />
     </div>
-  )
+  );
 }
 ```
 
