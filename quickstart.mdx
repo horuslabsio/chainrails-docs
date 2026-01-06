@@ -78,7 +78,7 @@ function App() {
     destinationChain: chains.BASE,
     token: tokens.USDC,
     recipient: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    amount: 1,
+    amount: 1, // If you remove the amount value, the user can input their own.
     onCancel: () => {
       console.log("Payment Cancelled")
     },
@@ -100,9 +100,10 @@ Where:
 
 - `session_url`: Your server endpoint for creating payment sessions.
 - `recipient`: Your wallet address to receive payments/deposits.
-- `amount`: The amount to be paid/deposited (optional).
+- `amount`: The amount to be paid/deposited. Leave empty or set to 0 to allow user input.
 - `destinationChain`: The blockchain network to receive payments to.
 - `token`: The token/currency you want to receive.
+- `amount`: The amount to be paid/deposited. Leave empty or set to 0 to allow user input.
 
 </Step>
 </Steps>
