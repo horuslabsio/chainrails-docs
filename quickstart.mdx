@@ -1,6 +1,6 @@
 ---
 title: "Quickstart"
-description: "We would compensate you, if this takes you more than 10 minutes."
+description: "Get up and running with Chainrails in minutes."
 ---
 
 ## Overview
@@ -32,38 +32,118 @@ In this Quickstart, we’ll walk you through how to get up and running in minute
 Begin by installing the Chainrails React SDK.
 
 ```bash
-npm install @chainrails/react
+npm install @chainrails/react @chainrails/sdk
 ```
 
 </Step>
 
 <Step title="Set up a Session Endpoint">
-  Create a server endpoint that generates session tokens using the Chainrails SDK.
-  
+Create a backend endpoint that generates secure session tokens. This protects your API key and prevents abuse.
+
+<Tabs>
+  <Tab title="Next.js API Route">
 ```javascript
-// Example with Express.js
 import { Chainrails, crapi } from "@chainrails/sdk";
 
-app.post("/create-session", async (req, res) => {
-const { destinationChain, token, amount, recipient } = req.body;
+Chainrails.config({
+  api_key: process.env.CHAINRAILS_API_KEY,
+  env: "production",
+});
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const { destinationChain, token, amount, recipient } = req.body;
+
+  // Optional: Add your own validation/auth here
+  try {
+    const session = await crapi.auth.getSessionToken({
+      amount,
+      recipient,
+      destinationChain,
+      token,
+    });
+
+    res.status(200).json(session);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create session" });
+  }
+}
+```
+  </Tab>
+
+  <Tab title="Express.js">
+```javascript
+import express from "express";
+import { Chainrails, crapi } from "@chainrails/sdk";
+
+const app = express();
+app.use(express.json());
 
 Chainrails.config({
-api_key: process.env.CHAINRAILS_API_KEY,
-env: "production",
+  api_key: process.env.CHAINRAILS_API_KEY,
+  env: "production",
 });
 
-const session = await crapi.auth.getSessionToken({
-amount: amount,
-recipient: recipient,
-destinationChain: destinationChain,
-token: token,
+app.post("/api/chainrails/session", async (req, res) => {
+  const { destinationChain, token, amount, recipient } = req.body;
+
+  // Optional: Add your own validation/auth here
+  try {
+    const session = await crapi.auth.getSessionToken({
+      amount,
+      recipient,
+      destinationChain,
+      token,
+    });
+
+    res.json(session);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create session" });
+  }
+});
+```
+  </Tab>
+
+  <Tab title="Vercel Serverless">
+```javascript
+import { Chainrails, crapi } from "@chainrails/sdk";
+
+Chainrails.config({
+  api_key: process.env.CHAINRAILS_API_KEY,
+  env: "production",
 });
 
-res.send(session);
-});
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-````
+  const { destinationChain, token, amount, recipient } = req.body;
 
+  try {
+    const session = await crapi.auth.getSessionToken({
+      amount,
+      recipient,
+      destinationChain,
+      token,
+    });
+
+    res.status(200).json(session);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create session" });
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+<Warning>
+  **Keep your API key secure:** Never expose `CHAINRAILS_API_KEY` in client-side code. 
+  Always create session tokens server-side.
+</Warning>
 </Step>
 
 <Step title="Initialize the Payment Modal">
@@ -78,7 +158,7 @@ function App() {
     destinationChain: chains.BASE,
     token: tokens.USDC,
     recipient: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    amount: 1, // If you remove the amount value, the user can input their own.
+    amount: 1, // Optional: Set to 0, to let users input their own amount
     onCancel: () => {
       console.log("Payment Cancelled")
     },
@@ -89,27 +169,41 @@ function App() {
 
   return (
     <div>
-      <button onClick={cr.open}> Open Modal </button>
+      <button onClick={cr.open}>Pay with Crypto</button>
       <PaymentModal {...cr} />
     </div>
   )
 }
-````
+```
 
-Where:
+**Parameters:**
 
-- `session_url`: Your server endpoint for creating payment sessions.
-- `recipient`: Your wallet address to receive payments/deposits.
-- `amount`: The amount to be paid/deposited. Leave empty or set to 0 to allow user input.
-- `destinationChain`: The blockchain network to receive payments to.
-- `token`: The token/currency you want to receive.
-- `amount`: The amount to be paid/deposited. Leave empty or set to 0 to allow user input.
+- `session_url` (required): Your backend endpoint that creates session tokens
+- `amount` (optional): Set to 0, to let users input their own amount
+- `recipient` (optional): Your wallet address - only needed if not set in backend
+- `destinationChain` (optional): The blockchain network - only needed if not set in backend
+- `token` (optional): The token you want to receive - only needed if not set in backend
+- `onSuccess` (optional): Callback when payment completes successfully
+- `onCancel` (optional): Callback when user cancels the payment
+
+<Note>
+  **Backend vs Frontend Config:** Values set in your backend take precedence. 
+  Only pass `recipient`, `destinationChain`, `token` and `amount` from the frontend if they vary per transaction.
+</Note>
 
 </Step>
 </Steps>
 
-And voila! You are now ready to accept your first payment.
+## What happens next?
 
-<Card title="Demo" icon="stars" href="https://chainrails.io/demo">
-  Check out our demo application to see Chainrails in action.
+When users click the payment button:
+
+1. The SDK fetches a secure session token from your backend
+2. Users see the payment modal with their wallet connection options
+3. They can pay from any supported chain/token (Chainrails handles bridging)
+4. Your `onSuccess` callback fires when the transaction completes
+5. Funds arrive in your `recipient` address on your chosen chain
+
+<Card title="View Demo" icon="stars" href="https://chainrails.io/demo">
+  See a live example of Chainrails in action
 </Card>
