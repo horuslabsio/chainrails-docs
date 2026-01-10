@@ -40,22 +40,22 @@ npm install @chainrails/react @chainrails/sdk
 <Step title="Set up a Session Endpoint">
 Create a backend endpoint that generates secure session tokens. This protects your API key and prevents abuse.
 
+<Note>
+  For a complete list of supported networks and tokens, see [Supported Networks & Tokens](/essentials/integrations). Testnet networks are usuallly suffixed with `_TESTNET`.
+</Note>
+
 <Tabs>
-  <Tab title="Next.js API Route">
+  <Tab title="Next.js App Router">
 ```javascript
+import { NextResponse } from "next/server";
 import { Chainrails, crapi } from "@chainrails/sdk";
 
 Chainrails.config({
-  api_key: process.env.CHAINRAILS_API_KEY,
-  env: "production",
+  api_key: process.env.CHAINRAILS_API_KEY
 });
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
-  const { destinationChain, token, amount, recipient } = req.body;
+export async function POST(req) {
+  const { destinationChain, token, amount, recipient } = await req.json();
 
   // Optional: Add your own validation/auth here
   try {
@@ -66,9 +66,12 @@ export default async function handler(req, res) {
       token,
     });
 
-    res.status(200).json(session);
+    return NextResponse.json(session, { status: 200 });
   } catch (error) {
-    res.status(500).json({ error: "Failed to create session" });
+    return NextResponse.json(
+      { error: "Failed to create session" },
+      { status: 500 }
+    );
   }
 }
 ```
@@ -83,8 +86,7 @@ const app = express();
 app.use(express.json());
 
 Chainrails.config({
-  api_key: process.env.CHAINRAILS_API_KEY,
-  env: "production",
+  api_key: process.env.CHAINRAILS_API_KEY
 });
 
 app.post("/api/chainrails/session", async (req, res) => {
@@ -104,38 +106,6 @@ app.post("/api/chainrails/session", async (req, res) => {
     res.status(500).json({ error: "Failed to create session" });
   }
 });
-```
-  </Tab>
-
-  <Tab title="Vercel Serverless">
-```javascript
-import { Chainrails, crapi } from "@chainrails/sdk";
-
-Chainrails.config({
-  api_key: process.env.CHAINRAILS_API_KEY,
-  env: "production",
-});
-
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
-  const { destinationChain, token, amount, recipient } = req.body;
-
-  try {
-    const session = await crapi.auth.getSessionToken({
-      amount,
-      recipient,
-      destinationChain,
-      token,
-    });
-
-    res.status(200).json(session);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to create session" });
-  }
-}
 ```
   </Tab>
 </Tabs>
@@ -158,7 +128,7 @@ function App() {
     destinationChain: chains.BASE,
     token: tokens.USDC,
     recipient: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    amount: 1, // Optional: Set to 0, to let users input their own amount
+    amount: 1, // Set to 0, to let users input their own amount
     onCancel: () => {
       console.log("Payment Cancelled")
     },
@@ -183,8 +153,8 @@ function App() {
 - `recipient` (optional): Your wallet address - only needed if not set in backend
 - `destinationChain` (optional): The blockchain network - only needed if not set in backend
 - `token` (optional): The token you want to receive - only needed if not set in backend
-- `onSuccess` (optional): Callback when payment completes successfully
-- `onCancel` (optional): Callback when user cancels the payment
+- `onSuccess`: Callback when payment completes successfully
+- `onCancel`: Callback when user cancels the payment
 
 <Note>
   **Backend vs Frontend Config:** Values set in your backend take precedence. 

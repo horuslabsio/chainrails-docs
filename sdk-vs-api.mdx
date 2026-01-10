@@ -36,8 +36,7 @@ app.post("/create-session", async (req, res) => {
   const { destinationChain, token, amount, recipient } = req.body;
 
   Chainrails.config({
-    api_key: process.env.CHAINRAILS_API_KEY,
-    env: "production",
+    api_key: process.env.CHAINRAILS_API_KEY
   });
 
   const session = await crapi.auth.getSessionToken({
