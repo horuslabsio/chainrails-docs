@@ -146,7 +146,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://chainrails.io"
+      "href": "https://dashboard.chainrails.io"
     }
   },
   "contextual": {

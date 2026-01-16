@@ -41,13 +41,10 @@ npm install @chainrails/react @chainrails/sdk
 Create a backend endpoint that generates secure session tokens. This protects your API key and prevents abuse.
 
 <Note>
-  For a complete list of supported networks and tokens, see [Supported Networks & Tokens](/essentials/integrations). Testnet networks are usuallly suffixed with `_TESTNET`.
+  Here's a curated Github template to help you get started quickly: <a href="https://github.com/horuslabsio/chainrails-session-server-demo">Chainrails Demo Server</a>
 </Note>
 
-<Tabs>
-  <Tab title="Next.js App Router">
 ```javascript
-import { NextResponse } from "next/server";
 import { Chainrails, crapi } from "@chainrails/sdk";
 
 app.get("/create-session", async (req, res) => {
@@ -120,6 +117,6 @@ When users click the payment button:
 4. Your `onSuccess` callback fires when the transaction completes
 5. Funds arrive in your `recipient` address on your chosen chain
 
-<Card title="View Demo" icon="stars" href="https://chainrails.io/demo">
-  See a live example of Chainrails in action
+<Card title="View Github Code" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/modal">
+  Explore a complete example of the Payment Modal integration in our GitHub repository.
 </Card>

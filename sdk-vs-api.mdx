@@ -40,8 +40,7 @@ app.get("/create-session", async (req, res) => {
   const token = "USDC";
 
   Chainrails.config({
-    api_key: process.env.CHAINRAILS_API_KEY,
-    env: "production",
+    api_key: process.env.CHAINRAILS_API_KEY
   });
 
   const session = await crapi.auth.getSessionToken({

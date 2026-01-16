@@ -3,11 +3,7 @@ title: "PaymentModal"
 description: "Drop-in modal for Chainrails payments with flexible hook patterns."
 ---
 
-# PaymentModal
-
-React component and hooks for integrating Chainrails payments into your app. Choose between two integration patterns depending on your use case.
-
----
+The Payment Modal React component and hooks for integrating Chainrails payments into your app. Choose between two integration patterns depending on your use case.
 
 ## Overview
 
@@ -16,6 +12,9 @@ The Chainrails React package provides two hooks for payment modal integration:
 - **`usePaymentSession`**: Automatic session management with server-side URL
 - **`usePaymentModal`**: Manual session token control for advanced use cases
 
+ <Note>
+  For both cases, the `<PaymentModal />` component requires a server-generated session token to function. We've provided a Github repository with a curated Github template to help you get started quickly: <a href="https://github.com/horuslabsio/chainrails-session-server-demo">Chainrails Demo Server</a>
+</Note>
 ---
 
 ## Option 1: usePaymentSession Hook (Recommended)
@@ -33,7 +32,7 @@ The `usePaymentSession` hook is ideal for simple implementations where your sess
 - `session_url` (string, required): Your server endpoint for creating payment sessions
 - `onSuccess` (function, optional): Callback fired when payment completes successfully
 - `onCancel` (function, optional): Callback fired when user cancels the payment
-- `styles` (object, optional): Custom styling (e.g., `{ accentColor: "#FF6B6B" }`)
+- `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B" }`)
 
 ### Example Implementation
 
@@ -91,7 +90,7 @@ The `usePaymentModal` hook provides manual control over session token management
 - `sessionToken` (string | null, required): Session token obtained from your server
 - `onSuccess` (function, optional): Callback fired when payment completes successfully
 - `onCancel` (function, optional): Callback fired when user cancels the payment
-- `styles` (object, optional): Custom styling (e.g., `{ accentColor: "#FF6B6B" }`)
+- `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B" }`)
 
 ### Example Implementation
 
@@ -182,12 +181,14 @@ return (
   <PaymentModal
     {...cr}
     styles={{
-      accentColor: "#FF6B6B", // Primary brand color
-      // Additional style options available
+      accentColor: "#FF6B6B",
     }}
   />
 );
 ```
+
+Available style options include:
+- `accentColor`: Primary color for buttons and highlights
 
 ---
 
