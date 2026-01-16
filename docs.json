@@ -120,9 +120,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://docs.chainrails.io",
-          "icon": "book-open-cover"
+          "anchor": "Dashboard",
+          "href": "https://dashboard.chainrails.io",
+          "icon": "chart-bar"
         },
         {
           "anchor": "Demo",
@@ -140,7 +140,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:contact@horuslabs.co"
+        "href": "mailto:contact@chainrails.io"
       }
     ],
     "primary": {
