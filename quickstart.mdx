@@ -41,79 +41,41 @@ npm install @chainrails/react @chainrails/sdk
 Create a backend endpoint that generates secure session tokens. This protects your API key and prevents abuse.
 
 <Note>
-  For a complete list of supported networks and tokens, see [Supported Networks & Tokens](/essentials/integrations). Testnet networks are usuallly suffixed with `_TESTNET`.
+  Here's a curated Github template to help you get started quickly: <a href="https://github.com/horuslabsio/chainrails-session-server-demo">Chainrails Demo Server</a>
 </Note>
 
-<Tabs>
-  <Tab title="Next.js App Router">
 ```javascript
-import { NextResponse } from "next/server";
 import { Chainrails, crapi } from "@chainrails/sdk";
 
-Chainrails.config({
-  api_key: process.env.CHAINRAILS_API_KEY
+app.get("/create-session", async (req, res) => {
+  const api_key = process.env.CHAINRAILS_API_KEY;
+  const amount = "100";
+  const recipient = "0x...";
+  const destinationChain = "BASE";
+  const token = "USDC";
+
+  Chainrails.config({
+    api_key,
+  });
+
+  const session = await crapi.auth.getSessionToken({
+    amount: amount,
+    recipient: recipient,
+    destinationChain: destinationChain,
+    token: token,
+  });
+
+  res.send(session);
 });
+````
 
-export async function POST(req) {
-  const { destinationChain, token, amount, recipient } = await req.json();
+Where:
 
-  // Optional: Add your own validation/auth here
-  try {
-    const session = await crapi.auth.getSessionToken({
-      amount,
-      recipient,
-      destinationChain,
-      token,
-    });
-
-    return NextResponse.json(session, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to create session" },
-      { status: 500 }
-    );
-  }
-}
-```
-  </Tab>
-
-  <Tab title="Express.js">
-```javascript
-import express from "express";
-import { Chainrails, crapi } from "@chainrails/sdk";
-
-const app = express();
-app.use(express.json());
-
-Chainrails.config({
-  api_key: process.env.CHAINRAILS_API_KEY
-});
-
-app.post("/api/chainrails/session", async (req, res) => {
-  const { destinationChain, token, amount, recipient } = req.body;
-
-  // Optional: Add your own validation/auth here
-  try {
-    const session = await crapi.auth.getSessionToken({
-      amount,
-      recipient,
-      destinationChain,
-      token,
-    });
-
-    res.json(session);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to create session" });
-  }
-});
-```
-  </Tab>
-</Tabs>
-
-<Warning>
-  **Keep your API key secure:** Never expose `CHAINRAILS_API_KEY` in client-side code. 
-  Always create session tokens server-side.
-</Warning>
+- `recipient`: Your wallet address to receive payments/deposits.
+- `amount`: The amount to be paid/deposited. Leave empty or set to 0 to allow user input.
+- `destinationChain`: The blockchain network to receive payments to.
+- `token`: The token/currency you want to receive.
+- `amount`: The amount to be paid/deposited. Leave empty or set to 0 to allow user input.
 </Step>
 
 <Step title="Initialize the Payment Modal">
@@ -125,13 +87,6 @@ import { chains, tokens, PaymentModal, usePaymentSession } from "@chainrails/rea
 function App() {
   const cr = usePaymentSession({
     session_url: "https://your-server.com/create-session",
-    destinationChain: chains.BASE,
-    token: tokens.USDC,
-    recipient: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    amount: 1, // Set to 0, to let users input their own amount
-    onCancel: () => {
-      console.log("Payment Cancelled")
-    },
     onSuccess: () => {
       console.log("Payment Successful")
     },
@@ -148,19 +103,7 @@ function App() {
 
 **Parameters:**
 
-- `session_url` (required): Your backend endpoint that creates session tokens
-- `amount` (optional): Set to 0, to let users input their own amount
-- `recipient` (optional): Your wallet address - only needed if not set in backend
-- `destinationChain` (optional): The blockchain network - only needed if not set in backend
-- `token` (optional): The token you want to receive - only needed if not set in backend
-- `onSuccess`: Callback when payment completes successfully
-- `onCancel`: Callback when user cancels the payment
-
-<Note>
-  **Backend vs Frontend Config:** Values set in your backend take precedence. 
-  Only pass `recipient`, `destinationChain`, `token` and `amount` from the frontend if they vary per transaction.
-</Note>
-
+- `session_url`: Your server endpoint for creating payment sessions.
 </Step>
 </Steps>
 
@@ -174,6 +117,6 @@ When users click the payment button:
 4. Your `onSuccess` callback fires when the transaction completes
 5. Funds arrive in your `recipient` address on your chosen chain
 
-<Card title="View Demo" icon="stars" href="https://chainrails.io/demo">
-  See a live example of Chainrails in action
+<Card title="View Github Code" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/modal">
+  Explore a complete example of the Payment Modal integration in our GitHub repository.
 </Card>
