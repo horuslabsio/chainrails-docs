@@ -12,8 +12,12 @@ The Chainrails React package provides two hooks for payment modal integration:
 - **`usePaymentSession`**: Automatic session management with server-side URL
 - **`usePaymentModal`**: Manual session token control for advanced use cases
 
- <Note>
-  For both cases, the `<PaymentModal />` component requires a server-generated session token to function. We've provided a Github repository with a curated Github template to help you get started quickly: <a href="https://github.com/horuslabsio/chainrails-session-server-demo">Chainrails Demo Server</a>
+{" "}
+
+<Note>
+  For both cases, the `<PaymentModal />` component requires a server-generated session token to function. We've provided a Github
+  repository with a curated Github template to help you get started quickly:{" "}
+  <a href="https://github.com/horuslabsio/chainrails-session-server-demo">Chainrails Demo Server</a>
 </Note>
 ---
 
@@ -118,8 +122,7 @@ function App() {
     try {
       const res = await fetch("https://your-server.com/create-session");
       const data = await res.json();
-      setSessionToken(data.sessionToken);
-      setAmount(data.amount);
+      cr.updateSession(data);
       cr.open();
     } catch (error) {
       console.error("Error creating session:", error);
@@ -133,7 +136,7 @@ function App() {
       <button onClick={pay} disabled={loading} className="border my-4 py-2 px-4 cursor-pointer">
         {loading ? "Loading..." : "Open Modal"}
       </button>
-      <PaymentModal {...cr} styles={{ accentColor: "#FF6B6B" }} amount={amount} />
+      <PaymentModal {...cr} styles={{ accentColor: "#FF6B6B" }} />
     </div>
   );
 }
@@ -188,6 +191,7 @@ return (
 ```
 
 Available style options include:
+
 - `accentColor`: Primary color for buttons and highlights
 
 ---
