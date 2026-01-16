@@ -1,6 +1,6 @@
 ---
 title: "Quickstart"
-description: "We would compensate you, if this takes you more than 10 minutes."
+description: "Get up and running with Chainrails in minutes."
 ---
 
 ## Overview
@@ -32,16 +32,22 @@ In this Quickstart, we’ll walk you through how to get up and running in minute
 Begin by installing the Chainrails React SDK.
 
 ```bash
-npm install @chainrails/react
+npm install @chainrails/react @chainrails/sdk
 ```
 
 </Step>
 
 <Step title="Set up a Session Endpoint">
-  Create a server endpoint that generates session tokens using the Chainrails SDK.
-  
+Create a backend endpoint that generates secure session tokens. This protects your API key and prevents abuse.
+
+<Note>
+  For a complete list of supported networks and tokens, see [Supported Networks & Tokens](/essentials/integrations). Testnet networks are usuallly suffixed with `_TESTNET`.
+</Note>
+
+<Tabs>
+  <Tab title="Next.js App Router">
 ```javascript
-// Example with Express.js
+import { NextResponse } from "next/server";
 import { Chainrails, crapi } from "@chainrails/sdk";
 
 app.get("/create-session", async (req, res) => {
@@ -91,21 +97,29 @@ function App() {
 
   return (
     <div>
-      <button onClick={cr.open}> Open Modal </button>
+      <button onClick={cr.open}>Pay with Crypto</button>
       <PaymentModal {...cr} />
     </div>
   )
 }
-````
+```
 
-Where:
+**Parameters:**
 
 - `session_url`: Your server endpoint for creating payment sessions.
 </Step>
 </Steps>
 
-And voila! You are now ready to accept your first payment.
+## What happens next?
 
-<Card title="Demo" icon="stars" href="https://chainrails.io/demo">
-  Check out our demo application to see Chainrails in action.
+When users click the payment button:
+
+1. The SDK fetches a secure session token from your backend
+2. Users see the payment modal with their wallet connection options
+3. They can pay from any supported chain/token (Chainrails handles bridging)
+4. Your `onSuccess` callback fires when the transaction completes
+5. Funds arrive in your `recipient` address on your chosen chain
+
+<Card title="View Demo" icon="stars" href="https://chainrails.io/demo">
+  See a live example of Chainrails in action
 </Card>

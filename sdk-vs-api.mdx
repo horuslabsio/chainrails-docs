@@ -21,7 +21,7 @@ The Chainrails SDK is a lightweight JavaScript/TypeScript library that wraps our
 **Installation**
 
 ```bash
-npm install @chainrails/react
+npm install @chainrails/react @chainrails/sdk
 ```
 
 **Usage**
@@ -40,7 +40,8 @@ app.get("/create-session", async (req, res) => {
   const token = "USDC";
 
   Chainrails.config({
-    api_key,
+    api_key: process.env.CHAINRAILS_API_KEY,
+    env: "production",
   });
 
   const session = await crapi.auth.getSessionToken({
