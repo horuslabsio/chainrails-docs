@@ -32,12 +32,15 @@ First, create a server endpoint for session creation:
 // Example with Express.js
 import { Chainrails, crapi } from "@chainrails/sdk";
 
-app.post("/create-session", async (req, res) => {
-  const { destinationChain, token, amount, recipient } = req.body;
+app.get("/create-session", async (req, res) => {
+  const api_key = process.env.CHAINRAILS_API_KEY;
+  const amount = "100";
+  const recipient = "0x...";
+  const destinationChain = "BASE";
+  const token = "USDC";
 
   Chainrails.config({
-    api_key: process.env.CHAINRAILS_API_KEY,
-    env: "production",
+    api_key,
   });
 
   const session = await crapi.auth.getSessionToken({
@@ -59,13 +62,6 @@ import { chains, tokens, PaymentModal, usePaymentSession } from "@chainrails/rea
 function App() {
   const cr = usePaymentSession({
     session_url: "https://your-server.com/create-session",
-    destinationChain: chains.BASE,
-    token: tokens.USDC,
-    recipient: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    amount: 1,
-    onCancel: () => {
-      console.log("Payment Cancelled");
-    },
     onSuccess: () => {
       console.log("Payment Successful");
     },
@@ -73,9 +69,7 @@ function App() {
 
   return (
     <div>
-      <button onClick={cr.open} className="border my-4 py-2 px-4 cursor-pointer">
-        Open Modal
-      </button>
+      <button onClick={cr.open}> Open Modal </button>
       <PaymentModal {...cr} />
     </div>
   );
