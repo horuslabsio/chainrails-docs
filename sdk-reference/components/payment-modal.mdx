@@ -59,7 +59,7 @@ function App() {
       <button onClick={cr.open} className="border my-4 py-2 px-4 cursor-pointer">
         Open Modal
       </button>
-      <PaymentModal {...cr} styles={{ accentColor: "#FF6B6B" }} />
+      <PaymentModal {...cr} styles={{ accentColor: "#FF6B6B", theme: "dark" }} />
     </div>
   );
 }
@@ -136,7 +136,7 @@ function App() {
       <button onClick={pay} disabled={loading} className="border my-4 py-2 px-4 cursor-pointer">
         {loading ? "Loading..." : "Open Modal"}
       </button>
-      <PaymentModal {...cr} styles={{ accentColor: "#FF6B6B" }} />
+      <PaymentModal {...cr} styles={{ accentColor: "#FF6B6B", theme: "system" }} />
     </div>
   );
 }
@@ -165,7 +165,7 @@ The `<PaymentModal />` component accepts the following props:
 | `close`        | function | Closes the modal                                               |
 | `isOpen`       | boolean  | Current modal visibility state                                 |
 | `sessionToken` | string   | Active session token for the payment                           |
-| `styles`       | object   | Custom styling object with options like `accentColor`, `theme` |
+| `styles`       | object   | Custom styling object with options                             |
 | `amount`       | number   | (Optional) Display amount in the modal                         |
 
 ---
@@ -194,6 +194,7 @@ return (
 Available style options include:
 
 - `accentColor`: Primary color for buttons and highlights
+- `theme`: "light", "dark", or "system" for automatic theme switching
 
 ---
 
