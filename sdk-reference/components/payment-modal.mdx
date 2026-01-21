@@ -36,7 +36,7 @@ The `usePaymentSession` hook is ideal for simple implementations where your sess
 - `session_url` (string, required): Your server endpoint for creating payment sessions
 - `onSuccess` (function, optional): Callback fired when payment completes successfully
 - `onCancel` (function, optional): Callback fired when user cancels the payment
-- `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B" }`)
+- `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B", theme: "dark" }`)
 
 ### Example Implementation
 
@@ -94,7 +94,7 @@ The `usePaymentModal` hook provides manual control over session token management
 - `sessionToken` (string | null, required): Session token obtained from your server
 - `onSuccess` (function, optional): Callback fired when payment completes successfully
 - `onCancel` (function, optional): Callback fired when user cancels the payment
-- `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B" }`)
+- `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B", theme: "dark" }`)
 
 ### Example Implementation
 
@@ -159,14 +159,14 @@ The `usePaymentModal` hook returns an object with:
 
 The `<PaymentModal />` component accepts the following props:
 
-| Prop           | Type     | Description                                           |
-| -------------- | -------- | ----------------------------------------------------- |
-| `open`         | function | Opens the modal                                       |
-| `close`        | function | Closes the modal                                      |
-| `isOpen`       | boolean  | Current modal visibility state                        |
-| `sessionToken` | string   | Active session token for the payment                  |
-| `styles`       | object   | Custom styling object with options like `accentColor` |
-| `amount`       | number   | (Optional) Display amount in the modal                |
+| Prop           | Type     | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| `open`         | function | Opens the modal                                                |
+| `close`        | function | Closes the modal                                               |
+| `isOpen`       | boolean  | Current modal visibility state                                 |
+| `sessionToken` | string   | Active session token for the payment                           |
+| `styles`       | object   | Custom styling object with options like `accentColor`, `theme` |
+| `amount`       | number   | (Optional) Display amount in the modal                         |
 
 ---
 
@@ -185,6 +185,7 @@ return (
     {...cr}
     styles={{
       accentColor: "#FF6B6B",
+      theme: "dark",
     }}
   />
 );
