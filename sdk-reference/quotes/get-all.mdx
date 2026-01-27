@@ -10,10 +10,10 @@ Shows all options to send money to a specific destination chain, including same-
 - `amount` (required): Amount in human readable format (supports decimals like "1.5", "100", "0.001")
 - `tokenOut` (required): Output token address
 - `recipient` (optional): Recipient address
+- `excludeChains` (optional): Comma-separated chains to exclude from results (e.g., "BASE_TESTNET,STARKNET_TESTNET")
 
 <Tabs>
 <Tab title="Try it">
-
 
 ```typescript
 import { crapi, Chainrails } from "@chainrails/sdk"

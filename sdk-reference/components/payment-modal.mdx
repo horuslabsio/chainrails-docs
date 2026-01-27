@@ -41,7 +41,7 @@ The `usePaymentSession` hook is ideal for simple implementations where your sess
 ### Example Implementation
 
 ```javascript
-import { PaymentModal, usePaymentSession } from "@chainrails/react";
+import { PaymentModal, usePaymentSession, chains } from "@chainrails/react";
 
 function App() {
   const cr = usePaymentSession({
@@ -159,14 +159,15 @@ The `usePaymentModal` hook returns an object with:
 
 The `<PaymentModal />` component accepts the following props:
 
-| Prop           | Type     | Description                                                    |
-| -------------- | -------- | -------------------------------------------------------------- |
-| `open`         | function | Opens the modal                                                |
-| `close`        | function | Closes the modal                                               |
-| `isOpen`       | boolean  | Current modal visibility state                                 |
-| `sessionToken` | string   | Active session token for the payment                           |
-| `styles`       | object   | Custom styling object with options like `accentColor`, `theme` |
-| `amount`       | number   | (Optional) Display amount in the modal                         |
+| Prop             | Type     | Description                                                                  |
+| ---------------- | -------- | ---------------------------------------------------------------------------- |
+| `open`           | function | Opens the modal                                                              |
+| `close`          | function | Closes the modal                                                             |
+| `isOpen`         | boolean  | Current modal visibility state                                               |
+| `sessionToken`   | string   | Active session token for the payment                                         |
+| `styles`         | object   | Custom styling object with options like `accentColor`, `theme`               |
+| `amount`         | number   | (Optional) Display amount in the modal                                       |
+| `excludedChains` | array    | (Optional) Array of chains to exclude from the modal (e.g., `[chains.BASE]`) |
 
 ---
 
