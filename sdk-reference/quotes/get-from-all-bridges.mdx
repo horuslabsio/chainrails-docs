@@ -12,17 +12,17 @@ Retrieves quotes from all supported bridge protocols for comparison.
 - `destinationChain` (required): Destination blockchain
 - `amount` (required): Amount in token units
 - `excludeBridges` (optional): Comma-separated bridges to exclude
+- `excludeChains` (optional): Comma-separated chains to exclude from results (e.g., "BASE_TESTNET,STARKNET_TESTNET")
 - `recipient` (optional): Recipient address
 
 <Tabs>
 <Tab title="Try it">
 
-
 ```typescript
 import { crapi, Chainrails } from "@chainrails/sdk"
 
 Chainrails.config({
-  api_key: "your_api_key_here"
+  api_key: "your_api_key_here",
 })
 
 const quotes = await crapi.quotes.getFromAllBridges({
