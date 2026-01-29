@@ -27,9 +27,9 @@
           {
             "group": "Developer Guides",
             "pages": [
+              "guides/payments",
               "guides/quotes",
               "guides/routes",
-              "guides/payments",
               "guides/refunds",
               "guides/webhooks",
               "guides/paymaster"
@@ -113,6 +113,15 @@
                 "pages": ["sdk-reference/client/get-client-info"]
               }
             ]
+          }
+        ]
+      },
+      {
+        "tab": "Contract Reference",
+        "groups": [
+          {
+            "group": "Intent Broadcaster",
+            "pages": ["contract-reference/introduction"]
           }
         ]
       }
