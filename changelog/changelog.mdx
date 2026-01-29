@@ -5,27 +5,24 @@ icon: "book"
 ---
 
 <Tip>
-
-    Changelogs are how we keep you informed about updates, improvements, and fixes in our project.
-
+Changelogs are how we keep you informed about updates, improvements, and fixes in our project.
 </Tip>
 
 ## January 2026
 
-### Version 0.2.26 (React SDK) / 0.2.6 (Core SDK) / 0.2.3 (Common)
+<AccordionGroup>
 
-**New Features:**
+<Accordion title="SDK Updates: v0.2.26 (React) · v0.2.6 (Core) · v0.2.3 (Common)">
 
 - **Chain Filtering**: Added `excludeChains` prop to `PaymentModal` component, allowing you to hide specific chains from the payment options
 - **Quote Filtering**: Added `excludeChains` parameter to quote methods (`getAll`, `getFromAllBridges`, `getAllForSession`) to filter out unwanted chains from results
-- **Enhanced Configuration**: Improved Chainrails configuration system to support additional props for better customization
 
 **Usage Example:**
 
 ```javascript
-import { PaymentModal, usePaymentModal, chains } from "@chainrails/react";
+import { PaymentModal, chains } from "@chainrails/react";
 
-<PaymentModal {...cr} excludeChains={[chains.BASE_TESTNET, chains.STARKNET_TESTNET]} />;
+<PaymentModal {...cr} excludeChains={[chains.BASE_TESTNET, chains.STARKNET_TESTNET]} />
 ```
 
 **SDK Methods:**
@@ -38,3 +35,7 @@ const quotes = await crapi.quotes.getAll({
   excludeChains: "BASE_TESTNET,STARKNET_TESTNET",
 });
 ```
+
+</Accordion>
+
+</AccordionGroup>
