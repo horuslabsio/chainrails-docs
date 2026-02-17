@@ -20,11 +20,13 @@ They work well for manual cross-chain transfers, but they introduce complexity f
 - Monitor transactions for completion and refunds, accounting for bridge-specific nuances.
 
 ## Aggregators
-Aggregators like LI.FI or Socket do an incredible job of simplifying access to multiple bridges and liquidity pools. They provide a unified interface to route transactions through the best available paths. However, they are primarily focused on optimizing trade routing and liquidity access. Users or developers still need to deal with bridging risks, retries, transaction monitoring, and refunds. Ideal for swaps and liquidity routing, but not optimal for business use cases like payments or deposits.
+Aggregators like LI.FI or Socket do an incredible job of simplifying access to multiple bridges and liquidity pools. They provide a unified interface to route transactions through the best available paths. 
+
+However, they are primarily focused on optimizing trade routing and liquidity access. Users or developers still need to deal with bridging risks, retries, transaction monitoring, and refunds. Ideal for swaps and liquidity routing, but not optimal for business use cases like payments or deposits.
 
 ## Chainrails
 Chainrails sits a layer above aggregators, abstracting away the entire bridging experience.
-It lets developers accept value from any chain, in any token, without managing bridges, liquidity, or settlements.
+It lets developers accept value from any chain, in any token, or even fiat without managing bridges, liquidity, or settlements.
 Every transaction is modeled as an Intent — a high-level instruction that defines what the user wants to achieve, and Chainrails handles how it happens behind the scenes.
 
 Developers no longer worry about:

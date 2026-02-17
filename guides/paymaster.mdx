@@ -1,23 +1,18 @@
 ---
 title: "Paymasters"
-description: "Sponsor protocol fees for your users with Chainrails Paymasters"
+description: "Sponsor protocol fees for your users with Chainrails Paymaster"
 icon: "wallet"
 ---
 
-The Chainrails Paymaster enables you to sponsor protocol fees on behalf of your users, creating a seamless and frictionless payment experience for your application.
+The Chainrails Paymaster enables you to sponsor protocol fees (bridging and swap fees) on behalf of your users, creating a seamless and frictionless payment experience for your application.
 
 ## What is a Paymaster?
 
-Each cross-chain transaction on Chainrails incurs protocol fees to cover costs associated with bridges and relayers. These fees are charged in the token being transferred, eliminating the need for users to hold multiple tokens for gas or fees.
-
-**With a Paymaster**, you can:
-- Cover protocol fees on behalf of your users
-- Remove payment friction and improve conversion rates
-- Control your transaction costs with flexible billing options
-
-**Without a Paymaster**, your users will pay the protocol fees directly when making cross-chain transfers.
+Each cross-chain transaction on Chainrails incurs protocol fees to cover costs associated with bridges, AMMs and relayers. These fees are charged in the token being transferred, eliminating the need for users to hold multiple tokens for gas or fees.
 
 ## Getting Started
+
+Here’s how to enable and use the Paymaster in your application:
 
 ### Step 1: Access the Dashboard
 
@@ -29,12 +24,11 @@ Chainrails offers three billing options to suit different use cases:
 
 <Tabs>
 <Tab title="Free Plan">
-**Best for:** Testing and low-volume applications
+**Best for:** Use cases that's fine with users paying their own fees
 
 - Users pay their own protocol fees
 - No additional costs to you
 - Easy to get started
-- Upgrade anytime as you scale
 
 </Tab>
 <Tab title="Pay As You Go (PAYG)">
@@ -74,41 +68,7 @@ Once you select either **PAYG** or **Monthly Subscription**, the Paymaster is au
 
 Once enabled, the Paymaster works automatically—no code changes required. Simply make transactions as usual:
 
-<Tabs>
-<Tab title="SDK">
-```javascript
-import { chains, tokens, PaymentModal, usePaymentModal } from "@chainrails-sdk/react"
-
-function App() {
-  const cr = usePaymentModal({
-    to: "0x4F41BCf288E718A36c1e6919c2Dfc2E07d51c675",
-    amount: "1000000", // 1 USDC
-    chain: chains.BASE,
-    token: tokens.USDC,
-  })
-
-  return <PaymentModal config={config} {...cr} />
-}
-```
-</Tab>
-<Tab title="API">
-```bash
-curl -X POST "https://api.chainrails.io/api/v1/intents" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{
-    "sender": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54",
-    "amount": "1000000",
-    "tokenIn": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
-    "source_chain": "BASE_TESTNET",
-    "destination_chain": "ARBITRUM_TESTNET",
-    "recipient": "0xb79541Be080a59fdcE6C0b43219ba56c725eC65e"
-  }'
-```
-</Tab>
-</Tabs>
-
-PS: Ignore the `fees` field as that is returned to track usage, but you would notice the `totalAmount` field would be the same as the amount you are sending.
+PS: Ignore the `fees` field returned in intents as that is returned to track usage, but you would notice the `totalAmount` field is same as the `initialAmount` field, which means the user is not charged any additional fees.
 
 ## Managing Your Paymaster
 
@@ -122,7 +82,7 @@ PS: Ignore the `fees` field as that is returned to track usage, but you would no
 **Monitoring Usage:**
 - View real-time balance in the Dashboard
 - Track transaction history and fee breakdowns
-- Set up low-balance alerts (coming soon)
+- Set up low-balance alerts
 
 <Tip>
 We recommend maintaining a balance that covers at least 7 days of expected transaction volume.
@@ -139,40 +99,6 @@ We recommend maintaining a balance that covers at least 7 days of expected trans
 - Transactions never fail due to insufficient balance
 - Automatic renewal each month
 - Upgrade or downgrade anytime
-
-## Switching Plans
-
-You can change your billing plan at any time from the Dashboard:
-
-1. Navigate to **Billing** → **Change Plan**
-2. Select your new plan
-3. Confirm the change
-
-<Info>
-Plan changes take effect immediately for all new transactions. Any existing in-flight transactions will use your previous plan settings.
-</Info>
-
-## Best Practices
-
-<AccordionGroup>
-<Accordion title="When to Use Paymasters">
-- Building consumer-facing dApps where UX is critical
-- Running promotions or subsidizing early user transactions
-- Enterprise applications requiring predictable fee structures
-</Accordion>
-
-<Accordion title="Cost Optimization Tips">
-- Start with PAYG to understand your usage patterns
-- Switch to Monthly Subscription when volume becomes predictable
-- Monitor transaction patterns in the Dashboard
-</Accordion>
-
-<Accordion title="Monitoring and Alerts">
-- Enable low-balance notifications for PAYG plans (coming soon)
-- Review monthly usage reports
-- Track fee trends over time
-</Accordion>
-</AccordionGroup>
 
 ## FAQ
 

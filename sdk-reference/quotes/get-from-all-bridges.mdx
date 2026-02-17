@@ -11,9 +11,16 @@ Retrieves quotes from all supported bridge protocols for comparison.
 - `sourceChain` (required): Source blockchain
 - `destinationChain` (required): Destination blockchain
 - `amount` (required): Amount in token units
+- `amountSymbol` (optional): The denomination of the amount (e.g., USDC, DAI, ETH).
 - `excludeBridges` (optional): Comma-separated bridges to exclude
 - `excludeChains` (optional): Comma-separated chains to exclude from results (e.g., "BASE_TESTNET,STARKNET_TESTNET")
 - `recipient` (optional): Recipient address
+
+<Note>
+  The `amountSymbol` parameter is used to specify the denomination of the amount you want to send. For quotes in USD, you need to set `amountSymbol` to USDC (or leave empty).
+
+  You can quote in a different denomination than the token you want to send. For example, you can set `amountSymbol` to USDC, while sending ETH as `tokenIn`
+</Note>
 
 <Tabs>
 <Tab title="Try it">

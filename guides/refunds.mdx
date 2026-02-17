@@ -27,8 +27,8 @@ Relayers handle bridge and liquidity risk behind the scenes, meaning users are a
 
 In other words, users never lose funds because of failed bridges or liquidity issues.
 
-## ⚠️ Manual Refunds (Rare Cases)
+## Manual Refunds (Rare Cases)
 
-In very rare cases where an intent’s final status cannot be determined automatically (for example, due to an indexer outage), you can trigger a refund manually using the `GET /api/v1/intents/{intent_address}/refund`. 
+In very rare cases where an intent’s final status cannot be determined automatically (for example, due to an indexer outage), you can trigger a refund manually using the `POST /api/v1/intents/{intent_address}/refund`. 
 
 For more complicated cases, please contact our support team with the intent address and transaction details for assistance.

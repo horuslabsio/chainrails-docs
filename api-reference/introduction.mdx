@@ -26,4 +26,6 @@ To ensure fair usage and maintain optimal performance, the Chainrails API enforc
 ## Testing the API
 For testing purposes, we recommend using test keys and testnets. You can find more information about our supported testnets and tokens in the [Supported Networks & Tokens](/guides/integrations) guide.
 
-**NB:** Due to bridge limitations, the minimum amount for test transactions is $1. Also note that some chains have no testnet support and for these you may need to use mainnet with small amounts.
+**NB:** We do not provide indexing support for testnet chains and thus you may need to manually call the `POST /api/v1/intents/{intent_address}/trigger-processing` endpoint to trigger intent processing. 
+
+Also note that some chains have no testnet support and for these you may need to use mainnet with small amounts.

@@ -1,18 +1,24 @@
 ---
-title: 'Quote Engine'
-description: 'Retrieve quotes for cross-chain transfers'
+title: 'Quotes & Routing'
+description: 'Retrieve quotes and find optimal routes for cross-chain transfers'
 icon: 'zap'
 ---
 
 Before initiating a cross-chain transfer or creating an intent, you can request a quote from Chainrails.
-The quote and routing engine work together to tell you how a transaction will be executed — including the route, estimated fees, and destination amount.
+The quote engine provides comprehensive information about how a transaction will be executed — including the route, estimated fees, and destination amount.
 
 This allows your app to show users exactly what to expect before they fund the transaction.
 
 ## Requesting Quotes
-The quote engine primarily provides comprehensive cross-chain transfer quotes from a single bridge, multiple bridges or even multiple soure chains. You can retrieve:
+The quote engine provides comprehensive cross-chain transfer quotes from a single bridge, multiple bridges or even multiple source chains. You can retrieve:
 
-### A single quote for a secific route
+<Note>
+  Some quote endpoints take in an optional `amountSymbol` parameter which can be used to specify the denomination of the amount you want to send. For quotes in USD, you can either set `amountSymbol` to USDC (or leave it empty).
+
+  You can quote in a different denomination than the token you want to send. For example, you can set `amountSymbol` to USDC, while sending ETH as `tokenIn`
+</Note>
+
+### A single quote for a specific route
 
 <Tabs>
 <Tab title="cURL">
@@ -169,7 +175,20 @@ curl_close($ch);
 
 You can also get quotes from multiple bridges for a specific route, filter for best quotes and more. See the [API reference](../api-reference/introduction) for all available quote endpoints.
 
-## Quote Parameters Reference
+<br />
+<Tip>
+  For most cases, you would want to use the multi-source quoting as it shows the user all the best quotes to choose from.
+</Tip>
+
+---
+
+## The Routing Engine
+
+The Routing Engine provides extensive details about supported bridges, their available routes, and the optimal route for a given transfer intent. For most use cases, the quote engine is sufficient but if you want more fine grained control over bridge selection, you can use the routing engine directly.
+
+You can consult the [API reference](../api-reference/introduction) for all available routing endpoints.
+
+## Parameters Reference
 | Parameter              | Type     | Required                       | Description                                                                                              | Example                                      |
 | ---------------------- | -------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
 | **tokenIn**            | `string` | ✅ Yes *(for `/quotes/single`)* | Address of the input token on the source chain. This is the token the user will send.                    | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` |
@@ -179,8 +198,3 @@ You can also get quotes from multiple bridges for a specific route, filter for b
 | **amount**             | `string` | ✅ Yes                          | Amount to transfer, in token units. Supports decimals.                                                   | `"1.5"`                                      |
 | **bridge**             | `string` | ✅ Yes *(for `/quotes/single`)* | The specific bridge protocol to use for the quote.                                                       | `ACROSS`                           |
 | **recipient**          | `string` | ❌ Optional                     | Address of the final recipient of the transfer.                 | `0xb79541Be080a59fdcE6C0b43219ba56c725eC65e` |
-
-<br />
-<Tip>
-  For most cases, you would want to use the multi-source quoting as it shows the user all the best quotes to choose from.
-</Tip>

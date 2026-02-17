@@ -8,6 +8,76 @@ icon: "book"
 Changelogs are how we keep you informed about updates, improvements, and fixes in our project.
 </Tip>
 
+## February 2026
+
+<AccordionGroup>
+
+<Accordion title="Network Expansion: 5 New Chains">
+
+Chainrails now supports 5 additional blockchain networks:
+
+- Polygon
+- Optimism (Mainnet + Testnet)
+- Monad (Mainnet + Testnet)
+- HyperEVM 
+- Lisk
+
+**Network Coverage:** Now supporting **11 blockchain networks** across mainnet and testnet environments.
+
+</Accordion>
+
+<Accordion title="Multi-Token Payment Support: 10 Tokens Across Chains">
+
+Expanded from USDC-only to being able to use 10 different tokens for payment across networks:
+
+**New Tokens:**
+- Stablecoins: USDT, DAI, BUSD, EURC
+- Native Assets: ETH, WETH, BNB
+- Ecosystem Tokens: STRK (Starknet), LORDS
+
+**Token Availability:**
+- Ethereum: 8 tokens (USDC, USDT, DAI, BUSD, EURC, ETH, WETH, STRK)
+- Arbitrum: 5 tokens (USDC, USDT, DAI, ETH, WETH)
+- Base: 5 tokens (USDC, DAI, EURC, ETH, WETH)
+- Starknet: 6 tokens (USDC, USDT, DAI, ETH, STRK, LORDS)
+- BNB Chain: 6 tokens (USDC, USDT, DAI, BUSD, ETH, BNB)
+- And more across all supported chains
+
+</Accordion>
+
+<Accordion title="Smart Contract Intents">
+
+Introduced contract-level support for creating and managing intents directly from your smart contracts.
+
+**Key Features:**
+- Create intents programmatically from smart contracts
+- Manage intent lifecycle on-chain
+- Seamless integration with existing contract infrastructure
+
+```Solidity
+broadcastId = broadcaster.broadcastIntent(intent, deposits, maxFeeBudget, isLive);
+```
+
+</Accordion>
+
+<Accordion title="Application Fee System">
+
+Introduced configurable application fees for platforms building on Chainrails.
+
+This enables developers to monetize their integrations while maintaining competitive pricing for users.
+
+</Accordion>
+
+<Accordion title="⚠️ Breaking Changes">
+Intent creation, quote generation and routing methods now require an additional `amountSymbol` parameter to specify the denomination of the amount being sent (e.g., USDC, DAI, ETH). For quotes in USD, we expect you to set `amountSymbol` to USDC as we maintain a 1:1 peg with USD for internal calculations.
+
+NB: You can quote in a different denomination than the token you want to send. For example, you can set `amountSymbol` to USDC, while sending ETH as `tokenIn`.
+
+> SDK: v0.3.0 (React) · v0.3.2 (Core) · v0.3.2 (Common)
+</Accordion>
+
+</AccordionGroup>
+
 ## January 2026
 
 <AccordionGroup>

@@ -11,7 +11,14 @@ Analyzes available bridges and returns the optimal route with best pricing.
 - `sourceChain` (required): Source blockchain
 - `destinationChain` (required): Destination blockchain
 - `amount` (required): Transfer amount in token units (wei for ETH)
+- `amountSymbol` (required): The denomination of the amount (e.g., USDC, DAI, ETH).
 - `recipient` (optional): Recipient address (required for some bridges like RhinoFi)
+
+<Note>
+  The `amountSymbol` parameter is used to specify the denomination of the amount you want to send. For quotes in USD, you need to set `amountSymbol` to USDC.
+
+  You can quote in a different denomination than the token you want to send. For example, you can set `amountSymbol` to USDC, while sending ETH as `tokenIn`
+</Note>
 
 <Tabs>
 <Tab title="Try it">
@@ -30,6 +37,7 @@ const route = await crapi.router.getOptimalRoutes({
   sourceChain: "BASE_MAINNET",
   destinationChain: "ARBITRUM_MAINNET",
   amount: "1000000000000000000",
+  amountSymbol: "USDC",
   recipient: "0x742d35cc6634c0532925a3b8d7389d8c5b7cf15b"
 })
 
