@@ -15,7 +15,9 @@ Before creating a payment intent, you need to request for quotes to help the use
 But you can also request a single quote for a specific source chain, bridge option etc. if you decide to. See the Api Reference for all available quote endpoints.
 
 <Note>
-  Quotes take in an optional `amountSymbol` parameter which can be used to specify the denomination of the amount you want to send. For quotes in USD, you can either set `amountSymbol` to USDC (or leave it empty).
+  Some quote endpoints take in an optional `amountSymbol` parameter which can be used to specify the denomination of the amount you want to send. For quotes in USD, you can either set `amountSymbol` to USDC (or leave it empty). 
+  
+  You can quote in a different denomination than the token you want to send. For example, you can set `amountSymbol` to USDC, while sending ETH as `tokenIn`
 </Note>
 
 <Tabs>
@@ -116,7 +118,7 @@ This object will be used to initialize the intent on Chainrails.
 }
 ```
 
-### Step 3 — Create the Payment Intent
+## Step 3 — Create the Payment Intent
 Call the `POST /api/v1/intents` endpoint with the curated payment intent.
 
 <Tabs>
@@ -265,13 +267,13 @@ curl_close($ch);
 }
 ```
 
-### Step 4 — User Funds the Payment Intent
+## Step 4 — User Funds the Payment Intent
 Display the intent deposit address to the user on your payment screen.
 The user should send the exact `totalAmount` from their wallet on the selected source chain.
 
 Once the funds are detected on-chain, the Chainrails protocol takes over.
 
-### Step 5 - Automated execution
+## Step 5 - Automated execution
 After the deposit is confirmed, Chainrails:
 
 1. Starts the intent automatically
@@ -283,7 +285,7 @@ At this stage, you do not need to take any further action — the entire bridgin
 
 **NB:** You can however trigger the intent processing flow manually, if the indexer goes down for any reason or missed a transaction, using the `POST /api/v1/intents/{intent_address}/trigger-processing` endpoint.
 
-### Step 6 - Track Status via Webhooks
+## Step 6 - Track Status via Webhooks
 You can subscribe to webhooks to receive real-time updates on the intent’s lifecycle, including:
 
 - `intent_funded`

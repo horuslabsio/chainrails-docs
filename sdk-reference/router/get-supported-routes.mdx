@@ -16,10 +16,7 @@ Chainrails.config({
   api_key: "your_api_key_here"
 })
 
-const routes = await crapi.router.getSupportedRoutes("ACROSS", {
-  sourceChain: "BASE_MAINNET",
-  destinationChain: "ARBITRUM_MAINNET"
-})
+const routes = await crapi.router.getSupportedRoutes("ACROSS")
 
 console.log("Supported routes:", routes)
 ```

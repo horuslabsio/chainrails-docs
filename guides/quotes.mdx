@@ -13,7 +13,9 @@ This allows your app to show users exactly what to expect before they fund the t
 The quote engine provides comprehensive cross-chain transfer quotes from a single bridge, multiple bridges or even multiple source chains. You can retrieve:
 
 <Note>
-  Quotes take in an optional `amountSymbol` parameter which can be used to specify the denomination of the amount you want to send. For quotes in USD, you can either set `amountSymbol` to USDC (or leave it empty).
+  Some quote endpoints take in an optional `amountSymbol` parameter which can be used to specify the denomination of the amount you want to send. For quotes in USD, you can either set `amountSymbol` to USDC (or leave it empty).
+
+  You can quote in a different denomination than the token you want to send. For example, you can set `amountSymbol` to USDC, while sending ETH as `tokenIn`
 </Note>
 
 ### A single quote for a specific route
