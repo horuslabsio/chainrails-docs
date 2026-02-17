@@ -29,7 +29,6 @@
             "pages": [
               "guides/payments",
               "guides/quotes",
-              "guides/routes",
               "guides/refunds",
               "guides/webhooks",
               "guides/paymaster"

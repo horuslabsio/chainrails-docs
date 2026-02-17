@@ -4,7 +4,7 @@ description: 'Check out the networks and tokens supported by Chainrails'
 icon: 'gear'
 ---
 
-Chainrails currently supports USDC stablecoin (more tokens coming soon!) on the following networks:
+Chainrails supports a wide range of tokens across multiple blockchain networks, enabling seamless cross-chain transfers.
 
 ## Supported Networks
 
@@ -16,16 +16,226 @@ Chainrails currently supports USDC stablecoin (more tokens coming soon!) on the 
 | Base           | ✅      | ✅       |
 | Starknet       | ✅      | ✅       |
 | BNB Chain      | ✅      | ❌       |
+| Polygon        | ✅      | ❌       |
+| Optimism       | ✅      | ✅       |
+| Monad          | ✅      | ✅       |
+| HyperEVM       | ✅      | ❌       |
+| Lisk           | ✅      | ❌       |
 
 ## Supported Tokens
-| Token  | Symbol | Decimals |
-| ------ | ------ | -------- |
-| USD Coin | USDC   | 6        |
 
-## Faucets for Testnets
-| Network   | Faucet Link                                               |
-| --------- | --------------------------------------------------------- |
-| USDC  | [Circle](https://faucet.circle.com/)                |
+| Token          | Symbol |
+| -------------- | ------ |
+| USD Coin       | USDC   |
+| Tether         | USDT   |
+| Dai            | DAI    |
+| Binance USD    | BUSD   |
+| Euro Coin      | EURC   |
+| Ether          | ETH    |
+| Wrapped Ether  | WETH   |
+| Starknet Token | STRK   |
+| Binance Coin   | BNB    |
+| Lords          | LORDS  |
+
+## Token Availability by Network
+
+Different tokens are available on different networks. Use the table below to check which tokens are supported on your desired network.
+
+<Note>
+  **Testnet Support:** All testnet networks only support USDC for development and testing purposes.
+</Note>
+
+<div style={{overflowX: 'auto'}}>
+  <style>{`
+    .sticky-table th:first-child,
+    .sticky-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 10;
+      box-shadow: 2px 0 4px -2px rgba(0,0,0,0.2);
+    }
+    .sticky-table th:first-child {
+      background: var(--ifm-table-head-background, var(--ifm-background-surface-color, #f3f4f6));
+    }
+    .sticky-table tbody tr:nth-child(odd) td:first-child {
+      background: var(--ifm-table-stripe-background, #f9fafb);
+    }
+    .sticky-table tbody tr:nth-child(even) td:first-child {
+      background: var(--ifm-table-background, #ffffff);
+    }
+    [data-theme='dark'] .sticky-table th:first-child {
+      background: var(--ifm-table-head-background, #1b1b1d);
+    }
+    [data-theme='dark'] .sticky-table tbody tr:nth-child(odd) td:first-child {
+      background: var(--ifm-table-stripe-background, #1b1b1d);
+    }
+    [data-theme='dark'] .sticky-table tbody tr:nth-child(even) td:first-child {
+      background: var(--ifm-table-background, #242526);
+    }
+  `}</style>
+  <table className="sticky-table">
+    <thead>
+      <tr>
+        <th>Network</th>
+        <th>USDC</th>
+        <th>USDT</th>
+        <th>DAI</th>
+        <th>BUSD</th>
+        <th>EURC</th>
+        <th>ETH</th>
+        <th>WETH</th>
+        <th>STRK</th>
+        <th>BNB</th>
+        <th>LORDS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Ethereum</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Arbitrum</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Avalanche</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Base</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Starknet</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>BNB Chain</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Polygon</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Optimism</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Monad</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>HyperEVM</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Lisk</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 
 <Tip>

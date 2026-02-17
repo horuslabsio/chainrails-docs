@@ -77,9 +77,9 @@ All webhook events follow this structure:
 
 ```typescript
 {
-  "id": "evt_1234567890abcdef",        // Unique event ID
-  "type": "intent.completed",           // Event type
-  "created_at": "2025-12-07T10:30:00Z", // ISO 8601 timestamp
+  "id": "evt_1234567890abcdef", 
+  "type": "intent.completed",
+  "created_at": "2025-12-07T10:30:00Z",
   "data": {
     "intent_id": 12345,
     "intent_address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
@@ -89,9 +89,9 @@ All webhook events follow this structure:
     "tx_hash": "0xabc123...",
     "sender": "0x1234...",
     "recipient": "0x5678...",
-    "amount": "1000000",                  // Amount in smallest token unit
-    "token_in": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",  // USDC on Arbitrum
-    "token_out": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
+    "amount": "1000000",
+    "token_in": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+    "token_out": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "metadata": {
       "custom_field": "value"
     }
@@ -135,13 +135,13 @@ HMAC-SHA256(secret, timestamp + "." + request_body)
 import { createHmac } from 'crypto';
 
 function verifyWebhookSignature(
-  payload: string,        // Raw request body as string
-  signature: string,      // X-Chainrails-Signature header
-  timestamp: string,      // X-Chainrails-Timestamp header
-  secret: string          // Your webhook secret
+  payload: string, 
+  signature: string, 
+  timestamp: string,
+  secret: string 
 ): boolean {
   // Check timestamp to prevent replay attacks (max 5 minutes old)
-  const eventTime = parseInt(timestamp, 10) * 1000; // Convert to milliseconds
+  const eventTime = parseInt(timestamp, 10) * 1000;
   const currentTime = Date.now();
   const timeDiff = Math.abs(currentTime - eventTime);
   
@@ -160,13 +160,6 @@ function verifyWebhookSignature(
   return signature === expectedSignature;
 }
 ```
-
-**⚠️ Security Best Practices:**
-
-1. **Always verify signatures** - Never trust webhook data without verification
-2. **Check timestamp** - Prevent replay attacks by rejecting old events
-4. **Keep secrets secure** - Store webhook secrets in environment variables, never in code
-5. **Use HTTPS** - Required for live webhooks
 
 ---
 
