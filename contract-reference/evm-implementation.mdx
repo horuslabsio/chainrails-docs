@@ -1,0 +1,152 @@
+---
+title: 'EVM Implementation'
+description: 'Chainrails Intent Broadcaster Implementation for EVM-compatible chains'
+---
+
+## Overview
+
+In this section, we walk you through how to implement the Chainrails Intent Broadcaster in your smart contracts on EVM-compatible chains.
+
+### Step 1 — Import the Interface
+First, create and import the `IIntentBroadcaster` interface into your contract.
+``` Solidity Import
+import {IIntentBroadcaster} from "./interfaces/IIntentBroadcaster.sol";
+```
+
+### Step 2 — Define the required types
+Next, define the `BroadcastedIntent`, `Chain` and `TokenAmount` objects in your contract. These are used to structure the data for broadcasting an intent.
+
+``` Solidity Types
+struct BroadcastedIntent {
+    Chain sourceChain;
+    Chain destinationChain;
+    TokenAmount[] bridgeTokenOutOptions;
+    address sender;
+    bytes32 destinationRecipient;
+    address refundAddress;
+}
+
+enum Chain {
+    ARBITRUM_MAINNET,
+    ARBITRUM_TESTNET,
+    BASE_MAINNET,
+    BASE_TESTNET,
+    STARKNET_MAINNET,
+    STARKNET_TESTNET,
+    AVALANCHE_MAINNET,
+    AVALANCHE_TESTNET,
+    ETHEREUM_MAINNET,
+    ETHEREUM_TESTNET,
+    POLYGON_MAINNET,
+    POLYGON_TESTNET,
+    ... // See full enum in example repo
+}
+
+struct TokenAmount {
+    bytes32 token;
+    uint256 amount;
+}
+```
+
+### Step 3 — Create a util function to encode token address 
+
+``` Solidity Encode to bytes32
+function encodeEvmToken(address tokenAddress) internal pure returns (bytes32) {
+    return bytes32(uint256(uint160(tokenAddress)));
+}
+```
+
+### Step 4 — Create the Intent Broadcaster Instance
+Create an instance of the `IIntentBroadcaster` interface in your contract, pointing to the deployed `IntentBroadcaster` contract address.
+
+``` Solidity Intent Broadcaster Instance
+IIntentBroadcaster public immutable broadcaster;
+
+constructor(address _broadcasterAddress) {
+    require(_broadcasterAddress != address(0), "Invalid broadcaster address");
+    broadcaster = IIntentBroadcaster(_broadcasterAddress);
+}
+```
+
+### Step 5 — Broadcast an Intent
+Now you can create a function in your contract to broadcast an intent using the `broadcastIntent` function from the `IIntentBroadcaster` interface. This function will take in the necessary parameters, structure the `BroadcastedIntent` object, and call the broadcaster to broadcast the intent.
+
+``` Solidity Broadcast Intent
+interface IERC20Minimal {
+    function transferFrom(address from, address to, uint256 amount) external returns (bool);
+
+    function approve(address spender, uint256 amount) external returns (bool);
+}
+
+event IntentSent(bytes32 indexed broadcastId, address indexed sender, uint256 amount);
+event IntentCancelled(bytes32 indexed broadcastId, address indexed caller);
+
+function broadcastSimpleIntent(
+    Chain sourceChain,
+    address sourceToken,
+    uint256 amount,
+    Chain destinationChain,
+    address destinationToken,
+    bytes32 recipient,
+    address refundAddress,
+    uint256 maxFeeBudget,
+    bool isLive
+) external returns (bytes32 broadcastId) {
+    uint256 totalDeposit = amount + maxFeeBudget;
+    
+    // Transfer tokens from sender to this contract
+    require(
+        IERC20Minimal(sourceToken).transferFrom(msg.sender, address(this), totalDeposit),
+        "Token transferFrom failed"
+    );
+
+    // Approve the broadcaster to spend the tokens
+    require(
+        IERC20Minimal(sourceToken).approve(address(broadcaster), totalDeposit),
+        "Token approve failed"
+    );
+
+    // Create the intent
+    BroadcastedIntent memory intent = BroadcastedIntent({
+        sourceChain: sourceChain,
+        destinationChain: destinationChain,
+        bridgeTokenOutOptions: new TokenAmount[](1),
+        sender: msg.sender,
+        destinationRecipient: recipient,
+        refundAddress: refundAddress
+    });
+
+    // Set the token amount for bridge output (destination token address)
+    intent.bridgeTokenOutOptions[0] =
+        TokenAmount({token: encodeEvmToken(destinationToken), amount: amount});
+
+    // Create deposits array (source token address) - includes amount + fee budget
+    TokenAmount[] memory deposits = new TokenAmount[](1);
+    deposits[0] = TokenAmount({token: encodeEvmToken(sourceToken), amount: totalDeposit});
+
+    // Broadcast the intent
+    broadcastId = broadcaster.broadcastIntent(intent, deposits, maxFeeBudget, isLive);
+
+    emit IntentSent(broadcastId, msg.sender, amount);
+
+    return broadcastId;
+}
+```
+
+## Cancellation and Refunds
+Cancellation and refunds of broadcasted intents are handled automatically like a normal intent after the intent expiration (typically in 1 hour after broadcasting).
+
+You can also choose to implement a function in your contract to allow users to manually cancel their broadcasted intents before expiration by calling the `cancelBroadcast` function from the `IIntentBroadcaster` interface.
+
+``` Solidity Cancel Broadcast
+function cancelBroadcast(bytes32 broadcastId) external {
+    broadcaster.cancelBroadcast(broadcastId);
+    emit IntentCancelled(broadcastId, msg.sender);
+}
+```
+
+**NB:** Only the broadcasting contract can manually cancel a broadcast before expiration, if it has not been executed. Once cancelled, the escrowed funds for that intent will be automatically refunded to the specified `refundAddress`.
+
+<Card title="Github Example" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/contracts/solidity">
+  Find the full implementation of the above example in the GitHub repository.
+</Card>

@@ -121,6 +121,20 @@
           {
             "group": "Intent Broadcaster",
             "pages": ["contract-reference/introduction"]
+          },
+          {
+            "group": "EVM",
+            "pages": [
+              "contract-reference/evm-interface",
+              "contract-reference/evm-implementation"
+            ]
+          },
+          {
+            "group": "Starknet",
+            "pages": [
+              "contract-reference/starknet-interface",
+              "contract-reference/starknet-implementation"
+            ]
           }
         ]
       }
@@ -136,6 +150,11 @@
           "anchor": "Demo",
           "href": "https://chainrails.io/demo",
           "icon": "tools"
+        },
+        {
+          "anchor": "GitHub Examples",
+          "href": "https://github.com/horuslabsio/chainrails-demo",
+          "icon": "github"
         }
       ]
     }
