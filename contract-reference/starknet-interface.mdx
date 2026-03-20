@@ -1,0 +1,74 @@
+---
+title: 'Starknet Interface'
+description: 'Chainrails Intent Broadcaster Interface for Starknet'
+---
+
+## Overview
+The Chainrails Intent Broadcaster provides a Starknet interface so protocols can create intents directly from Cairo contracts.
+
+## Contract Address
+Here's the deployed address of the `IntentBroadcaster` contract on Starknet:
+
+```Rust Contract Address
+0x03411de7524ba7b58960e6ac54bcb996c90ab0ca6ac8fd38177f780ee900c196
+```
+
+## Interface
+The broadcaster interface used in the Starknet demo is shown below:
+
+``` Rust Starknet Interface
+use core::array::Array;
+use core::integer::u256;
+use starknet::ContractAddress;
+use crate::base::types::types::{BroadcastedIntent, Chain, TokenAmount};
+
+#[starknet::interface]
+pub trait IIntentBroadCaster<TState> {
+	/// @notice Broadcasts a new payment intent and escrows the required tokens
+	/// @param intent The broadcasted intent containing transfer details and destination information
+	/// @param deposits Array of token amounts to be escrowed for this broadcast
+	/// @param max_fee_budget Maximum fee amount
+	/// @return felt252 Unique identifier for the broadcasted intent
+	fn broadcast_intent(
+		ref self: TState,
+		intent: BroadcastedIntent,
+		deposits: Array<TokenAmount>,
+		max_fee_budget: u256,
+		isLive: bool,
+	) -> felt252;
+
+	/// @notice Cancels a broadcasted intent and returns escrowed tokens to the broadcaster
+	/// @param broadcast_id The unique identifier of the broadcast to cancel
+	fn cancel_broadcast(ref self: TState, broadcast_id: felt252);
+
+	/// @notice Retrieves the total amount of tokens currently escrowed for a broadcast
+	/// @param broadcast_id The unique identifier of the broadcast to query
+	/// @return u256 Total amount of tokens held in escrow for this broadcast
+	fn get_escrowed_amount(self: @TState, broadcast_id: felt252) -> u256;
+
+	/// @notice Checks whether a broadcasted intent has been executed
+	/// @param broadcast_id The unique identifier of the broadcast to query
+	/// @return bool True if the broadcast has been executed, false otherwise
+	fn get_broadcast_execution_status(self: @TState, broadcast_id: felt252) -> bool;
+}
+```
+
+The interface relies on these core types:
+
+``` Rust Types
+#[derive(Debug, Drop, Copy, Serde, Hash, PartialEq, starknet::Store)]
+pub struct TokenAmount {
+	pub token: u256,
+	pub amount: u256,
+}
+
+#[derive(Drop, Serde, Clone, PartialEq)]
+pub struct BroadcastedIntent {
+	pub source_chain: Chain,
+	pub destination_chain: Chain,
+	pub bridge_token_out_options: Array<TokenAmount>,
+	pub sender: ContractAddress,
+	pub destination_recipient: u256,
+	pub refund_address: ContractAddress,
+}
+```
