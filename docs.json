@@ -35,6 +35,13 @@
             ]
           },
           {
+            "group": "Integration Recipes",
+            "pages": [
+              "integration-recipes/mobile-development",
+              "integration-recipes/mini-apps"
+            ]
+          },
+          {
             "group": "Essentials",
             "pages": [
               "essentials/settlements",
