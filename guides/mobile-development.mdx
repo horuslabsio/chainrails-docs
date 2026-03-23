@@ -1,0 +1,186 @@
+---
+title: 'Mobile Development'
+description: 'Build mobile payment flows with Chainrails in React Native'
+icon: 'mobile'
+---
+
+This guide shows how to integrate Chainrails into a React Native app so users can complete cross-chain payments on mobile.
+
+## Overview
+
+Mobile payment flows have a few requirements that differ from desktop web integrations:
+
+- **Smaller screens**: Payment flows must stay compact and easy to complete on one device
+- **Wallet handoff**: Users may move between your app and a wallet app during the payment flow
+- **Secure backend usage**: Session tokens must still be created server-side to keep your API key private
+
+Chainrails supports mobile through the React Native SDK. This provides the same session-based payment flow as the web SDK, but with a mobile-optimized UI and wallet handoff support.
+
+- `@chainrails/react-native` for the mobile payment modal and hooks
+- `@chainrails/sdk` on your backend to create payment sessions
+
+<Note>
+  If you need a broader overview of the session flow, see the [Quickstart](/quickstart) and the [Payment Modal reference](/sdk-reference/components/payment-modal).
+</Note>
+
+## React Native
+
+This guide uses React Native, but the same backend session endpoint pattern applies to any mobile app using the Chainrails SDK surface.
+
+### Prerequisites
+
+Before you begin, make sure you have:
+
+1. A React Native project
+2. A Chainrails API key from [dashboard.chainrails.io](https://dashboard.chainrails.io)
+3. A backend service where you can create session tokens securely
+4. At least one mobile wallet installed for testing
+
+### Step 1: Install the SDK
+
+Install the React Native UI package in your app and the core SDK on your backend.
+
+<Tabs>
+<Tab title="App">
+
+```bash
+npm install @chainrails/react-native
+```
+
+</Tab>
+<Tab title="Backend">
+
+```bash
+npm install @chainrails/sdk
+```
+
+</Tab>
+</Tabs>
+
+The mobile app uses `@chainrails/react-native` to present the payment flow. Your server uses `@chainrails/sdk` to create session tokens.
+
+### Step 2: Set Up Session Endpoint
+
+Create a backend endpoint that generates secure session tokens. The mobile app should call this endpoint right before opening the payment modal.
+
+```javascript
+// server.js (Node.js/Express example)
+const express = require("express");
+const { Chainrails, crapi } = require("@chainrails/sdk");
+
+const app = express();
+app.use(express.json());
+
+Chainrails.config({
+  api_key: process.env.CHAINRAILS_API_KEY,
+});
+
+app.post("/create-session", async (req, res) => {
+  try {
+    const { amount, recipient, destinationChain, token } = req.body;
+
+    const session = await crapi.auth.getSessionToken({
+      amount: amount ?? "10",
+      recipient,
+      destinationChain,
+      token,
+    });
+
+    res.json(session);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to create payment session",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
+```
+
+At minimum, validate the `recipient`, `destinationChain`, `token`, and `amount` fields before creating a session.
+
+### Step 3: Initialize the Payment Modal
+
+In your app, fetch a session from your backend and open the payment modal only after the session is ready.
+
+```jsx
+// App.jsx
+import { useState } from "react";
+import { Alert, Button, View } from "react-native";
+import { PaymentModal, usePaymentModal } from "@chainrails/react-native";
+
+export default function App() {
+  const [loading, setLoading] = useState(false);
+
+  const cr = usePaymentModal({
+    sessionToken: null,
+    onCancel: () => {
+      Alert.alert("Payment cancelled");
+    },
+    onSuccess: (result) => {
+      Alert.alert("Payment successful", result?.transactionHash ?? "Transaction completed");
+    },
+  });
+
+  async function pay() {
+    setLoading(true);
+
+    try {
+      const res = await fetch("https://your-server.com/create-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: "10",
+          recipient: "0xYourWalletAddress",
+          destinationChain: "BASE_MAINNET",
+          token: "USDC",
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Could not create payment session");
+      }
+
+      const session = await res.json();
+      cr.updateSession(session);
+      cr.open();
+    } catch (error) {
+      Alert.alert(
+        "Unable to start payment",
+        error instanceof Error ? error.message : "Something went wrong"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <View>
+      <Button onPress={pay} title={loading ? "Preparing payment..." : "Pay with Crypto"} disabled={loading} />
+      <PaymentModal {...cr} isPending={loading} />
+    </View>
+  );
+}
+```
+
+This pattern keeps your API key on the server, gives you a clear point to validate payment parameters, and lets the mobile app open the modal only when a valid session exists.
+
+## Best Practices
+
+1. **Never expose API keys client-side**: Always use a backend session endpoint
+2. **Validate all inputs**: Check recipient addresses, chains, tokens, and amounts
+3. **Use HTTPS**: Ensure all communications are encrypted
+4. **Implement rate limiting**: Prevent session endpoint abuse
+
+### Mobile-Specific Guidance
+
+1. **Test on real devices**: Wallet handoff behavior can differ from simulators
+2. **Resume gracefully**: Make sure your app can recover when users return from a wallet app
+4. **Log session failures**: Mobile network issues are common, so capture enough detail to debug failed session creation
+
+## Next Steps
+
+- See the [Payment Modal reference](/sdk-reference/components/payment-modal) for hook behavior and parameters
+- See the [Quickstart](/quickstart) for the shared session model used across web and mobile
+

@@ -1,6 +1,6 @@
 ---
 title: 'Introduction'
-description: 'SDK Reference for Chainrails - TypeScript/JavaScript SDK for cross-chain transfers'
+description: 'SDK Reference for Chainrails client SDKs for web and mobile cross-chain payments'
 ---
 
 <Note>
@@ -9,29 +9,30 @@ description: 'SDK Reference for Chainrails - TypeScript/JavaScript SDK for cross
 
 ## Overview
 
-The Chainrails SDK (`@chainrails/sdk`) is a TypeScript SDK that provides a simple, type-safe interface for interacting with the Chainrails API. It handles authentication, request formatting, and error handling automatically, allowing you to focus on building your application.
+Chainrails provides client SDKs for web and mobile applications:
+
+- `@chainrails/sdk`: Core TypeScript SDK for interacting with the Chainrails API
+- `@chainrails/react`: React components and hooks for web integrations
+- `@chainrails/react-native`: React Native components and hooks for mobile integrations
+
+Together, these packages handle authentication, request formatting, UI integration, and error handling so you can focus on building your application.
 
 ## Installation
 
 <Tabs>
-<Tab title="npm">
+<Tab title="Core SDK">
 ```bash
 npm install @chainrails/sdk
 ```
 </Tab>
-<Tab title="pnpm">
+<Tab title="React Web">
 ```bash
-pnpm add @chainrails/sdk
+npm install @chainrails/react @chainrails/sdk
 ```
 </Tab>
-<Tab title="yarn">
+<Tab title="React Native">
 ```bash
-yarn add @chainrails/sdk
-```
-</Tab>
-<Tab title="bun">
-```bash
-bun add @chainrails/sdk
+npm install @chainrails/react-native @chainrails/sdk
 ```
 </Tab>
 </Tabs>
@@ -55,11 +56,17 @@ Retrieve information about supported blockchain networks and tokens.
 ### [Client](/sdk-reference/client)
 Retrieve authenticated client information.
 
-## Language Support
+## Platform Support
 
 <Tip>
-Currently, the SDK is available for **TypeScript/JavaScript**
+Chainrails SDK support is currently available for **TypeScript/JavaScript**, with UI integrations for **React web** and **React Native**.
 </Tip>
+
+## Recommended Package by Use Case
+
+- Use `@chainrails/sdk` for server-side integrations and direct API access from TypeScript/JavaScript
+- Use `@chainrails/react` for web apps that need the Payment Modal and session hooks
+- Use `@chainrails/react-native` for React Native apps that need mobile payment flows
 
 ## Authentication
 

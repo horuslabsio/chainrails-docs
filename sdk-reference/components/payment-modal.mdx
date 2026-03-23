@@ -1,13 +1,18 @@
 ---
 title: "PaymentModal"
-description: "Drop-in modal for Chainrails payments with flexible hook patterns."
+description: "Drop-in payment modal and hooks for Chainrails web and mobile integrations."
 ---
 
-The Payment Modal React component and hooks for integrating Chainrails payments into your app. Choose between two integration patterns depending on your use case.
+The Payment Modal component and hooks let you integrate Chainrails payments into React web and React Native apps. Choose the hook pattern that best matches how you want to manage payment sessions.
 
 ## Overview
 
-The Chainrails React package provides two hooks for payment modal integration:
+Chainrails provides UI SDK packages for both supported app environments:
+
+- `@chainrails/react`: Payment modal hooks and components for React web apps
+- `@chainrails/react-native`: Payment modal hooks and components for React Native apps
+
+The web and mobile SDKs follow the same session-based integration model:
 
 - **`usePaymentSession`**: Automatic session management with server-side URL
 - **`usePaymentModal`**: Manual session token control for advanced use cases
@@ -23,7 +28,7 @@ The Chainrails React package provides two hooks for payment modal integration:
 
 ## Option 1: usePaymentSession Hook (Recommended)
 
-The `usePaymentSession` hook is ideal for simple implementations where your session URL is known upfront. The hook handles session creation automatically.
+The `usePaymentSession` hook is ideal for React web implementations where your session URL is known upfront. The hook handles session creation automatically.
 
 ### When to Use
 
@@ -37,6 +42,7 @@ The `usePaymentSession` hook is ideal for simple implementations where your sess
 - `onSuccess` (function, optional): Callback fired when payment completes successfully
 - `onCancel` (function, optional): Callback fired when user cancels the payment
 - `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B", theme: "dark" }`)
+- `excludeChains` (array, optional): Array of chains to exclude from payment options (e.g., `[chains.BASE_TESTNET, chains.STARKNET_TESTNET]`)
 
 ### Example Implementation
 
@@ -80,7 +86,7 @@ The `usePaymentSession` hook returns an object with:
 
 ## Option 2: usePaymentModal Hook (Advanced)
 
-The `usePaymentModal` hook provides manual control over session token management. Use this when you need to fetch session data dynamically, set custom amounts, or coordinate the modal with other operations.
+The `usePaymentModal` hook provides manual control over session token management. Use this when you need to fetch session data dynamically, set custom amounts, coordinate the modal with other operations, or integrate in React Native.
 
 ### When to Use
 
@@ -88,6 +94,7 @@ The `usePaymentModal` hook provides manual control over session token management
 - You want to display custom amounts or user-specific information
 - You need to perform additional operations before opening the modal
 - You want explicit control over the session lifecycle
+- You are building a React Native integration
 
 ### Parameters
 
@@ -95,6 +102,7 @@ The `usePaymentModal` hook provides manual control over session token management
 - `onSuccess` (function, optional): Callback fired when payment completes successfully
 - `onCancel` (function, optional): Callback fired when user cancels the payment
 - `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B", theme: "dark" }`)
+- `excludeChains` (array, optional): Array of chains to exclude from payment options
 
 ### Example Implementation
 
@@ -144,6 +152,51 @@ function App() {
 export default App;
 ```
 
+### React Native Example
+
+```javascript
+import { useState } from "react";
+import { Button, View } from "react-native";
+import { PaymentModal, usePaymentModal } from "@chainrails/react-native";
+
+function App() {
+  const [loading, setLoading] = useState(false);
+
+  const cr = usePaymentModal({
+    sessionToken: null,
+    onCancel: () => {
+      console.log("Payment Cancelled");
+    },
+    onSuccess: () => {
+      console.log("Payment Successful");
+    },
+  });
+
+  async function pay() {
+    setLoading(true);
+    try {
+      const res = await fetch("https://your-server.com/create-session");
+      const data = await res.json();
+      cr.updateSession(data);
+      cr.open();
+    } catch (error) {
+      console.error("Error creating session:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <View>
+      <Button onPress={pay} title={loading ? "Loading..." : "Pay with Crypto"} />
+      <PaymentModal {...cr} isPending={loading} />
+    </View>
+  );
+}
+
+export default App;
+```
+
 ### Hook Return Value
 
 The `usePaymentModal` hook returns an object with:
@@ -159,15 +212,17 @@ The `usePaymentModal` hook returns an object with:
 
 The `<PaymentModal />` component accepts the following props:
 
-| Prop             | Type     | Description                                                                  |
-| ---------------- | -------- | ---------------------------------------------------------------------------- |
-| `open`           | function | Opens the modal                                                              |
-| `close`          | function | Closes the modal                                                             |
-| `isOpen`         | boolean  | Current modal visibility state                                               |
-| `sessionToken`   | string   | Active session token for the payment                                         |
-| `styles`         | object   | Custom styling object with options like `accentColor`, `theme`               |
-| `amount`         | number   | (Optional) Display amount in the modal                                       |
+| Prop            | Type     | Description                                                                  |
+| --------------- | -------- | ---------------------------------------------------------------------------- |
+| `open`          | function | Opens the modal                                                              |
+| `close`         | function | Closes the modal                                                             |
+| `isOpen`        | boolean  | Current modal visibility state                                               |
+| `sessionToken`  | string   | Active session token for the payment                                         |
+| `styles`        | object   | Custom styling object with options like `accentColor`, `theme`               |
+| `amount`        | number   | (Optional) Display amount in the modal                                       |
 | `excludeChains` | array    | (Optional) Array of chains to exclude from the modal (e.g., `[chains.BASE]`) |
+
+The same modal session flow is available in React Native through `@chainrails/react-native`, with platform-native presentation handled by the mobile SDK.
 
 ---
 

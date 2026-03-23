@@ -1,0 +1,154 @@
+---
+title: "Mini-Apps"
+description: "Integrate Chainrails into Farcaster/Base MiniApps"
+icon: "mobile-screen"
+---
+
+Mini-apps are lightweight web applications that run inside social applications. Chainrails enables seamless cross-chain payments within these constrained environments, allowing users to pay with any token from any chain without leaving the app context.
+
+## Overview
+
+Mini-apps present unique integration challenges:
+
+- **Constrained viewport**: Limited screen real estate requires compact UI components
+- **Embedded context**: Apps run inside Farcaster, Telegram or other platforms
+- **Simplified UX**: Users expect one-tap or minimal-interaction flows
+- **Platform constraints**: Must adhere to platform-specific guidelines and limitations
+
+Chainrails addresses these challenges through:
+
+- **Pre-built Payment Modal**: Compact, responsive UI that works in constrained viewports
+- **Session-based Authentication**: Secure, stateless payment sessions
+- **Deep Linking Support**: Seamless handoff between mini-app and wallet apps
+- **Platform SDKs**: Native integration with Farcaster SDKs
+
+---
+
+## Farcaster MiniApps
+
+This guide walks you through integrating Chainrails payments into a Farcaster MiniApp using the React SDK.
+
+### Overview
+
+Farcaster MiniApps are web applications that run within the Farcaster ecosystem. Chainrails provides a React SDK that works seamlessly with MiniApps to accept cross-chain payments.
+
+## Prerequisites
+
+- A Farcaster MiniApp project
+- Chainrails API key (get one from [dashboard.chainrails.io](https://dashboard.chainrails.io))
+- A backend server to create session tokens
+
+## Step 1: Install the SDK
+
+```bash
+npm install @chainrails/react @chainrails/sdk
+```
+
+## Step 2: Set Up Session Endpoint
+
+Create a backend endpoint that generates secure session tokens. This protects your API key.
+
+```javascript
+// server.js (Node.js/Express example)
+const express = require("express");
+const { Chainrails, crapi } = require("@chainrails/sdk");
+
+const app = express();
+
+Chainrails.config({
+  api_key: process.env.CHAINRAILS_API_KEY,
+});
+
+app.get("/create-session", async (req, res) => {
+  const session = await crapi.auth.getSessionToken({
+    amount: "10", // Payment amount or leave empty for user input
+    recipient: "0xYourWalletAddress",
+    destinationChain: "BASE_MAINNET",
+    token: "USDC",
+  });
+
+  res.json(session);
+});
+```
+
+<Tip>Deploy this server and add the URL to your MiniApp's manifest or environment configuration.</Tip>
+
+## Step 3: Initialize the Payment Modal
+
+In your MiniApp, initialize the Chainrails payment modal:
+
+```jsx
+// App.jsx
+import { usePaymentModal, PaymentModal } from "@chainrails/react";
+import { sdk } from "@farcaster/miniapp-sdk";
+import { createConfig, http, WagmiProvider } from "wagmi";
+import { base } from "wagmi/chains";
+
+
+const wagmiConfig = createConfig({
+  chains: [base],
+  connectors: [],
+  transports: {
+    [base.id]: http(),
+  },
+});
+
+export default function App() {
+  const cr = usePaymentModal({
+    sessionToken: null,
+    onCancel: () => {
+      toast.info("Payment Cancelled");
+    },
+    onSuccess: (result?: { transactionHash?: string }) => {
+      console.log(result);
+      toast.success("Payment Successful", {
+        description: result?.transactionHash,
+      });
+    },
+    farcasterMiniApp: true,
+    wagmiConfig,
+  });
+
+  useEffect(() => {
+    const run = async () => {
+      sdk.actions.ready();
+    };
+    run();
+  }, []);
+
+  const [loading, setLoading] = useState(false);
+
+  async function pay() {
+    setLoading(true);
+    const res = await fetch(`https://server.url/create-session`,);
+    const data = await res.json();
+    cr.updateSession(data);
+    cr.open();
+    setLoading(false);
+  }
+
+  return (
+    <div>
+      <button onClick={cr.open}>Pay with Crypto</button>
+      <PaymentModal {...cr} isPending={loading}/>
+    </div>
+  );
+}
+```
+
+<Tip>To support more chains, add them to the `wagmiConfig`. Check our supported chains for the full list.</Tip>
+
+---
+
+## Best Practices
+
+### Security
+
+1. **Never expose API keys client-side**: Always use a backend session endpoint
+2. **Validate all inputs**: Check recipient addresses, chains, tokens, and amounts
+3. **Use HTTPS**: Ensure all communications are encrypted
+4. **Implement rate limiting**: Prevent session endpoint abuse
+
+<Card title="Github Example" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/mini-apps">
+  Check out our Github demo repository for a mini-app example.
+</Card>
