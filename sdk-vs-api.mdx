@@ -3,18 +3,25 @@ title: "SDK vs API"
 description: "When to use the SDK vs the API"
 ---
 
-Chainrails offers both an SDK and a RESTful API, each designed for different needs and levels of abstraction.
+Chainrails offers both client SDKs and a RESTful API, each designed for different needs and levels of abstraction.
 
 ## The SDK
 
-The Chainrails SDK is a lightweight JavaScript/TypeScript library that wraps our APIs and handles authentication, retries, and refunds automatically for you. It’s the easiest way to get started in minutes.
+Chainrails SDKs provide the fastest way to integrate payments in TypeScript/JavaScript applications. They wrap our APIs and handle authentication, retries, UI flows, and session-based payment experiences for you.
 
 **We recommend using the SDK for:**
 
 - Web applications and dApps that requires a pre-built modal
+- React Native mobile applications that also don't mind a pre-built modal
 - Quick prototyping
 - JavaScript/TypeScript projects
 - Reducing boilerplate (no need to manually handle HTTP or auth)
+
+The SDK surface includes:
+
+- `@chainrails/sdk` for core API access
+- `@chainrails/react` for React web integrations
+- `@chainrails/react-native` for React Native integrations
 
 ### Sample integration
 
@@ -22,6 +29,12 @@ The Chainrails SDK is a lightweight JavaScript/TypeScript library that wraps our
 
 ```bash
 npm install @chainrails/react @chainrails/sdk
+```
+
+For React Native apps:
+
+```bash
+npm install @chainrails/react-native @chainrails/sdk
 ```
 
 **Usage**
@@ -88,7 +101,7 @@ You’ll interact with our endpoints directly using your preferred language or H
 
 - Server-side integrations
 - Advanced use cases requiring fine-grained control
-- Teams building mobile apps or within non-JavaScript environments
+- Teams working in non-JavaScript environments
 
 ### Sample request to create a cross-chain intent
 

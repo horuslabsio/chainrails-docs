@@ -1,6 +1,6 @@
 ---
 title: "Mini-Apps"
-description: "Integrate Chainrails into Farcaster MiniApps, and other embedded web applications"
+description: "Integrate Chainrails into Farcaster/Base MiniApps"
 icon: "mobile-screen"
 ---
 
@@ -136,6 +136,8 @@ export default function App() {
 }
 ```
 
+<Tip>To support more chains, add them to the `wagmiConfig`. Check our supported chains for the full list.</Tip>
+
 ---
 
 ## Best Practices
@@ -147,15 +149,6 @@ export default function App() {
 3. **Use HTTPS**: Ensure all communications are encrypted
 4. **Implement rate limiting**: Prevent session endpoint abuse
 
-### UX Guidelines
-
-1. **Show loading states**: Users need feedback during session creation
-2. **Handle errors gracefully**: Display user-friendly error messages
-3. **Support cancellation**: Allow users to exit the payment flow
-4. **Confirm success**: Clear confirmation when payment completes
-
----
-
-## Example Projects
-
----
+<Card title="Github Example" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/mini-apps">
+  Check out our Github demo repository for a mini-app example.
+</Card>

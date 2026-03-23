@@ -21,24 +21,22 @@
             "pages": ["index", "quickstart", "sdk-vs-api"]
           },
           {
-            "group": "How it works",
-            "pages": ["concepts/core", "concepts/chainrails-vs-others"]
+            "group": "Concepts",
+            "pages": [
+              "concepts/core", 
+              "concepts/chainrails-vs-others",
+              "concepts/refunds",
+              "concepts/paymaster"
+            ]
           },
           {
             "group": "Developer Guides",
             "pages": [
               "guides/payments",
               "guides/quotes",
-              "guides/refunds",
-              "guides/webhooks",
-              "guides/paymaster"
-            ]
-          },
-          {
-            "group": "Integration Recipes",
-            "pages": [
-              "integration-recipes/mobile-development",
-              "integration-recipes/mini-apps"
+              "guides/mobile-development",
+              "guides/mini-apps",
+              "guides/webhooks"
             ]
           },
           {
