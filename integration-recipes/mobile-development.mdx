@@ -1,9 +1,130 @@
 ---
 title: 'Mobile Development'
+description: 'Integrate Chainrails into ios and android apps for cross-chain payments'
+icon: 'mobile'
 ---
 
-<Tip>
+Chainrails enables seamless cross-chain payments in mobile applications, allowing users to pay with any token from any chain.
 
-    This section is a WIP.
+## Overview
 
-</Tip>
+Mobile integration differs from the desktop/web in several key ways:
+- **Wallet Connection**: Mobile apps use deep linking to connect with wallet apps (MetaMask, Rainbow, Trust Wallet)
+- **Browser Context**: Many flows require in-app browsers or WebViews
+
+Chainrails supports mobile through:
+
+- **Native SDK**: Cross-platform development with native modules and ui components
+- **Deep Link Handlers**: Seamless wallet-to-app communication
+
+---
+
+## React Native
+
+React Native allows you to build cross-platform mobile apps using JavaScript/TypeScript while accessing native platform capabilities.
+
+### Prerequisites
+
+Before starting:
+
+1. **React Native Environment**: Set up your development environment ([React Native docs](https://reactnative.dev/docs/environment-setup))
+2. **Chainrails API Key**: Obtain from [dashboard.chainrails.io](https://dashboard.chainrails.io)
+3. **Wallet Apps**: Install MetaMask, Rainbow, or Trust Wallet for testing
+
+### Step 1: Install the SDK
+
+Install the Chainrails React Native SDK and dependencies:
+
+```bash
+npm install @chainrails/react-native
+```
+
+### Step 2: Set Up Session Endpoint
+
+Create a backend endpoint that generates secure session tokens. This protects your API key.
+
+```javascript
+// server.js (Node.js/Express example)
+const express = require("express");
+const { Chainrails, crapi } = require("@chainrails/sdk");
+
+const app = express();
+
+Chainrails.config({
+  api_key: process.env.CHAINRAILS_API_KEY,
+});
+
+app.get("/create-session", async (req, res) => {
+  const session = await crapi.auth.getSessionToken({
+    amount: "10", // Payment amount or leave empty for user input
+    recipient: "0xYourWalletAddress",
+    destinationChain: "BASE_MAINNET",
+    token: "USDC",
+  });
+
+  res.json(session);
+});
+```
+
+### Step 3: Initialize the Payment Modal
+
+In your mobile app, initialize the Chainrails payment modal:
+
+```jsx
+// index.jsx
+import { PaymentModal, usePaymentModal } from "@chainrails/react-native";
+import { View} from 'react-native';
+
+export default function App() {
+  const [loading, setLoading] = useState(false);
+  const cr = usePaymentModal({
+    sessionToken: null,
+    onCancel: () => {
+      console.log("Payment Cancelled");
+    },
+    onSuccess: () => {
+      console.log("Payment Successful");
+    },
+  });
+
+  async function pay() {
+    setLoading(true);
+    const res = await fetch(`https://server.url/create-session`,);
+    const data = await res.json();
+    cr.updateSession(data);
+    cr.open();
+    setLoading(false);
+  }
+
+  return (
+    <View>
+      <Button onPress={pay} title={"Pay with Crypto"} />
+      <PaymentModal {...cr}  isPending={loading} />
+    </View>
+  );
+}
+```
+---
+
+## Best Practices
+
+### Security
+
+1. **Never expose API keys client-side**: Always use a backend session endpoint
+2. **Validate all inputs**: Check recipient addresses, chains, tokens, and amounts
+3. **Use HTTPS**: Ensure all communications are encrypted
+4. **Implement rate limiting**: Prevent session endpoint abuse
+
+### UX Guidelines
+
+1. **Show loading states**: Users need feedback during session creation
+2. **Handle errors gracefully**: Display user-friendly error messages
+3. **Support cancellation**: Allow users to exit the payment flow
+4. **Confirm success**: Clear confirmation when payment completes
+
+---
+
+## Example Projects
+
+---
+

@@ -1,26 +1,29 @@
 ---
-title: 'Get Supported Tokens for Chain'
-description: 'Retrieve all supported tokens available on a specified blockchain network'
+title: "Get Supported Tokens for Chain"
+description: "Retrieve all supported tokens available on a specified blockchain network"
 ---
 
 Retrieves all supported tokens available on a specified blockchain network.
 
+<Tip>
+  Chainrails supports multiple tokens across chains including: USDC, USDT, DAI, BUSD, EURC, ETH, WETH, BNB, STRK, and LORDS.
+</Tip>
+
 <Tabs>
 <Tab title="Try it">
 
-
 ```typescript
-import { crapi, Chainrails } from "@chainrails/sdk"
+import { crapi, Chainrails } from "@chainrails/sdk";
 
 Chainrails.config({
-  api_key: "your_api_key_here"
-})
+  api_key: "your_api_key_here",
+});
 
 const tokens = await crapi.chains.getSupported({
-  chain: "BASE_MAINNET"
-})
+  chain: "BASE_MAINNET",
+});
 
-console.log("Supported tokens:", tokens)
+console.log("Supported tokens:", tokens);
 ```
 
 </Tab>
@@ -45,8 +48,21 @@ console.log("Supported tokens:", tokens)
     "symbol": "DAI",
     "name": "Dai Stablecoin",
     "decimals": 18
+  },
+  {
+    "address": "0x1234567890abcdef1234567890abcdef12345678",
+    "symbol": "EURC",
+    "name": "Euro Coin",
+    "decimals": 6
+  },
+  {
+    "address": "0x4200000000000000000000000000000000000006",
+    "symbol": "ETH",
+    "name": "Ether",
+    "decimals": 18
   }
 ]
 ```
+
 </Tab>
 </Tabs>

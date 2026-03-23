@@ -37,6 +37,7 @@ The `usePaymentSession` hook is ideal for simple implementations where your sess
 - `onSuccess` (function, optional): Callback fired when payment completes successfully
 - `onCancel` (function, optional): Callback fired when user cancels the payment
 - `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B", theme: "dark" }`)
+- `excludeChains` (array, optional): Array of chains to exclude from payment options (e.g., `[chains.BASE_TESTNET, chains.STARKNET_TESTNET]`)
 
 ### Example Implementation
 
@@ -95,6 +96,7 @@ The `usePaymentModal` hook provides manual control over session token management
 - `onSuccess` (function, optional): Callback fired when payment completes successfully
 - `onCancel` (function, optional): Callback fired when user cancels the payment
 - `styles` (object, optional): Available styling (e.g., `{ accentColor: "#FF6B6B", theme: "dark" }`)
+- `excludeChains` (array, optional): Array of chains to exclude from payment options
 
 ### Example Implementation
 
@@ -159,14 +161,14 @@ The `usePaymentModal` hook returns an object with:
 
 The `<PaymentModal />` component accepts the following props:
 
-| Prop             | Type     | Description                                                                  |
-| ---------------- | -------- | ---------------------------------------------------------------------------- |
-| `open`           | function | Opens the modal                                                              |
-| `close`          | function | Closes the modal                                                             |
-| `isOpen`         | boolean  | Current modal visibility state                                               |
-| `sessionToken`   | string   | Active session token for the payment                                         |
-| `styles`         | object   | Custom styling object with options like `accentColor`, `theme`               |
-| `amount`         | number   | (Optional) Display amount in the modal                                       |
+| Prop            | Type     | Description                                                                  |
+| --------------- | -------- | ---------------------------------------------------------------------------- |
+| `open`          | function | Opens the modal                                                              |
+| `close`         | function | Closes the modal                                                             |
+| `isOpen`        | boolean  | Current modal visibility state                                               |
+| `sessionToken`  | string   | Active session token for the payment                                         |
+| `styles`        | object   | Custom styling object with options like `accentColor`, `theme`               |
+| `amount`        | number   | (Optional) Display amount in the modal                                       |
 | `excludeChains` | array    | (Optional) Array of chains to exclude from the modal (e.g., `[chains.BASE]`) |
 
 ---
