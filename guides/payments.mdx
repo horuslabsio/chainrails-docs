@@ -301,6 +301,10 @@ You can find setup instructions in the [Webhook Section](./webhooks)
 2. If the user under-funds the intent, the transaction will fail to start, and the user can either top up the balance of the intent address, or a refund will be processed after intent expiration.
 3. If the user over-pays an intent, the excess is refunded on intent initiation.
 4. API keys have a rate limit of 250 rps, contact the team if you need modifications to this.
+5. Live API keys cannot be used with test networks. In test environments you can use supported mainnets and testnets, but once you
+  switch to a live API key you must use mainnet networks only.
+6. Testnets also do not have indexing support. You must manually call
+  `POST /api/v1/intents/{intent_address}/trigger-processing` to process the intent.
 
 <Card title="Github Example" icon="stars" href="https://github.com/horuslabsio/chainrails-demo">
   Check out our Github demo repository for copy-paste code examples.

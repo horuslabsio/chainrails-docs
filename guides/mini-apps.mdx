@@ -142,12 +142,17 @@ export default function App() {
 
 ## Best Practices
 
-### Security
-
 1. **Never expose API keys client-side**: Always use a backend session endpoint
 2. **Validate all inputs**: Check recipient addresses, chains, tokens, and amounts
 3. **Use HTTPS**: Ensure all communications are encrypted
 4. **Implement rate limiting**: Prevent session endpoint abuse
+
+## Additional Notes
+
+1. Live API keys cannot be used with test networks. In test environments you can use supported mainnets and testnets, but once you switch to a live API key you must use mainnet networks only.
+
+2. Testnets also do not have indexing support. If you are testing the modal on a testnet, users must click **I have made payment** after funding. If you are using API-driven flows, you must manually call
+  `POST /api/v1/intents/{intent_address}/trigger-processing` to process the intent.
 
 <Card title="Github Example" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/mini-apps">
   Check out our Github demo repository for a mini-app example.

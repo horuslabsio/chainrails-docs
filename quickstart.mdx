@@ -138,6 +138,15 @@ When users click the payment button:
 4. Your `onSuccess` callback fires when the transaction completes
 5. Funds arrive in your `recipient` address on your chosen chain
 
+## Additional Notes
+1. Live API keys cannot be used with test networks. In test environments you can use supported mainnets and testnets, but live API
+  keys must use mainnet networks only.
+
+2. Testnets also do not have indexing support. In modal flows, users must click **I have made payment** after funding on testnets. In
+  API-driven flows, use `POST /api/v1/intents/{intent_address}/trigger-processing` to process the intent manually.
+
 <Card title="View Github Code" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/modal">
   Explore a complete example of the Payment Modal integration in our GitHub repository.
 </Card>
+
+
