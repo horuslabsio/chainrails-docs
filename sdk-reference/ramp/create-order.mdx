@@ -1,0 +1,54 @@
+---
+title: "Create Order"
+description: "Create a fiat-to-crypto order and get a provider widget URL"
+---
+
+Initiates a fiat-to-crypto purchase by creating an order with a selected quote. Returns a provider widget URL that you redirect the user to for completing payment.
+
+## BODY
+
+provider: RampProvider;
+fiatCurrency: string;
+cryptoAmount: number;
+destinationChain: string;
+recipientAddress: string;
+countryCode: string;
+paymentChannelId?: string;
+email?: string;
+phoneNumber?: string;
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+// Get quotes for spending $100 USD
+const order = await crapi.ramp.createOrder({
+  provider: "ONRAMP_MONEY";
+  fiatCurrency: "USD";
+  cryptoAmount: 10;
+  destinationChain: "BASE_MAINNET",
+  recipientAddress: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+  countryCode: "US",
+});
+```
+
+</Tab>
+</Tabs>
+
+## Widget Integration
+
+The `widgetUrl` returned is a fully-hosted checkout page. Redirect your users there:
+
+```typescript
+// Full page redirect
+window.location.href = order.widgetUrl;
+
+// Or open in popup
+const popup = window.open(order.widgetUrl, "RampCheckout", "width=480,height=800");
+```

@@ -1,0 +1,68 @@
+---
+title: "Ramp"
+description: "Allow users make payment using local fiat currencies"
+---
+
+The Ramp module enables seamless fiat-to-crypto conversions, allowing users make payment with traditional payment methods like credit cards, bank transfers, and local payment options and you receive it in your preferred token and chain.
+
+## Overview
+
+Chainrails aggregates multiple on-ramp providers to offer your users the best rates and widest coverage. The Ramp module handles the entire flow from quote discovery to order completion, including:
+
+- **Quote Aggregation**: Compare rates across multiple providers in real-time
+- **Global Coverage**: Support for 100+ countries and 50+ fiat currencies
+- **Multiple Payment Methods**: Cards, bank transfers, Apple Pay, Google Pay, and local options
+- **Session Support**: Full integration with Chainrails Payment Modal for a seamless experience
+
+## Quick Start
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk";
+
+Chainrails.config({
+  api_key: "your_api_key_here",
+});
+
+// Get quotes for buying crypto with fiat
+const quotes = await crapi.ramp.getQuotes({
+  fiatCurrency: "USD";
+  cryptoAmount: 10;
+  destinationChain: "BASE_MAINNET";
+  countryCode: US;
+  directOnly: FALSE;
+});
+
+// Create an order with the best quote
+const order = await crapi.ramp.createOrder({
+  provider: "ONRAMP_MONEY";
+  fiatCurrency: "USD";
+  cryptoAmount: 10;
+  destinationChain: "BASE_MAINNET",
+  recipientAddress: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+  countryCode: "US",
+});
+
+// Redirect user to provider widget
+window.location.href = order.widgetUrl;
+```
+
+## Available Methods
+
+<CardGroup>
+  <Card title="Get Quotes" icon="tag" href="/sdk-reference/ramp/get-quotes">
+    Compare fiat-to-crypto rates across all providers
+  </Card>
+  <Card title="Create Order" icon="plus" href="/sdk-reference/ramp/create-order">
+    Initiate a fiat-to-crypto purchase
+  </Card>
+</CardGroup>
+
+## Order Lifecycle
+
+1. **CREATED**: Order initialized, awaiting user action
+2. **PENDING_PAYMENT**: User redirected to provider widget
+3. **PROCESSING**: Payment received, crypto being delivered
+4. **COMPLETED**: Crypto successfully deposited to wallet
+5. **CANCELLED**: Order cancelled by user or system
+6. **EXPIRED**: Quote expired before completion
+7. **FAILED**: Payment or delivery failed
