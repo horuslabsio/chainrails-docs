@@ -1,5 +1,5 @@
 ---
-title: "Ramp"
+title: "Introduction"
 description: "Allow users make payment using local fiat currencies"
 ---
 
@@ -12,7 +12,6 @@ Chainrails aggregates multiple on-ramp providers to offer your users the best ra
 - **Quote Aggregation**: Compare rates across multiple providers in real-time
 - **Global Coverage**: Support for 100+ countries and 50+ fiat currencies
 - **Multiple Payment Methods**: Cards, bank transfers, Apple Pay, Google Pay, and local options
-- **Session Support**: Full integration with Chainrails Payment Modal for a seamless experience
 
 ## Quick Start
 
@@ -49,10 +48,10 @@ window.location.href = order.widgetUrl;
 ## Available Methods
 
 <CardGroup>
-  <Card title="Get Quotes" icon="tag" href="/sdk-reference/ramp/get-quotes">
+  <Card title="Get Quotes" href="/sdk-reference/ramp/get-quotes">
     Compare fiat-to-crypto rates across all providers
   </Card>
-  <Card title="Create Order" icon="plus" href="/sdk-reference/ramp/create-order">
+  <Card title="Create Order" href="/sdk-reference/ramp/create-order">
     Initiate a fiat-to-crypto purchase
   </Card>
 </CardGroup>
@@ -60,9 +59,10 @@ window.location.href = order.widgetUrl;
 ## Order Lifecycle
 
 1. **CREATED**: Order initialized, awaiting user action
-2. **PENDING_PAYMENT**: User redirected to provider widget
+2. **PENDING**: User redirected to provider widget
 3. **PROCESSING**: Payment received, crypto being delivered
 4. **COMPLETED**: Crypto successfully deposited to wallet
 5. **CANCELLED**: Order cancelled by user or system
 6. **EXPIRED**: Quote expired before completion
 7. **FAILED**: Payment or delivery failed
+8. **REFUNDED**: User has been refunded
