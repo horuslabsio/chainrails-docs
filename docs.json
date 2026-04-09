@@ -116,6 +116,10 @@
               {
                 "group": "Client",
                 "pages": ["sdk-reference/client/get-client-info"]
+              },
+              {
+                "group": "Ramp",
+                "pages": ["sdk-reference/ramp/introduction", "sdk-reference/ramp/get-quotes", "sdk-reference/ramp/create-order"]
               }
             ]
           }

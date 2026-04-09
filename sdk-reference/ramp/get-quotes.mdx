@@ -1,0 +1,39 @@
+---
+title: "Get Quotes"
+description: "Get aggregated fiat-to-crypto quotes from all eligible providers"
+---
+
+Fetches real-time quotes from multiple on-ramp providers, automatically selecting the cheapest path for your users. This method fans out to all supported providers and aggregates their rates, fees, and delivery times.
+
+## Parameters
+
+- `fiatCurrency` (required): ISO 4217 fiat currency code (e.g., USD, EUR, GBP)
+- `cryptoAmount` (required): Amount of crypto to receive (mutually exclusive with `fiatAmount`)
+- `destinationChain` (required): Destination blockchain where user wants funds
+- `countryCode` (optional): ISO 3166-1 alpha-2 country code of the user. Required for multi-country currencies. Falls back to the currency's default country if omitted.
+- `directOnly` (optional): If true, only return quotes with direct transfer channels
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk"
+
+Chainrails.config({
+  api_key: "your_api_key_here"
+})
+
+// Get quotes for spending $100 USD
+const quotes = await crapi.ramp.getQuotes({
+   fiatCurrency: "USD";
+  cryptoAmount: 10;
+  destinationChain: "BASE_MAINNET";
+  countryCode: US;
+  directOnly: FALSE;
+})
+
+console.log("Best quote:", quotes.recommended)
+```
+
+</Tab>
+</Tabs>
