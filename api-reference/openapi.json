@@ -2180,6 +2180,65 @@
         ]
       }
     },
+    "/modal/sessions": {
+      "post": {
+        "description": "Creates a modal session with constraints (recipient, token, chain, amount). Returns a session token valid for 60 minutes.",
+        "operationId": "SessionController_createSession",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSessionDto"
+              },
+              "examples": {
+                "Fixed amount": {
+                  "value": {
+                    "recipient": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+                    "tokenOut": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                    "destinationChain": "STARKNET_MAINNET",
+                    "amount": "1"
+                  }
+                },
+                "User input amount": {
+                  "value": {
+                    "recipient": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+                    "tokenOut": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                    "destinationChain": "STARKNET_MAINNET",
+                    "amount": "0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Session created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSessionResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Create a modal session",
+        "tags": [
+          "Modal Sessions"
+        ]
+      }
+    },
     "/quotes/best": {
       "get": {
         "description": "Retrieves the best quote (lowest total fee) from all supported bridge protocols",
@@ -2624,7 +2683,8 @@
                                 },
                                 "tokenAddress": {
                                   "type": "string",
-                                  "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                                  "example": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+                                  "description": "Contract address of the token on the source chain"
                                 },
                                 "depositAmount": {
                                   "type": "string",
@@ -2694,7 +2754,7 @@
                               },
                               "tokenAddress": {
                                 "type": "string",
-                                "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                                "example": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d"
                               },
                               "depositAmount": {
                                 "type": "string",
@@ -3351,6 +3411,371 @@
         "summary": "Get quote from specific bridge",
         "tags": [
           "Quotes"
+        ]
+      }
+    },
+    "/ramp/countries": {
+      "get": {
+        "description": "Returns all enabled countries with currency details. Optionally filter by fiat currency code and/or minimum crypto (USDC) amount.",
+        "operationId": "RampController_getCountries",
+        "parameters": [
+          {
+            "name": "currency",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "EUR",
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of supported countries with currency info"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "List supported countries",
+        "tags": [
+          "Ramp"
+        ]
+      }
+    },
+    "/ramp/currencies": {
+      "get": {
+        "description": "Returns all enabled fiat currencies. Optionally filter by a specific ramp provider.",
+        "operationId": "RampController_getCurrencies",
+        "parameters": [
+          {
+            "name": "provider",
+            "required": false,
+            "in": "query",
+            "description": "Filter currencies by a specific provider",
+            "schema": {
+              "example": "FONBNK",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of supported fiat currencies"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "List supported fiat currencies",
+        "tags": [
+          "Ramp"
+        ]
+      }
+    },
+    "/ramp/orders": {
+      "post": {
+        "description": "Creates a fiat-to-crypto order. Fetches a fresh quote, creates a Chainrails intent, and initiates the order with the ramp provider.",
+        "operationId": "RampController_createOrder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRampOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ramp order created successfully"
+          },
+          "400": {
+            "description": "Invalid request parameters"
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Create a ramp order",
+        "tags": [
+          "Ramp"
+        ]
+      },
+      "get": {
+        "description": "Returns all ramp orders for the authenticated client, newest first.",
+        "operationId": "RampController_listOrders",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of ramp orders"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "List all ramp orders",
+        "tags": [
+          "Ramp"
+        ]
+      }
+    },
+    "/ramp/orders/{id}": {
+      "get": {
+        "description": "Returns the full details of a ramp order, scoped to the authenticated client.",
+        "operationId": "RampController_getOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Ramp order ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ramp order details"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get a ramp order by ID",
+        "tags": [
+          "Ramp"
+        ]
+      }
+    },
+    "/ramp/orders/{id}/cancel": {
+      "post": {
+        "description": "Cancels a ramp order if it is still in a cancellable state.",
+        "operationId": "RampController_cancelOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Ramp order ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order cancelled"
+          },
+          "400": {
+            "description": "Order cannot be cancelled"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Cancel a ramp order",
+        "tags": [
+          "Ramp"
+        ]
+      }
+    },
+    "/ramp/orders/{id}/confirm": {
+      "post": {
+        "description": "Confirms a ramp order after the user has completed their deposit action.",
+        "operationId": "RampController_confirmOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Ramp order ID",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order confirmed"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Confirm a ramp order",
+        "tags": [
+          "Ramp"
+        ]
+      }
+    },
+    "/ramp/orders/by-intent/{intentAddress}": {
+      "get": {
+        "description": "Returns the full details of a ramp order looked up by its on-chain intent address.",
+        "operationId": "RampController_getOrderByIntentAddress",
+        "parameters": [
+          {
+            "name": "intentAddress",
+            "required": true,
+            "in": "path",
+            "description": "On-chain intent address",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ramp order details"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get a ramp order by intent address",
+        "tags": [
+          "Ramp"
+        ]
+      }
+    },
+    "/ramp/quotes": {
+      "get": {
+        "description": "Returns fiat-to-crypto quotes from all eligible providers, sorted by cheapest total cost.",
+        "operationId": "RampController_getQuotes",
+        "parameters": [
+          {
+            "name": "fiatCurrency",
+            "required": true,
+            "in": "query",
+            "description": "ISO 4217 fiat currency code",
+            "schema": {
+              "example": "NGN",
+              "type": "string"
+            }
+          },
+          {
+            "name": "cryptoAmount",
+            "required": true,
+            "in": "query",
+            "description": "Amount of crypto the user wants to receive (e.g., 10 for 10 USDC)",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "destinationChain",
+            "required": true,
+            "in": "query",
+            "description": "Destination blockchain where user wants funds",
+            "schema": {
+              "example": "BASE_MAINNET",
+              "type": "string",
+              "enum": [
+                "ARBITRUM_MAINNET",
+                "ARBITRUM_TESTNET",
+                "AVALANCHE_MAINNET",
+                "AVALANCHE_TESTNET",
+                "BASE_MAINNET",
+                "BASE_TESTNET",
+                "STARKNET_MAINNET",
+                "STARKNET_TESTNET",
+                "BSC_MAINNET",
+                "ETHEREUM_MAINNET",
+                "ETHEREUM_TESTNET",
+                "OPTIMISM_MAINNET",
+                "OPTIMISM_TESTNET",
+                "MONAD_MAINNET",
+                "MONAD_TESTNET",
+                "POLYGON_MAINNET",
+                "HYPEREVM_MAINNET",
+                "LISK_MAINNET"
+              ]
+            }
+          },
+          {
+            "name": "countryCode",
+            "required": false,
+            "in": "query",
+            "description": "ISO 3166-1 alpha-2 country code of the user. Required for multi-country currencies (e.g., XOF — pass \"BJ\" for Benin, \"SN\" for Senegal). Falls back to the currency's default country if omitted.",
+            "schema": {
+              "example": "NG",
+              "type": "string"
+            }
+          },
+          {
+            "name": "directOnly",
+            "required": false,
+            "in": "query",
+            "description": "If true, only return quotes with direct transfer channels (no widget/redirect)",
+            "schema": {
+              "example": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Aggregated ramp quotes"
+          },
+          "400": {
+            "description": "Invalid request parameters"
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "summary": "Get aggregated ramp quotes",
+        "tags": [
+          "Ramp"
         ]
       }
     },
@@ -4163,13 +4588,13 @@
           },
           "appFeeRecipientEvm": {
             "type": "string",
-            "description": "EVM address to receive app fees (optional)",
-            "example": "0x1234567890abcdef1234567890abcdef12345678"
+            "description": "EVM address to receive app fees (42 chars, e.g. 0x...). Required format for Ethereum, Arbitrum, Base, etc.",
+            "example": "0xdA3ECb2E5362295E2b802669dD47127A61d9Ce54"
           },
           "appFeeRecipientStarknet": {
             "type": "string",
-            "description": "Starknet address to receive app fees (optional)",
-            "example": "0x1234567890abcdef1234567890abcdef12345678"
+            "description": "Starknet address to receive app fees (66 chars, e.g. 0x...). Required format for Starknet chains.",
+            "example": "0x02d904Aedff382C0D68F22444B525146ec5eA2926e271fC411845e8D9E751DE1"
           }
         },
         "required": [
@@ -4436,6 +4861,365 @@
           "chain"
         ]
       },
+      "CreateSessionDto": {
+        "type": "object",
+        "properties": {
+          "recipient": {
+            "type": "string",
+            "description": "Recipient wallet address on the destination chain",
+            "example": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+          },
+          "tokenOut": {
+            "type": "string",
+            "description": "Token address on the destination chain",
+            "example": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+          },
+          "destinationChain": {
+            "description": "Destination blockchain network",
+            "example": "STARKNET_MAINNET",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount in human-readable format (e.g., \"1\" for 1 token, \"100\" for 100 tokens, \"1.5\" for 1.5 tokens). Set to \"0\" to allow user to input any amount > 0",
+            "example": "1"
+          }
+        },
+        "required": [
+          "recipient",
+          "tokenOut",
+          "destinationChain",
+          "amount"
+        ]
+      },
+      "ClientInfoResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Client unique identifier",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "name": {
+            "type": "string",
+            "description": "Client name",
+            "example": "Acme Corp"
+          },
+          "email": {
+            "type": "string",
+            "description": "Client email address",
+            "example": "contact@acme.com"
+          },
+          "logoUrl": {
+            "type": "string",
+            "description": "Client logo URL",
+            "example": "https://acme.com/logo.png"
+          },
+          "paymasterEnabled": {
+            "type": "boolean",
+            "description": "Whether paymaster is enabled for this client",
+            "example": false
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email",
+          "paymasterEnabled"
+        ]
+      },
+      "CreateSessionResponseDto": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "description": "Unique session identifier",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "sessionToken": {
+            "type": "string",
+            "description": "JWT session token for authentication",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Token expiration timestamp",
+            "example": "2025-12-24T13:45:30.000Z"
+          },
+          "client": {
+            "description": "Client details associated with this session",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ClientInfoResponseDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "sessionId",
+          "sessionToken",
+          "expiresAt"
+        ]
+      },
+      "HandoffTokenResponseDto": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string",
+            "description": "Unique session identifier",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "handoffToken": {
+            "type": "string",
+            "description": "Short-lived handoff token that can be passed to a wallet app and exchanged for a fresh session token",
+            "example": "kTQ_9f2Q5h8T6ecT4-0w7Q"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Handoff token expiration timestamp",
+            "example": "2025-12-24T12:10:00.000Z"
+          }
+        },
+        "required": [
+          "sessionId",
+          "handoffToken",
+          "expiresAt"
+        ]
+      },
+      "ResumeSessionDto": {
+        "type": "object",
+        "properties": {
+          "handoffToken": {
+            "type": "string",
+            "description": "Short-lived handoff token issued for the session",
+            "example": "kTQ_9f2Q5h8T6ecT4-0w7Q"
+          }
+        },
+        "required": [
+          "handoffToken"
+        ]
+      },
+      "CreateIntentWithSessionDto": {
+        "type": "object",
+        "properties": {
+          "sender": {
+            "type": "string",
+            "description": "Sender wallet address on the source chain",
+            "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount to transfer in human-readable format (e.g., \"1\" for 1 token, \"100\" for 100 tokens, \"1.5\" for 1.5 tokens). Must match session amount if not 0, otherwise must be > 0",
+            "example": "1"
+          },
+          "tokenIn": {
+            "type": "string",
+            "description": "Token address on the source chain",
+            "example": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+          },
+          "sourceChain": {
+            "description": "Source blockchain network",
+            "example": "ETHEREUM_MAINNET",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "refundAddress": {
+            "type": "string",
+            "description": "Refund address on the source chain if intent fails",
+            "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the intent",
+            "example": {
+              "orderId": "12345",
+              "userId": "user-abc"
+            }
+          }
+        },
+        "required": [
+          "sender",
+          "amount",
+          "tokenIn",
+          "sourceChain"
+        ]
+      },
+      "IntentStatusResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Intent database ID",
+            "example": 42
+          },
+          "intentAddress": {
+            "type": "string",
+            "description": "Intent address (unique identifier)",
+            "example": "0x1234567890abcdef..."
+          },
+          "status": {
+            "type": "string",
+            "description": "Current intent status",
+            "enum": [
+              "PENDING",
+              "FUNDED",
+              "COMPLETED",
+              "REFUNDED",
+              "EXPIRED"
+            ],
+            "example": "PENDING"
+          },
+          "txHash": {
+            "type": "string",
+            "description": "Transaction hash if available",
+            "example": "0xabcdef1234567890..."
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Intent creation timestamp",
+            "example": "2025-12-24T12:00:00.000Z"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Intent expiration timestamp",
+            "example": "2025-12-24T13:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "intentAddress",
+          "status"
+        ]
+      },
+      "IntentHistoryDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateSessionRampOrderDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "description": "Ramp provider to use for this order",
+            "enum": [
+              "FONBNK",
+              "ONRAMP_MONEY"
+            ],
+            "example": "FONBNK"
+          },
+          "fiatCurrency": {
+            "type": "string",
+            "description": "ISO 4217 fiat currency code",
+            "example": "NGN"
+          },
+          "cryptoAmount": {
+            "type": "number",
+            "description": "Amount of USDC the user wants to receive",
+            "example": 10
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code of the user",
+            "example": "NG"
+          },
+          "fields": {
+            "type": "object",
+            "description": "Provider-specific fields required by the payment channel (e.g., phone number, bank code)",
+            "example": {
+              "phoneNumber": "+2348012345678"
+            }
+          }
+        },
+        "required": [
+          "provider",
+          "fiatCurrency",
+          "cryptoAmount"
+        ]
+      },
+      "CreateRampOrderDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "description": "Ramp provider to use for this order",
+            "enum": [
+              "FONBNK",
+              "ONRAMP_MONEY"
+            ],
+            "example": "FONBNK"
+          },
+          "fiatCurrency": {
+            "type": "string",
+            "description": "ISO 4217 fiat currency code",
+            "example": "NGN"
+          },
+          "cryptoAmount": {
+            "type": "number",
+            "description": "Amount of crypto the user wants to receive",
+            "example": 10
+          },
+          "destinationChain": {
+            "type": "string",
+            "description": "Destination blockchain where user wants their funds",
+            "enum": [
+              "ARBITRUM_MAINNET",
+              "ARBITRUM_TESTNET",
+              "AVALANCHE_MAINNET",
+              "AVALANCHE_TESTNET",
+              "BASE_MAINNET",
+              "BASE_TESTNET",
+              "STARKNET_MAINNET",
+              "STARKNET_TESTNET",
+              "BSC_MAINNET",
+              "ETHEREUM_MAINNET",
+              "ETHEREUM_TESTNET",
+              "OPTIMISM_MAINNET",
+              "OPTIMISM_TESTNET",
+              "MONAD_MAINNET",
+              "MONAD_TESTNET",
+              "POLYGON_MAINNET",
+              "HYPEREVM_MAINNET",
+              "LISK_MAINNET"
+            ],
+            "example": "BASE_MAINNET"
+          },
+          "recipientAddress": {
+            "type": "string",
+            "description": "Recipient wallet address on the destination chain",
+            "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-2 country code of the user. Required for multi-country currencies (e.g., XOF — pass \"BJ\" for Benin, \"SN\" for Senegal). Falls back to the currency's default country if omitted.",
+            "example": "NG"
+          },
+          "fields": {
+            "type": "object",
+            "description": "Provider-specific fields required by the payment channel (e.g., phone number, bank code)",
+            "example": {
+              "phoneNumber": "+2348012345678"
+            }
+          }
+        },
+        "required": [
+          "provider",
+          "fiatCurrency",
+          "cryptoAmount",
+          "destinationChain",
+          "recipientAddress"
+        ]
+      },
       "LoginAdminDto": {
         "type": "object",
         "properties": {}
@@ -4640,192 +5424,303 @@
           }
         }
       },
-      "CreateSessionDto": {
+      "TokenAmountDto": {
         "type": "object",
         "properties": {
-          "recipient": {
+          "token": {
             "type": "string",
-            "description": "Recipient wallet address on the destination chain",
-            "example": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
-          },
-          "tokenOut": {
-            "type": "string",
-            "description": "Token address on the destination chain",
-            "example": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
-          },
-          "destinationChain": {
-            "description": "Destination blockchain network",
-            "example": "STARKNET_MAINNET",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Chains"
-              }
-            ]
+            "description": "Token address (bytes32 format)",
+            "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
           },
           "amount": {
             "type": "string",
-            "description": "Amount in human-readable format (e.g., \"1\" for 1 token, \"100\" for 100 tokens, \"1.5\" for 1.5 tokens). Set to \"0\" to allow user to input any amount > 0",
-            "example": "1"
+            "description": "Token amount as string",
+            "example": "1000000"
           }
         },
         "required": [
-          "recipient",
-          "tokenOut",
-          "destinationChain",
+          "token",
           "amount"
         ]
       },
-      "CreateSessionResponseDto": {
+      "ProcessBroadcastedIntentDto": {
         "type": "object",
         "properties": {
-          "sessionId": {
+          "broadcastId": {
             "type": "string",
-            "description": "Unique session identifier",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
+            "description": "Unique broadcast ID",
+            "example": "0x1234567890abcdef..."
           },
-          "sessionToken": {
+          "broadcaster": {
             "type": "string",
-            "description": "JWT session token for authentication",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            "description": "ChainRails broadcaster contract address",
+            "example": "0xBroadcasterAddress..."
           },
-          "expiresAt": {
-            "format": "date-time",
+          "broadcastingContract": {
             "type": "string",
-            "description": "Token expiration timestamp",
-            "example": "2025-12-24T13:45:30.000Z"
-          }
-        },
-        "required": [
-          "sessionId",
-          "sessionToken",
-          "expiresAt"
-        ]
-      },
-      "ClientInfoResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Client unique identifier",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
+            "description": "Client contract that called broadcast_intent (whitelisted)",
+            "example": "0xClientContract..."
           },
-          "name": {
-            "type": "string",
-            "description": "Client name",
-            "example": "Acme Corp"
-          },
-          "email": {
-            "type": "string",
-            "description": "Client email address",
-            "example": "contact@acme.com"
-          },
-          "logoUrl": {
-            "type": "string",
-            "description": "Client logo URL",
-            "example": "https://acme.com/logo.png"
-          },
-          "paymasterEnabled": {
-            "type": "boolean",
-            "description": "Whether paymaster is enabled for this client",
-            "example": false
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "email",
-          "paymasterEnabled"
-        ]
-      },
-      "CreateIntentWithSessionDto": {
-        "type": "object",
-        "properties": {
           "sender": {
             "type": "string",
-            "description": "Sender wallet address on the source chain",
-            "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
-          },
-          "amount": {
-            "type": "string",
-            "description": "Amount to transfer in human-readable format (e.g., \"1\" for 1 token, \"100\" for 100 tokens, \"1.5\" for 1.5 tokens). Must match session amount if not 0, otherwise must be > 0",
-            "example": "1"
-          },
-          "tokenIn": {
-            "type": "string",
-            "description": "Token address on the source chain",
-            "example": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+            "description": "User wallet address",
+            "example": "0xUserAddress..."
           },
           "sourceChain": {
-            "description": "Source blockchain network",
-            "example": "ETHEREUM_MAINNET",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Chains"
-              }
-            ]
+            "type": "number",
+            "description": "Source chain enum value",
+            "example": 2
+          },
+          "destinationChain": {
+            "type": "number",
+            "description": "Destination chain enum value",
+            "example": 0
+          },
+          "recipient": {
+            "type": "string",
+            "description": "Destination recipient address",
+            "example": "0xRecipientAddress..."
           },
           "refundAddress": {
             "type": "string",
-            "description": "Refund address on the source chain if intent fails",
-            "example": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+            "description": "Refund address",
+            "example": "0xRefundAddress..."
           },
-          "metadata": {
+          "deposits": {
+            "description": "Array of deposited tokens",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenAmountDto"
+            }
+          },
+          "bridgeTokenOutOptions": {
+            "description": "Array of bridge token output options",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TokenAmountDto"
+            }
+          },
+          "mode": {
+            "type": "string",
+            "description": "Environment mode",
+            "enum": [
+              "live",
+              "test"
+            ],
+            "example": "live"
+          }
+        },
+        "required": [
+          "broadcastId",
+          "broadcaster",
+          "broadcastingContract",
+          "sender",
+          "sourceChain",
+          "destinationChain",
+          "recipient",
+          "refundAddress",
+          "deposits",
+          "bridgeTokenOutOptions",
+          "mode"
+        ]
+      },
+      "ProcessBroadcastedIntentResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the operation was successful"
+          },
+          "intentId": {
+            "type": "number",
+            "description": "Intent ID"
+          },
+          "txHash": {
+            "type": "string",
+            "description": "Transaction hash"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if failed"
+          }
+        },
+        "required": [
+          "success"
+        ]
+      },
+      "WhitelistBroadcasterDto": {
+        "type": "object",
+        "properties": {
+          "contractAddress": {
+            "type": "string",
+            "description": "Contract address to whitelist",
+            "example": "0x1234567890abcdef..."
+          },
+          "chain": {
+            "type": "string",
+            "description": "Chain where the contract is deployed",
+            "enum": [
+              "ARBITRUM_MAINNET",
+              "ARBITRUM_TESTNET",
+              "AVALANCHE_MAINNET",
+              "AVALANCHE_TESTNET",
+              "BASE_MAINNET",
+              "BASE_TESTNET",
+              "STARKNET_MAINNET",
+              "STARKNET_TESTNET",
+              "BSC_MAINNET",
+              "ETHEREUM_MAINNET",
+              "ETHEREUM_TESTNET",
+              "OPTIMISM_MAINNET",
+              "OPTIMISM_TESTNET",
+              "MONAD_MAINNET",
+              "MONAD_TESTNET",
+              "POLYGON_MAINNET",
+              "HYPEREVM_MAINNET",
+              "LISK_MAINNET"
+            ],
+            "example": "BASE_MAINNET"
+          }
+        },
+        "required": [
+          "contractAddress",
+          "chain"
+        ]
+      },
+      "WhitelistBroadcasterResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the operation was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Success/error message"
+          },
+          "contract": {
             "type": "object",
-            "description": "Additional metadata for the intent",
-            "example": {
-              "orderId": "12345",
-              "userId": "user-abc"
+            "description": "Whitelisted contract details"
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ]
+      },
+      "UpdateWhitelistBroadcasterDto": {
+        "type": "object",
+        "properties": {
+          "contractAddress": {
+            "type": "string",
+            "description": "Contract address to whitelist",
+            "example": "0x1234567890abcdef..."
+          },
+          "chain": {
+            "type": "string",
+            "description": "Chain where the contract is deployed",
+            "enum": [
+              "ARBITRUM_MAINNET",
+              "ARBITRUM_TESTNET",
+              "AVALANCHE_MAINNET",
+              "AVALANCHE_TESTNET",
+              "BASE_MAINNET",
+              "BASE_TESTNET",
+              "STARKNET_MAINNET",
+              "STARKNET_TESTNET",
+              "BSC_MAINNET",
+              "ETHEREUM_MAINNET",
+              "ETHEREUM_TESTNET",
+              "OPTIMISM_MAINNET",
+              "OPTIMISM_TESTNET",
+              "MONAD_MAINNET",
+              "MONAD_TESTNET",
+              "POLYGON_MAINNET",
+              "HYPEREVM_MAINNET",
+              "LISK_MAINNET"
+            ],
+            "example": "BASE_MAINNET"
+          }
+        },
+        "required": [
+          "contractAddress",
+          "chain"
+        ]
+      },
+      "RemoveBroadcasterDto": {
+        "type": "object",
+        "properties": {
+          "contractAddress": {
+            "type": "string",
+            "description": "Contract address to remove",
+            "example": "0x1234567890abcdef..."
+          },
+          "chain": {
+            "type": "string",
+            "description": "Chain where the contract is deployed",
+            "enum": [
+              "ARBITRUM_MAINNET",
+              "ARBITRUM_TESTNET",
+              "AVALANCHE_MAINNET",
+              "AVALANCHE_TESTNET",
+              "BASE_MAINNET",
+              "BASE_TESTNET",
+              "STARKNET_MAINNET",
+              "STARKNET_TESTNET",
+              "BSC_MAINNET",
+              "ETHEREUM_MAINNET",
+              "ETHEREUM_TESTNET",
+              "OPTIMISM_MAINNET",
+              "OPTIMISM_TESTNET",
+              "MONAD_MAINNET",
+              "MONAD_TESTNET",
+              "POLYGON_MAINNET",
+              "HYPEREVM_MAINNET",
+              "LISK_MAINNET"
+            ],
+            "example": "BASE_MAINNET"
+          }
+        },
+        "required": [
+          "contractAddress",
+          "chain"
+        ]
+      },
+      "RemoveBroadcasterResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the operation was successful"
+          },
+          "message": {
+            "type": "string",
+            "description": "Success/error message"
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ]
+      },
+      "GetWhitelistedContractsResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether the operation was successful"
+          },
+          "contracts": {
+            "description": "Array of whitelisted contracts",
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           }
         },
         "required": [
-          "sender",
-          "amount",
-          "tokenIn",
-          "sourceChain"
-        ]
-      },
-      "IntentStatusResponseDto": {
-        "type": "object",
-        "properties": {
-          "intentAddress": {
-            "type": "string",
-            "description": "Intent address (unique identifier)",
-            "example": "0x1234567890abcdef..."
-          },
-          "status": {
-            "type": "string",
-            "description": "Current intent status",
-            "enum": [
-              "PENDING",
-              "FUNDED",
-              "COMPLETED",
-              "REFUNDED",
-              "EXPIRED"
-            ],
-            "example": "PENDING"
-          },
-          "txHash": {
-            "type": "string",
-            "description": "Transaction hash if available",
-            "example": "0xabcdef1234567890..."
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Intent creation timestamp",
-            "example": "2025-12-24T12:00:00.000Z"
-          },
-          "expiresAt": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Intent expiration timestamp",
-            "example": "2025-12-24T13:00:00.000Z"
-          }
-        },
-        "required": [
-          "intentAddress",
-          "status"
+          "success",
+          "contracts"
         ]
       },
       "CreateThemeDto": {
@@ -5189,6 +6084,89 @@
         },
         "required": [
           "reason"
+        ]
+      },
+      "PaymentLinkMetadataDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable name for the payment link",
+            "example": "Invoice #123",
+            "maxLength": 200
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the payment",
+            "example": "Design Master Class for Intermediate Designers by AJ",
+            "maxLength": 1000
+          },
+          "downloadable_media": {
+            "type": "string",
+            "description": "URL to downloadable media/file (optional)",
+            "example": "https://example.com/files/invoice-123.pdf"
+          },
+          "tax": {
+            "type": "number",
+            "description": "Tax percentage to be applied (0-100, optional)",
+            "example": 10,
+            "minimum": 0,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      },
+      "CreatePaymentLinkDto": {
+        "type": "object",
+        "properties": {
+          "recipient": {
+            "type": "string",
+            "description": "Recipient wallet address on the destination chain",
+            "example": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+          },
+          "tokenOut": {
+            "type": "string",
+            "description": "Token address on the destination chain",
+            "example": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+          },
+          "destinationChain": {
+            "description": "Destination blockchain network",
+            "example": "BASE",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Chains"
+              }
+            ]
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount in human-readable format (e.g., \"1\" for 1 token, \"100\" for 100 tokens, \"1.5\" for 1.5 tokens). Set to \"0\" to allow user to input any amount",
+            "example": "100"
+          },
+          "metadata": {
+            "description": "Payment link metadata (name, description, optional downloadable media and tax)",
+            "example": {
+              "name": "Invoice #123",
+              "description": "Design Master Class for Intermediate Designers by AJ",
+              "downloadable_media": "https://example.com/files/course.pdf",
+              "tax": 10
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentLinkMetadataDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "recipient",
+          "tokenOut",
+          "destinationChain",
+          "amount",
+          "metadata"
         ]
       }
     }
