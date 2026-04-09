@@ -1,0 +1,339 @@
+---
+title: 'Complete Ramping Guide'
+description: 'Learn everything you need to know about fiat on/off ramping with Chainrails'
+icon: 'money-bill'
+---
+
+This guide walks you through everything you need to know about fiat on/off ramping with Chainrails — from how it works, to best practices and implementation tips.
+
+<Tip>
+  Chainrails currently supports just onramping (fiat to crypto) but offramping (crypto to fiat) is coming soon! If you have use cases that require offramping, please reach out to our team at <a href="mailto:contact@horuslabs.co">contact@horuslabs.co</a>
+</Tip>
+
+## Overview
+
+Chainrails provides a seamless fiat on/off ramping experience by aggregating a network of ramping providers. Our API and SDKs abstract away the complexities of integrating with multiple providers, giving you a single integration point for all your ramping needs. 
+
+The ramping flow has been designed to integrate natively with the Intent flow, thus allowing you to ramp to any of our supported chains regardless of the provider's chain limitation. For example, a user can onramp from fiat to USDC on Starknet even if the provider only supports Ethereum — Chainrails will handle the cross-chain transfer automatically after the user completes their deposit with the provider.
+
+With Chainrails, you get:
+
+- Access to multiple ramping providers through a single API/SDK
+- Dynamic provider selection based on user location, KYC requirements, preferences, and provider rates
+- A wider coverage of supported fiat currencies and payment methods globally
+- Built-in compliance and KYC management through our provider network
+
+## Getting Started
+Before you begin, make sure you have obtained a Chainrails API key from [dashboard.chainrails.io](https://dashboard.chainrails.io).
+
+The entire ramping flow can be summarized into three simple steps:
+1. **Get Available Countries/Currencies**: Retrieve the list of supported countries and fiat currencies.
+2. **Get a quote**: Request a quote for the desired amount, destination chain, and fiat currency. Chainrails will return the best available rate and provider options.
+3. **Create a ramping session**: Once the user selects a provider and confirms the quote, create a ramping order that generates a unique URL for the user to complete the on/off ramp process with the selected provider. If a direct quote, then the user can complete the flow without leaving your app.
+
+## Modal Integration
+If you're using the **Chainrails Modal**, the entire ramping flow is automatically handled for you. The user simply selects their country/currency within the modal, and Chainrails takes care of the rest — from provider recommendation to quote retrieval to order creation and monitoring. 
+
+To get started with integrating the Chainrails Modal, check out our [Payment Modal documentation](/sdk-reference/components/payment-modal) for detailed instructions and examples.
+
+If you want more control, you can optionally utilize the SDK directly to get supported countries/currencies, quotes, and create ramping orders easily without interacting with the APIs directly. Refer to the [SDK reference](/sdk-reference) for more details.
+
+## API Integration
+If you're building a custom UI and want more control over the user experience, you can integrate with the Chainrails API directly. This allows you to design your own flow while still leveraging Chainrails' powerful ramping capabilities under the hood.
+
+### Step 1 — Get Available Countries
+
+Use the `GET /ramp/countries` endpoint to retrieve the list of supported countries and their associated fiat currencies. Use this to populate country-selection dropdowns in your UI.
+
+<Note>
+  Always use the **countries** endpoint rather than the currencies endpoint when building your selection UI. Multiple countries can share the same fiat currency (e.g. XOF is used across several West African nations, and EUR is shared across the Eurozone). Fetching by country ensures users are matched to the correct providers, payment methods, and KYC requirements for their specific location.
+</Note>
+
+The endpoint accepts two optional query parameters:
+- `currency` — filter countries by fiat currency code (e.g. `EUR`)
+- `amount` — filter by a minimum USD amount to ensure the provider supports the desired transaction size (Recommended)
+
+<Tabs>
+<Tab title="cURL">
+```curl
+curl --request GET \
+  --url "https://api.chainrails.io/api/v1/ramp/countries" \
+  --header "Authorization: Bearer YOUR_API_KEY"
+```
+</Tab>
+
+<Tab title="JavaScript">
+```javascript
+const fetch = require("node-fetch");
+
+const url = new URL("https://api.chainrails.io/api/v1/ramp/countries");
+
+(async () => {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer YOUR_API_KEY`,
+    },
+  });
+
+  const data = await res.json();
+  console.log("Supported countries:", data);
+})();
+```
+</Tab>
+
+<Tab title="PHP">
+```php
+<?php
+
+$apiKey = "YOUR_API_KEY";
+$baseUrl = "https://api.chainrails.io/api/v1/ramp/countries";
+
+$url = $baseUrl;
+
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer $apiKey"
+  ],
+]);
+
+$response = curl_exec($ch);
+
+if (curl_errno($ch)) {
+  echo 'Error: ' . curl_error($ch);
+} else {
+  echo "Response: " . $response;
+}
+
+curl_close($ch);
+```
+</Tab>
+</Tabs>
+
+### Step 2 — Get a Quote
+
+Once the user selects their country and fiat currency, call `GET /ramp/quotes` to retrieve aggregated quotes from all eligible providers, sorted by cheapest total cost. Use the returned quotes to present provider options to the user before they commit to an order.
+
+Required query parameters:
+- `fiatCurrency` — ISO 4217 fiat currency code (e.g. `NGN`, `EUR`, `XOF`)
+- `cryptoAmount` — amount of crypto (USDC) the user wants to receive
+- `destinationChain` — the target blockchain (e.g. `BASE_MAINNET`)
+
+Optional parameters:
+- `countryCode` — ISO 3166-1 alpha-2 country code. Required for multi-country currencies like `XOF` (e.g. pass `BJ` for Benin, `SN` for Senegal). Falls back to the currency's default country if omitted.
+- `directOnly` — set to `true` to return only quotes with direct transfer channels (no widget/redirect)
+
+<Note>
+  We only support USDC as the crypto output for ramping at the moment, so the `cryptoAmount` parameter always refers to the USDC amount the user wants to receive on their destination chain.
+</Note>
+
+<Tabs>
+<Tab title="cURL">
+```curl
+curl --request GET \
+  --url "https://api.chainrails.io/api/v1/ramp/quotes?fiatCurrency=NGN&cryptoAmount=10&destinationChain=BASE_MAINNET&countryCode=NG" \
+  --header "Authorization: Bearer YOUR_API_KEY"
+```
+</Tab>
+
+<Tab title="JavaScript">
+```javascript
+const fetch = require("node-fetch");
+
+const url = new URL("https://api.chainrails.io/api/v1/ramp/quotes");
+
+url.search = new URLSearchParams({
+  fiatCurrency: "NGN",
+  cryptoAmount: 10,
+  destinationChain: "BASE_MAINNET",
+  countryCode: "NG",
+}).toString();
+
+(async () => {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer YOUR_API_KEY`,
+    },
+  });
+
+  const data = await res.json();
+  console.log("Ramp quotes:", data);
+})();
+```
+</Tab>
+
+<Tab title="PHP">
+```php
+<?php
+
+$apiKey = "YOUR_API_KEY";
+$baseUrl = "https://api.chainrails.io/api/v1/ramp/quotes";
+
+$params = http_build_query([
+  "fiatCurrency"     => "NGN",
+  "cryptoAmount"     => 10,
+  "destinationChain" => "BASE_MAINNET",
+  "countryCode"      => "NG",
+]);
+
+$url = "$baseUrl?$params";
+
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer $apiKey"
+  ],
+]);
+
+$response = curl_exec($ch);
+
+if (curl_errno($ch)) {
+  echo 'Error: ' . curl_error($ch);
+} else {
+  echo "Response: " . $response;
+}
+
+curl_close($ch);
+```
+</Tab>
+</Tabs>
+
+### Step 3 — Create a Ramp Order
+
+Once the user selects a provider from the returned quotes, call `POST /ramp/orders` to create the order. Chainrails will fetch a fresh quote internally, create a payment intent on-chain, and initiate the order with the chosen provider.
+
+The response will include a `rampUrl` (for redirect-based providers) that you should redirect the user to, or the payment details they need to complete their deposit directly in-app (for direct providers).
+
+<Note>
+  The `provider` field should be taken directly from the quote object returned in Step 2 — do not hardcode it.
+</Note>
+
+Required fields:
+- `provider` — the ramp provider (e.g. `FONBNK`, `ONRAMP_MONEY`)
+- `fiatCurrency` — same ISO 4217 code used in the quote
+- `cryptoAmount` — amount of crypto the user wants to receive
+- `destinationChain` — target blockchain
+- `recipientAddress` — user's wallet address on the destination chain
+
+Optional fields:
+- `countryCode` — required for multi-country currencies (same rule as quotes)
+- `fields` — provider-specific data such as a phone number or bank code, if required by the payment channel
+
+<Tabs>
+<Tab title="cURL">
+```curl
+curl --request POST \
+  --url https://api.chainrails.io/api/v1/ramp/orders \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "provider": "FONBNK",
+    "fiatCurrency": "NGN",
+    "cryptoAmount": 10,
+    "destinationChain": "BASE_MAINNET",
+    "recipientAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+    "countryCode": "NG",
+    "fields": {
+      "phoneNumber": "+2348012345678"
+    }
+  }'
+```
+</Tab>
+
+<Tab title="JavaScript">
+```javascript
+const fetch = require("node-fetch");
+
+const url = "https://api.chainrails.io/api/v1/ramp/orders";
+const apiKey = "YOUR_API_KEY";
+
+const payload = {
+  provider: "FONBNK",
+  fiatCurrency: "NGN",
+  cryptoAmount: 10,
+  destinationChain: "BASE_MAINNET",
+  recipientAddress: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+  countryCode: "NG",
+  fields: {
+    phoneNumber: "+2348012345678",
+  },
+};
+
+(async () => {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await res.json();
+  console.log("Ramp order created:", data);
+})();
+```
+</Tab>
+
+<Tab title="PHP">
+```php
+<?php
+
+$apiKey = "YOUR_API_KEY";
+$url = "https://api.chainrails.io/api/v1/ramp/orders";
+
+$payload = [
+  "provider"         => "FONBNK",
+  "fiatCurrency"     => "NGN",
+  "cryptoAmount"     => 10,
+  "destinationChain" => "BASE_MAINNET",
+  "recipientAddress" => "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+  "countryCode"      => "NG",
+  "fields"           => [
+    "phoneNumber" => "+2348012345678"
+  ]
+];
+
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_POST => true,
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer $apiKey",
+    "Content-Type: application/json"
+  ],
+  CURLOPT_POSTFIELDS => json_encode($payload),
+]);
+
+$response = curl_exec($ch);
+
+if (curl_errno($ch)) {
+  echo 'Error: ' . curl_error($ch);
+} else {
+  echo "Response: " . $response;
+}
+
+curl_close($ch);
+```
+</Tab>
+</Tabs>
+
+## Additional Endpoints
+
+The following endpoints exist but are **rarely needed** in a typical integration — Chainrails handles order lifecycle automatically.
+
+| Endpoint | When you'd use it |
+|---|---|
+| `GET /ramp/orders` | Fetch all orders for your client — useful for a transaction history view |
+| `GET /ramp/orders/{id}` | Fetch a single order by ID |
+| `GET /ramp/orders/by-intent/{intentAddress}` | Look up an order using its on-chain intent address |
+| `POST /ramp/orders/{id}/confirm` | Manually confirm an order after a user completes their deposit. Only needed if the provider does not auto-confirm. |
+| `POST /ramp/orders/{id}/cancel` | Cancel an order that is still in a cancellable state. Only needed if the user explicitly abandons the flow before funding. |
+
+<Info>
+  In most integrations you will never need to call `confirm` or `cancel` directly — providers notify Chainrails automatically. Only call these if the provider integration requires manual confirmation, or you are building an explicit cancel button in your UI.
+</Info>

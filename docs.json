@@ -34,6 +34,7 @@
             "pages": [
               "guides/payments",
               "guides/quotes",
+              "guides/ramping",
               "guides/mobile-development",
               "guides/mini-apps",
               "guides/webhooks"
