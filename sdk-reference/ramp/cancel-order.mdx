@@ -1,0 +1,30 @@
+---
+title: "Cancel Order"
+description: "Cancel an order before completion"
+---
+
+Cancels a ramp order if it is still in a cancellable state.
+
+## Parameters
+
+- `id` (required): Ramp order ID
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk";
+
+Chainrails.config({
+  api_key: "your_api_key_here",
+});
+
+const order = await crapi.ramp.cancelOrder({
+  id: 422,
+});
+
+console.log("order 422:", order);
+```
+
+</Tab>
+</Tabs>

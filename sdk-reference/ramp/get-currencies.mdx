@@ -1,0 +1,34 @@
+---
+title: "Get Currencies"
+description: "List all supported on-ramp currencies"
+---
+
+Returns all enabled fiat currencies. Optionally filter by a specific ramp provider.
+
+## Parameters
+
+- `provider` (optional): Filter by specific provider
+
+## Response
+
+Returns all enabled fiat currencies. Optionally filter by a specific ramp provider.
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk";
+
+Chainrails.config({
+  api_key: "your_api_key_here",
+});
+
+const currencies = await crapi.ramp.getCurrencies({
+  provider: "ONRAMP_MONEY",
+});
+
+console.log("Supported currencies:", currencies);
+```
+
+</Tab>
+</Tabs>

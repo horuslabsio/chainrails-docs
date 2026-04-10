@@ -1,0 +1,36 @@
+---
+title: "Get Countries"
+description: "List all supported countries with currency details"
+---
+
+Returns all enabled countries with currency details. Optionally filter by fiat currency code and/or minimum crypto (USDC) amount.
+
+## Parameters
+
+- `currency` (optional): ISO 4217 fiat currency code (e.g., USD, EUR, GBP)
+- `amount` (optional): Amount to receive in USD/USDC
+
+## Response
+
+List of supported countries with currency info
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk";
+
+Chainrails.config({
+  api_key: "your_api_key_here",
+});
+
+// Filter by provider
+const countries = await crapi.ramp.getCountries({
+  currency: "USD",
+});
+
+console.log("Supported countries:", countries);
+```
+
+</Tab>
+</Tabs>

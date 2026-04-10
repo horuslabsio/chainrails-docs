@@ -1,0 +1,30 @@
+---
+title: "Get Order"
+description: "Retrieve a specific order details by it's id"
+---
+
+Returns the full details of a ramp order, scoped to the authenticated client.
+
+## Parameters
+
+- `id` (required): Ramp order ID
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk";
+
+Chainrails.config({
+  api_key: "your_api_key_here",
+});
+
+const order = await crapi.ramp.getOrder({
+  id: 422,
+});
+
+console.log("order 422:", order);
+```
+
+</Tab>
+</Tabs>
