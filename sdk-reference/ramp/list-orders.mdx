@@ -1,0 +1,24 @@
+---
+title: "List Orders"
+description: "List all orders"
+---
+
+Returns all ramp orders for the authenticated client, newest first.
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk";
+
+Chainrails.config({
+  api_key: "your_api_key_here",
+});
+
+const orders = await crapi.ramp.listOrders();
+
+console.log("all orders:", orders);
+```
+
+</Tab>
+</Tabs>

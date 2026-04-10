@@ -1,0 +1,30 @@
+---
+title: "Confirm Order"
+description: "Confirm order after user completes deposit"
+---
+
+Confirms a ramp order after the user has completed their deposit action.
+
+## Parameters
+
+- `id` (required): Ramp order ID
+
+<Tabs>
+<Tab title="Try it">
+
+```typescript
+import { crapi, Chainrails } from "@chainrails/sdk";
+
+Chainrails.config({
+  api_key: "your_api_key_here",
+});
+
+const order = await crapi.ramp.confirmOrder({
+  id: 422,
+});
+
+console.log("order 422:", order);
+```
+
+</Tab>
+</Tabs>

@@ -10,7 +10,7 @@ The Ramp module enables seamless fiat-to-crypto conversions, allowing users make
 Chainrails aggregates multiple on-ramp providers to offer your users the best rates and widest coverage. The Ramp module handles the entire flow from quote discovery to order completion, including:
 
 - **Quote Aggregation**: Compare rates across multiple providers in real-time
-- **Global Coverage**: Support for 100+ countries and 50+ fiat currencies
+- **Global Coverage**: Support for 35+ countries and 20+ fiat currencies
 - **Multiple Payment Methods**: Cards, bank transfers, Apple Pay, Google Pay, and local options
 
 ## Quick Start
@@ -48,11 +48,29 @@ window.location.href = order.widgetUrl;
 ## Available Methods
 
 <CardGroup>
+  <Card title="Get Countries" href="/sdk-reference/ramp/get-countries">
+    List all supported countries with currency details
+  </Card>
+  <Card title="Get Currencies" href="/sdk-reference/ramp/get-currencies">
+    List all supported on-ramp currencies
+  </Card>
   <Card title="Get Quotes" href="/sdk-reference/ramp/get-quotes">
     Compare fiat-to-crypto rates across all providers
   </Card>
   <Card title="Create Order" href="/sdk-reference/ramp/create-order">
     Initiate a fiat-to-crypto purchase
+  </Card>
+  <Card title="List Orders" href="/sdk-reference/ramp/list-orders">
+    List all orders
+  </Card>
+  <Card title="Get Order" href="/sdk-reference/ramp/get-order">
+    Retrieve a specific order details by it's id
+  </Card>
+  <Card title="Confirm Order" href="/sdk-reference/ramp/confirm-order">
+    Confirm order after user completes deposit
+  </Card>
+  <Card title="Cancel Order" href="/sdk-reference/ramp/cancel-order">
+    Cancel an order before completion
   </Card>
 </CardGroup>
 

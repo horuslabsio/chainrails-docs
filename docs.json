@@ -22,12 +22,7 @@
           },
           {
             "group": "Concepts",
-            "pages": [
-              "concepts/core", 
-              "concepts/chainrails-vs-others",
-              "concepts/refunds",
-              "concepts/paymaster"
-            ]
+            "pages": ["concepts/core", "concepts/chainrails-vs-others", "concepts/refunds", "concepts/paymaster"]
           },
           {
             "group": "Developer Guides",
@@ -42,10 +37,7 @@
           },
           {
             "group": "Essentials",
-            "pages": [
-              "essentials/settlements",
-              "essentials/integrations"
-            ]
+            "pages": ["essentials/settlements", "essentials/integrations"]
           },
           {
             "group": "Changelog & Roadmap",
@@ -119,7 +111,17 @@
               },
               {
                 "group": "Ramp",
-                "pages": ["sdk-reference/ramp/introduction", "sdk-reference/ramp/get-quotes", "sdk-reference/ramp/create-order"]
+                "pages": [
+                  "sdk-reference/ramp/introduction",
+                  "/sdk-reference/ramp/get-countries",
+                  "/sdk-reference/ramp/get-currencies",
+                  "/sdk-reference/ramp/get-quotes",
+                  "/sdk-reference/ramp/create-order",
+                  "/sdk-reference/ramp/list-orders",
+                  "/sdk-reference/ramp/get-order",
+                  "/sdk-reference/ramp/confirm-order",
+                  "/sdk-reference/ramp/cancel-order"
+                ]
               }
             ]
           }
@@ -134,17 +136,11 @@
           },
           {
             "group": "EVM",
-            "pages": [
-              "contract-reference/evm-interface",
-              "contract-reference/evm-implementation"
-            ]
+            "pages": ["contract-reference/evm-interface", "contract-reference/evm-implementation"]
           },
           {
             "group": "Starknet",
-            "pages": [
-              "contract-reference/starknet-interface",
-              "contract-reference/starknet-implementation"
-            ]
+            "pages": ["contract-reference/starknet-interface", "contract-reference/starknet-implementation"]
           }
         ]
       }

@@ -24,9 +24,9 @@ The web and mobile SDKs follow the same session-based integration model:
   repository with a curated Github template to help you get started quickly:{" "}
   <a href="https://github.com/horuslabsio/chainrails-session-server-demo">Chainrails Demo Server</a>
 
-  Alternatively, you can also create a session without the SDK by calling the API endpoint directly if in a non-javascript environment. Refer to the API reference for more details: <a href="/api-reference/modal-sessions/create-a-modal-session">Create Modal Session</a>
+Alternatively, you can also create a session without the SDK by calling the API endpoint directly if in a non-javascript environment. Refer to the API reference for more details: <a href="/api-reference/modal-sessions/create-a-modal-session">Create Modal Session</a>
+
 </Note>
----
 
 ## Option 1: usePaymentSession Hook (Recommended)
 
@@ -130,10 +130,10 @@ function App() {
   async function pay() {
     setLoading(true);
     try {
+      cr.open();
       const res = await fetch("https://your-server.com/create-session");
       const data = await res.json();
       cr.updateSession(data);
-      cr.open();
     } catch (error) {
       console.error("Error creating session:", error);
     } finally {
@@ -177,10 +177,10 @@ function App() {
   async function pay() {
     setLoading(true);
     try {
+      cr.open();
       const res = await fetch("https://your-server.com/create-session");
       const data = await res.json();
       cr.updateSession(data);
-      cr.open();
     } catch (error) {
       console.error("Error creating session:", error);
     } finally {
