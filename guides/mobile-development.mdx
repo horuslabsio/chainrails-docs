@@ -1,7 +1,7 @@
 ---
-title: 'Mobile Development'
-description: 'Build mobile payment flows with Chainrails in React Native'
-icon: 'mobile'
+title: "Mobile Development"
+description: "Build mobile payment flows with Chainrails in React Native"
+icon: "mobile"
 ---
 
 This guide shows how to integrate Chainrails into a React Native app so users can complete cross-chain payments on mobile.
@@ -20,7 +20,8 @@ Chainrails supports mobile through the React Native SDK. This provides the same 
 - `@chainrails/sdk` on your backend to create payment sessions
 
 <Note>
-  If you need a broader overview of the session flow, see the [Quickstart](/quickstart) and the [Payment Modal reference](/sdk-reference/components/payment-modal).
+  If you need a broader overview of the session flow, see the [Quickstart](/quickstart) and the [Payment Modal
+  reference](/sdk-reference/components/payment-modal).
 </Note>
 
 ## React Native
@@ -142,14 +143,11 @@ export default function App() {
         throw new Error("Could not create payment session");
       }
 
+      cr.open();
       const session = await res.json();
       cr.updateSession(session);
-      cr.open();
     } catch (error) {
-      Alert.alert(
-        "Unable to start payment",
-        error instanceof Error ? error.message : "Something went wrong"
-      );
+      Alert.alert("Unable to start payment", error instanceof Error ? error.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -178,7 +176,7 @@ This pattern keeps your API key on the server, gives you a clear point to valida
 1. Live API keys cannot be used with test networks. In test environments you can use supported mainnets and testnets, but once you switch to a live API key you must use mainnet networks only.
 
 2. Testnets also do not have indexing support. If you are testing the modal on a testnet, users must click **I have made payment** after funding. If you are using API-driven flows, you must manually call
-  `POST /api/v1/intents/{intent_address}/trigger-processing` to process the intent.
+   `POST /api/v1/intents/{intent_address}/trigger-processing` to process the intent.
 
 ## Next Steps
 

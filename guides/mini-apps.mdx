@@ -119,11 +119,11 @@ export default function App() {
   const [loading, setLoading] = useState(false);
 
   async function pay() {
+    cr.open();
     setLoading(true);
     const res = await fetch(`https://server.url/create-session`,);
     const data = await res.json();
     cr.updateSession(data);
-    cr.open();
     setLoading(false);
   }
 
@@ -152,7 +152,7 @@ export default function App() {
 1. Live API keys cannot be used with test networks. In test environments you can use supported mainnets and testnets, but once you switch to a live API key you must use mainnet networks only.
 
 2. Testnets also do not have indexing support. If you are testing the modal on a testnet, users must click **I have made payment** after funding. If you are using API-driven flows, you must manually call
-  `POST /api/v1/intents/{intent_address}/trigger-processing` to process the intent.
+   `POST /api/v1/intents/{intent_address}/trigger-processing` to process the intent.
 
 <Card title="Github Example" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/mini-apps">
   Check out our Github demo repository for a mini-app example.
