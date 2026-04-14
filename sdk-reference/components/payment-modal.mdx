@@ -130,10 +130,10 @@ function App() {
   async function pay() {
     setLoading(true);
     try {
-      cr.open();
       const res = await fetch("https://your-server.com/create-session");
       const data = await res.json();
       cr.updateSession(data);
+      cr.open();
     } catch (error) {
       console.error("Error creating session:", error);
     } finally {
@@ -177,10 +177,10 @@ function App() {
   async function pay() {
     setLoading(true);
     try {
-      cr.open();
       const res = await fetch("https://your-server.com/create-session");
       const data = await res.json();
       cr.updateSession(data);
+      cr.open();
     } catch (error) {
       console.error("Error creating session:", error);
     } finally {

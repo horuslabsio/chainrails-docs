@@ -119,12 +119,12 @@ export default function App() {
   const [loading, setLoading] = useState(false);
 
   async function pay() {
-    cr.open();
     setLoading(true);
     const res = await fetch(`https://server.url/create-session`,);
     const data = await res.json();
     cr.updateSession(data);
     setLoading(false);
+    cr.open();
   }
 
   return (

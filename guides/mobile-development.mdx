@@ -143,9 +143,9 @@ export default function App() {
         throw new Error("Could not create payment session");
       }
 
-      cr.open();
       const session = await res.json();
       cr.updateSession(session);
+      cr.open();
     } catch (error) {
       Alert.alert("Unable to start payment", error instanceof Error ? error.message : "Something went wrong");
     } finally {
