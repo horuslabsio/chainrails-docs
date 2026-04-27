@@ -71,7 +71,10 @@ app.get("/create-session", async (req, res) => {
 });
 ```
 
-<Tip>Deploy this server and add the URL to your MiniApp's manifest or environment configuration.</Tip>
+<Tip>
+  Deploy this server and add the URL to your MiniApp's manifest or environment
+  configuration.
+</Tip>
 
 ## Step 3: Initialize the Payment Modal
 
@@ -81,17 +84,7 @@ In your MiniApp, initialize the Chainrails payment modal:
 // App.jsx
 import { usePaymentModal, PaymentModal } from "@chainrails/react";
 import { sdk } from "@farcaster/miniapp-sdk";
-import { createConfig, http, WagmiProvider } from "wagmi";
-import { base } from "wagmi/chains";
 
-
-const wagmiConfig = createConfig({
-  chains: [base],
-  connectors: [],
-  transports: {
-    [base.id]: http(),
-  },
-});
 
 export default function App() {
   const cr = usePaymentModal({
@@ -105,8 +98,6 @@ export default function App() {
         description: result?.transactionHash,
       });
     },
-    farcasterMiniApp: true,
-    wagmiConfig,
   });
 
   useEffect(() => {
@@ -136,8 +127,6 @@ export default function App() {
 }
 ```
 
-<Tip>To support more chains, add them to the `wagmiConfig`. Check our supported chains for the full list.</Tip>
-
 ---
 
 ## Best Practices
@@ -154,6 +143,10 @@ export default function App() {
 2. Testnets also do not have indexing support. If you are testing the modal on a testnet, users must click **I have made payment** after funding. If you are using API-driven flows, you must manually call
    `POST /api/v1/intents/{intent_address}/trigger-processing` to process the intent.
 
-<Card title="Github Example" icon="stars" href="https://github.com/horuslabsio/chainrails-demo/tree/main/mini-apps">
+<Card
+  title="Github Example"
+  icon="stars"
+  href="https://github.com/horuslabsio/chainrails-demo/tree/main/mini-apps"
+>
   Check out our Github demo repository for a mini-app example.
 </Card>
